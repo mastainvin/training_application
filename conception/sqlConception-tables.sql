@@ -90,9 +90,7 @@ CREATE TABLE Structure(
 CREATE TABLE TrainingType(
 	id_training_type int PRIMARY KEY,
     name VARCHAR(30),
-    description VARCHAR(400),
-    duration int default 0,
-    layout int default 0);
+    description VARCHAR(400));
     
 CREATE TABLE Training(
 	id_training int PRIMARY KEY,
@@ -100,10 +98,21 @@ CREATE TABLE Training(
     description VARCHAR(400),
     id_structure int,
     id_training_type int,
+    layout int default 0, 
+    duration int default 0,
     FOREIGN KEY fkStructureTraining(id_structure) REFERENCES Structure(id_structure) ON DELETE CASCADE,
     FOREIGN KEY fkTrainingTypeTraining(id_training_type) REFERENCES TrainingType(id_training_type) ON DELETE CASCADE
     );
-   
+
+CREATE TABLE TrainingMethod(
+	id_training_method int PRIMARY KEY,
+    name VARCHAR(30),
+    math_function VARCHAR(30),
+    rep_max int default 0,
+    rep_min int default 0,
+    weight_max int default 0,
+    weight_min int default 0);
+    
 CREATE TABLE ExerciceType(
 	id_exercice_type int PRIMARY KEY,
     name VARCHAR(30),
@@ -111,21 +120,35 @@ CREATE TABLE ExerciceType(
 
 CREATE TABLE Exercice(
 	id_exercice int PRIMARY KEY,
+    name VARCHAR(30),
     description VARCHAR(400),
     met float default 0);
+
+CREATE TABLE ComposeTraining(
+	id_training int,
+    id_type int,
+    id_training_method int,
+    layout int default 0,
+    is_super_set bool,
+    CONSTRAINT id_compose_training PRIMARY KEY (id_training, id_type, id_training_method),
+    FOREIGN KEY fkTrainingType(id_training) REFERENCES Training(id_training) ON DELETE CASCADE,
+    FOREIGN KEY fkTypeTraining(id_type) REFERENCES ExerciceType(id_exercice_type) ON DELETE CASCADE,
+    FOREIGN KEY fkTrainingMethod(id_training_method) REFERENCES TrainingMethod(id_training_method) ON DELETE CASCADE);
     
 CREATE TABLE Serie(
 	id_serie int PRIMARY KEY,
 	date date,
-    weigth float default 0,
+    weight float default 0,
     repetitions int default 0,
     rpe int default 0,
     expected_repetitions int default 0,
-    expected_weigth int default 0,
-    id_training int,
+    expected_weight int default 0,
+    id_compose_training_training int,
+    id_compose_training_type int,
+    id_compose_training_method int,
     id_user int,
     id_exercice int,
-    FOREIGN KEY fkTrainingSerie(id_training) REFERENCES Training(id_training) ON DELETE CASCADE,
+    FOREIGN KEY fkComposeTraining(id_compose_training_training, id_compose_training_type, id_compose_training_method) REFERENCES ComposeTraining(id_training, id_type, id_training_method) ON DELETE CASCADE,
     FOREIGN KEY fkUserSerie(id_user) REFERENCES User(id_user) ON DELETE CASCADE,
     FOREIGN KEY fkExercice(id_exercice) REFERENCES Exercice(id_exercice) ON DELETE CASCADE);
     
@@ -156,13 +179,7 @@ CREATE TABLE Equipment (
 	id_equipment int PRIMARY KEY,
     name VARCHAR(30));
 
-CREATE TABLE ComposeTraining(
-	id_training int,
-    id_type int,
-    layout int default 0,
-    CONSTRAINT compose_training_pk PRIMARY KEY (id_training, id_type),
-    FOREIGN KEY fkTrainingType(id_training) REFERENCES Training(id_training) ON DELETE CASCADE,
-    FOREIGN KEY fkTypeTraining(id_type) REFERENCES ExerciceType(id_exercice_type) ON DELETE CASCADE);
+
 
 CREATE TABLE CompatibleLimb(
 	id_exercice int,
