@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 29 mars 2022 à 18:59
+-- Généré le : mer. 30 mars 2022 à 10:55
 -- Version du serveur :  8.0.28-0ubuntu0.20.04.3
 -- Version de PHP : 7.4.3
 
@@ -182,6 +182,19 @@ CREATE TABLE `Goal` (
 
 CREATE TABLE `GoalNbRep` (
   `id_GoalNbRep` int NOT NULL,
+  `min` int DEFAULT '0',
+  `max` int DEFAULT '0',
+  `id_goal` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `GoalNbSerie`
+--
+
+CREATE TABLE `GoalNbSerie` (
+  `id_GoalNbSerie` int NOT NULL,
   `min` int DEFAULT '0',
   `max` int DEFAULT '0',
   `id_goal` int DEFAULT NULL
@@ -454,6 +467,13 @@ ALTER TABLE `GoalNbRep`
   ADD KEY `fkGoalNbRep` (`id_goal`);
 
 --
+-- Index pour la table `GoalNbSerie`
+--
+ALTER TABLE `GoalNbSerie`
+  ADD PRIMARY KEY (`id_GoalNbSerie`),
+  ADD KEY `fkGoalNbSerie` (`id_goal`);
+
+--
 -- Index pour la table `GoalWeight`
 --
 ALTER TABLE `GoalWeight`
@@ -597,6 +617,12 @@ ALTER TABLE `ExerciceTyping`
 --
 ALTER TABLE `GoalNbRep`
   ADD CONSTRAINT `GoalNbRep_ibfk_1` FOREIGN KEY (`id_goal`) REFERENCES `Goal` (`id_goal`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `GoalNbSerie`
+--
+ALTER TABLE `GoalNbSerie`
+  ADD CONSTRAINT `GoalNbSerie_ibfk_1` FOREIGN KEY (`id_goal`) REFERENCES `Goal` (`id_goal`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `GoalWeight`

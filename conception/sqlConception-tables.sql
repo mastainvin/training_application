@@ -170,7 +170,14 @@ CREATE TABLE GoalWeight(
     max int default 0,
     id_goal int,
     FOREIGN KEY fkGoalWeight(id_goal) REFERENCES Goal(id_goal) ON DELETE CASCADE);
-
+    
+CREATE TABLE GoalNbSerie(
+	id_GoalNbSerie int PRIMARY KEY,
+    min int default 0,
+    max int default 0,
+    id_goal int,
+    FOREIGN KEY fkGoalNbSerie(id_goal) REFERENCES Goal(id_goal) ON DELETE CASCADE);
+    
 CREATE TABLE BodyLimb(
 	id_BodyLimb int PRIMARY KEY,
     name VARCHAR(30)); 
