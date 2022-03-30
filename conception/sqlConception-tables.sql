@@ -48,22 +48,22 @@ DROP TABLE if exists CompatibleDisponibility;
 # ---- Create all tables ----
 
 CREATE TABLE Role(
-	id_role int PRIMARY KEY,
+	id_role int PRIMARY KEY  auto_increment,
     name VARCHAR(30));
 
 CREATE TABLE Morphology(
-	id_morphology int PRIMARY KEY,
+	id_morphology int PRIMARY KEY  auto_increment,
     name VARCHAR(30),
     description VARCHAR(400));
 
 CREATE TABLE Goal(
-	id_goal int PRIMARY KEY,
+	id_goal int PRIMARY KEY  auto_increment,
     duration int default 0,
     rest_duration int default 0,
     velocity VARCHAR(10));
     
 CREATE TABLE User(
-	id_user int PRIMARY KEY,
+	id_user int PRIMARY KEY  auto_increment,
     pseudonym VARCHAR(30),
     password VARCHAR(100),
     email VARCHAR(40),
@@ -81,19 +81,19 @@ CREATE TABLE User(
     );
     
 CREATE TABLE Structure(
-	id_structure int PRIMARY KEY,
+	id_structure int PRIMARY KEY  auto_increment,
     name VARCHAR(30),
     id_goal int,
     FOREIGN KEY fkGoalStructure(id_goal) REFERENCES Goal(id_goal)
     );
     
 CREATE TABLE TrainingType(
-	id_training_type int PRIMARY KEY,
+	id_training_type int PRIMARY KEY  auto_increment,
     name VARCHAR(30),
     description VARCHAR(400));
     
 CREATE TABLE Training(
-	id_training int PRIMARY KEY,
+	id_training int PRIMARY KEY  auto_increment,
     name VARCHAR(30),
     description VARCHAR(400),
     id_structure int,
@@ -105,7 +105,7 @@ CREATE TABLE Training(
     );
 
 CREATE TABLE TrainingMethod(
-	id_training_method int PRIMARY KEY,
+	id_training_method int PRIMARY KEY  auto_increment,
     name VARCHAR(30),
     math_function VARCHAR(30),
     rep_max int default 0,
@@ -114,12 +114,12 @@ CREATE TABLE TrainingMethod(
     weight_min int default 0);
     
 CREATE TABLE ExerciceType(
-	id_exercice_type int PRIMARY KEY,
+	id_exercice_type int PRIMARY KEY  auto_increment,
     name VARCHAR(30),
     description VARCHAR(400));
 
 CREATE TABLE Exercice(
-	id_exercice int PRIMARY KEY,
+	id_exercice int PRIMARY KEY  auto_increment,
     name VARCHAR(30),
     description VARCHAR(400),
     met float default 0);
@@ -136,7 +136,7 @@ CREATE TABLE ComposeTraining(
     FOREIGN KEY fkTrainingMethod(id_training_method) REFERENCES TrainingMethod(id_training_method) ON DELETE CASCADE);
     
 CREATE TABLE Serie(
-	id_serie int PRIMARY KEY,
+	id_serie int PRIMARY KEY  auto_increment,
 	date date,
     weight float default 0,
     repetitions int default 0,
@@ -153,37 +153,37 @@ CREATE TABLE Serie(
     FOREIGN KEY fkExercice(id_exercice) REFERENCES Exercice(id_exercice) ON DELETE CASCADE);
     
 CREATE TABLE Disponibility(
-	id_disponibility int PRIMARY KEY,
+	id_disponibility int PRIMARY KEY  auto_increment,
     duration int default 0,
     layout int default 0);
     
 CREATE TABLE GoalNbRep(
-	id_GoalNbRep int PRIMARY KEY,
+	id_GoalNbRep int PRIMARY KEY  auto_increment,
     min int default 0,
     max int default 0,
     id_goal int,
     FOREIGN KEY fkGoalNbRep(id_goal) REFERENCES Goal(id_goal) ON DELETE CASCADE);
 
 CREATE TABLE GoalWeight(
-	id_GoalWeight int PRIMARY KEY,
+	id_GoalWeight int PRIMARY KEY  auto_increment,
     min int default 0,
     max int default 0,
     id_goal int,
     FOREIGN KEY fkGoalWeight(id_goal) REFERENCES Goal(id_goal) ON DELETE CASCADE);
     
 CREATE TABLE GoalNbSerie(
-	id_GoalNbSerie int PRIMARY KEY,
+	id_GoalNbSerie int PRIMARY KEY  auto_increment,
     min int default 0,
     max int default 0,
     id_goal int,
     FOREIGN KEY fkGoalNbSerie(id_goal) REFERENCES Goal(id_goal) ON DELETE CASCADE);
     
 CREATE TABLE BodyLimb(
-	id_BodyLimb int PRIMARY KEY,
+	id_BodyLimb int PRIMARY KEY  auto_increment,
     name VARCHAR(30)); 
     
 CREATE TABLE Equipment (
-	id_equipment int PRIMARY KEY,
+	id_equipment int PRIMARY KEY  auto_increment,
     name VARCHAR(30));
 
 
@@ -214,7 +214,7 @@ CREATE TABLE UserExerciceData(
     id_user int,
     weigth float default 0,
     mark int default 5,
-    CONSTRAINT user_exercice_data PRIMARY KEY (id_exercice, id_user),
+    CONSTRAINT user_exercice_data PRIMARY KEY  (id_exercice, id_user),
     FOREIGN KEY fkExerciceUser(id_exercice) REFERENCES Exercice(id_exercice) ON DELETE CASCADE,
     FOREIGN KEY fkUserExercice(id_user) REFERENCES User(id_user) ON DELETE CASCADE);
     

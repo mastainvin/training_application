@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 30 mars 2022 à 10:55
+-- Généré le : mer. 30 mars 2022 à 11:11
 -- Version du serveur :  8.0.28-0ubuntu0.20.04.3
 -- Version de PHP : 7.4.3
 
@@ -557,6 +557,112 @@ ALTER TABLE `User`
 ALTER TABLE `UserExerciceData`
   ADD PRIMARY KEY (`id_exercice`,`id_user`),
   ADD KEY `fkUserExercice` (`id_user`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `BodyLimb`
+--
+ALTER TABLE `BodyLimb`
+  MODIFY `id_BodyLimb` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Disponibility`
+--
+ALTER TABLE `Disponibility`
+  MODIFY `id_disponibility` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Equipment`
+--
+ALTER TABLE `Equipment`
+  MODIFY `id_equipment` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Exercice`
+--
+ALTER TABLE `Exercice`
+  MODIFY `id_exercice` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `ExerciceType`
+--
+ALTER TABLE `ExerciceType`
+  MODIFY `id_exercice_type` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Goal`
+--
+ALTER TABLE `Goal`
+  MODIFY `id_goal` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `GoalNbRep`
+--
+ALTER TABLE `GoalNbRep`
+  MODIFY `id_GoalNbRep` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `GoalNbSerie`
+--
+ALTER TABLE `GoalNbSerie`
+  MODIFY `id_GoalNbSerie` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `GoalWeight`
+--
+ALTER TABLE `GoalWeight`
+  MODIFY `id_GoalWeight` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Morphology`
+--
+ALTER TABLE `Morphology`
+  MODIFY `id_morphology` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Role`
+--
+ALTER TABLE `Role`
+  MODIFY `id_role` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Serie`
+--
+ALTER TABLE `Serie`
+  MODIFY `id_serie` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Structure`
+--
+ALTER TABLE `Structure`
+  MODIFY `id_structure` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Training`
+--
+ALTER TABLE `Training`
+  MODIFY `id_training` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `TrainingMethod`
+--
+ALTER TABLE `TrainingMethod`
+  MODIFY `id_training_method` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `TrainingType`
+--
+ALTER TABLE `TrainingType`
+  MODIFY `id_training_type` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `User`
+--
+ALTER TABLE `User`
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
