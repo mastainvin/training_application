@@ -104,5 +104,9 @@ public class DaoFactory {
     public TrainingComponentDao getTrainingComponentDao() {
     	return TrainingComponentDaoImpl.instance(this);
     }
+    
+    public SerieDao getSerieDao() {
+    	return SerieDaoImpl.instance(this);
+    }
 
 }

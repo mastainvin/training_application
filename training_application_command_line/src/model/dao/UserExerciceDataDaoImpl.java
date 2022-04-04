@@ -28,9 +28,9 @@ public class UserExerciceDataDaoImpl extends BasicRequestsDao implements UserExe
 	private ExerciceDao exerciceDao;
 	
 	static UserExerciceDataDaoImpl singleton = null;
-	public static UserExerciceDataDaoImpl instance(DaoFactory daoFactory) {
+	public static synchronized UserExerciceDataDaoImpl instance(DaoFactory daoFactory) {
 		if(singleton == null) {
-			return new UserExerciceDataDaoImpl(daoFactory);
+			singleton = new UserExerciceDataDaoImpl(daoFactory);
 		}
 		return singleton;
 	}

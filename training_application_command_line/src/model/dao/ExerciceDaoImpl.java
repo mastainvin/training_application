@@ -24,10 +24,10 @@ import model.objects.exceptions.EmptyResultsQueryException;
 public class ExerciceDaoImpl extends BasicRequestsDao implements ExerciceDao {
 	private UserExerciceDataDao userExerciceDataDao;
 	
-	static ExerciceDaoImpl singleton = null;
+	private static ExerciceDaoImpl singleton = null;
 	public static ExerciceDaoImpl instance(DaoFactory daoFactory) {
 		if(singleton == null) {
-			return new ExerciceDaoImpl(daoFactory);
+			singleton =  new ExerciceDaoImpl(daoFactory);
 		}
 		return singleton;
 	}

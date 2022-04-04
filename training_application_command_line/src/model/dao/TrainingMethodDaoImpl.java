@@ -33,7 +33,7 @@ public class TrainingMethodDaoImpl extends BasicRequestsDao implements TrainingM
 	private TrainingMethodDaoImpl(DaoFactory daoFactory) {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("TrainingMethod");
-		this.setIdLabel("id_training_type");
+		this.setIdLabel("id_training_method");
 	}
 	
 	@Override

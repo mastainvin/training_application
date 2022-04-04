@@ -5,7 +5,7 @@ package model.objects;
  * @author Vincent Mastain
  * @version 1.0
  */
-public class Serie {
+public class Serie implements Cloneable{
 	private String date;
 	private Integer weight;
 	private Integer repetitions;
@@ -78,7 +78,23 @@ public class Serie {
 	}
 
 
-
+	public Object clone() throws CloneNotSupportedException {		
+		Serie serie = null;
+        try {
+        	serie = (Serie) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+              cnse.printStackTrace(System.err);
+        }
+        return serie;
+	}
 	
-	// TODO add toString and equals
+	public boolean equals(Object o) {
+		if (o instanceof Serie) {
+			Serie s = (Serie) o;
+			return this.getDate() == s.getDate() && this.getInActualWeek() == s.getInActualWeek() && this.getExpectedRepetitions() == s.getExpectedRepetitions() && this.getExpectedWeight() == s.getExpectedWeight() && this.getLayout() == s.getLayout() && this.getRepetitions() == s.getRepetitions() && this.getRpe() == s.getRpe() && this.getWeight() == s.getWeight();
+		}
+		return false;
+	}
+	
+	// TODO add toString
 }

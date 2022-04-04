@@ -10,11 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import model.objects.Structure;
 import model.objects.Training;
 import model.objects.TrainingComponent;
 import model.objects.User;
@@ -22,7 +20,7 @@ import model.objects.Exercice;
 import model.objects.Serie;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
-
+  
 /**
  * @author Vincednt Mastain
  * @version 1.0
@@ -93,6 +91,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 			return mapValues;
 		}	
 	}
+
 	
 	@Override
 	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
@@ -167,7 +166,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 	}
 	
 	@Override
-	public void addSerie(Serie serie, TrainingComponent trainingComponent, User user, Training training, Integer layout) throws InsertDataBaseException {
+	public void addSerie(Serie serie, TrainingComponent trainingComponent, User user, Training training) throws InsertDataBaseException {
 		ValuesMap valuesMap = new MapOfValuesInsert();
 		Map<String,String> getMap = valuesMap.getMapOfValues(serie);
 		try {
@@ -201,7 +200,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 	}
 
 	@Override
-	public void updateSerie(Serie previousSerie, Serie newSerie, TrainingComponent trainingComponent, Training training, User user, Integer layout) throws EmptyResultsQueryException, InsertDataBaseException {
+	public void updateSerie(Serie previousSerie, Serie newSerie, TrainingComponent trainingComponent, Training training, User user) throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapGet = new MapOfValuesGet();
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
 		Map<String,String> insertMap = valuesMapInsert.getMapOfValues(newSerie);
@@ -249,16 +248,74 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 	}
 
 	@Override
-	public List<Serie> getAllSeriesUser(User user) throws EmptyResultsQueryException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Serie> getAllSeriesUser(User user) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapGet = new MapOfValuesGet();
+		List<Serie> series = new ArrayList<>();
+		
+		Map<String,String> getMap = valuesMapGet.getMapOfValues(null);
+		try {
+			getMap.put("id_user", userDao.getUserId(user).toString());
+		} catch(EmptyResultsQueryException e) {
+			throw new InsertDataBaseException("no user associated");
+		}
+		
+		for(Map<String, String> map : this.get(getMap)) {
+			Serie serie = new Serie();
+			this.objectConstructor(map, serie);
+			series.add(serie);
+		}
+		return series;
 	}
 
 	@Override
-	public List<Serie> getAllSeriesTraining(User user, Training training) throws EmptyResultsQueryException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Serie> getAllActualWeekSerie(User user) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapGet = new MapOfValuesGet();
+		
+		List<Serie> series = new ArrayList<>();
+		
+		Map<String,String> getMap = valuesMapGet.getMapOfValues(null);
+		getMap.put("in_actual_week", "1");
+		
+		try {
+			getMap.put("id_user", userDao.getUserId(user).toString());
+		} catch(EmptyResultsQueryException e) {
+			throw new InsertDataBaseException("no user associated");
+		}
+		
+		for(Map<String, String> map : this.get(getMap)) {
+			Serie serie = new Serie();
+			this.objectConstructor(map, serie);
+			series.add(serie);
+		}
+		return series;
 	}
 
-	
+	@Override
+	public void finishAllUserSeries(User user) throws EmptyResultsQueryException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+        try {
+        	String sqlRequest = "UPDATE Serie SET in_actual_week = 0 WHERE id_user = '" + userDao.getUserId(user) +"';"; 
+            connection = this.getDaoFactory().getConnection();
+            preparedStatement = connection.prepareStatement(sqlRequest);
+            preparedStatement.executeUpdate();
+            
+        } catch (SQLException e) {
+        	throw new EmptyResultsQueryException();
+        }	
+	}
+
+	@Override
+	public void finishUserSerie(Serie serie, TrainingComponent trainingComponent, Training training, User user) throws EmptyResultsQueryException {
+		Serie newSerie = null;
+		try {
+			newSerie = (Serie) serie.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		newSerie.setDate(java.time.LocalDateTime.now().toString());	
+	}	
 }

@@ -10,10 +10,10 @@ import java.util.List;
 public class TrainingComponent {
 	private Integer layout;
 	private Boolean is_super_set;
-	private Double met;
 	private ExerciceType exerciceType;
 	private TrainingMethod trainingMethod;
 	private List<Serie> seriesList;
+	private List<Exercice> exercicesList;
 	
 	public Integer getLayout() {
 		return this.layout;
@@ -29,14 +29,6 @@ public class TrainingComponent {
 	
 	public void setIsSuperSet(Boolean is_super_set) {
 		this.is_super_set = is_super_set;
-	}
-
-	public ExerciceType getExerciceType() {
-		return exerciceType;
-	}
-
-	public void setExerciceType(ExerciceType exerciceType) {
-		this.exerciceType = exerciceType;
 	}
 
 	public TrainingMethod getTrainingMethod() {
@@ -55,12 +47,22 @@ public class TrainingComponent {
 		this.seriesList = seriesList;
 	}
 
-	public Double getMet() {
-		return met;
+
+
+	public List<Exercice> getExercicesList() {
+		return exercicesList;
 	}
 
-	public void setMet(Double met) {
-		this.met = met;
+	public void setExercicesList(List<Exercice> exercicesList) {
+		this.exercicesList = exercicesList;
+	}
+
+	public ExerciceType getExerciceType() {
+		return exerciceType;
+	}
+
+	public void setExerciceType(ExerciceType exerciceType) {
+		this.exerciceType = exerciceType;
 	}
 
 

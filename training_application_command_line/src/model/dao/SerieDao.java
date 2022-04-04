@@ -28,9 +28,9 @@ public interface SerieDao {
 	 */
 	Serie getSerieById(Integer id_serie) throws EmptyResultsQueryException;
 	
-	List<Serie> getAllSeriesUser(User user) throws EmptyResultsQueryException;
+	List<Serie> getAllSeriesUser(User user) throws EmptyResultsQueryException, InsertDataBaseException;
 	
-	List<Serie> getAllSeriesTraining(User user, Training training) throws EmptyResultsQueryException;
+	List<Serie> getAllActualWeekSerie(User user) throws EmptyResultsQueryException, InsertDataBaseException;
 	/**
 	 * 
 	 * @param serie which we want the id
@@ -44,7 +44,7 @@ public interface SerieDao {
 	 * 
 	 * @param serie serie wanted
 	 */
-	void addSerie(Serie serie, TrainingComponent trainingComponent, User user, Training training, Integer layout) throws InsertDataBaseException;
+	void addSerie(Serie serie, TrainingComponent trainingComponent, User user, Training training) throws InsertDataBaseException;
 	
 	/**
 	 * 
@@ -52,7 +52,7 @@ public interface SerieDao {
 	 * @param newSerie serie used to make the change
 	 * @throws EmptyResultsQueryException
 	 */
-	void updateSerie(Serie previousSerie, Serie newSerie, TrainingComponent trainingComponent, Training training, User user, Integer layout) throws EmptyResultsQueryException, InsertDataBaseException;
+	void updateSerie(Serie previousSerie, Serie newSerie, TrainingComponent trainingComponent, Training training, User user) throws EmptyResultsQueryException, InsertDataBaseException;
 	
 	/**
 	 * 
@@ -62,5 +62,8 @@ public interface SerieDao {
 	
 	List<Serie> getAllSerie() throws EmptyResultsQueryException;
 	
+	void finishAllUserSeries(User user) throws EmptyResultsQueryException;
+	
+	void finishUserSerie(Serie serie, TrainingComponent trainingComponent, Training training, User user) throws EmptyResultsQueryException;
 	
 }

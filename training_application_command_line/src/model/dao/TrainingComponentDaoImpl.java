@@ -52,8 +52,8 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		valuesMap.put("id_exercice_type", results.getString("id_type"));
 		valuesMap.put("id_training_method", results.getString("id_training_method"));
 		valuesMap.put("layout", results.getString("layout"));
-		valuesMap.put("met", results.getString("met"));
 		valuesMap.put("is_super_set", results.getString("is_super_set"));
+		valuesMap.put("id_type", results.getString("id_type"));
 		return valuesMap;
 	}
 	
@@ -63,7 +63,6 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 			TrainingComponent trainingComponent = (TrainingComponent) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
 			mapValues.put("layout", trainingComponent.getLayout().toString());
-			mapValues.put("met", trainingComponent.getMet().toString());
 			mapValues.put("is_super_set", trainingComponent.getIsSuperSet().toString());
 
 			return mapValues;
@@ -84,7 +83,6 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
 		((TrainingComponent) dataBaseObject).setLayout(Integer.parseInt(mapValues.get("layout")));
 		((TrainingComponent) dataBaseObject).setIsSuperSet(Boolean.parseBoolean(mapValues.get("is_super_set")));
-		((TrainingComponent) dataBaseObject).setMet(Double.parseDouble(mapValues.get("layout")));
 		
 		try {
 			((TrainingComponent) dataBaseObject).setExerciceType(exerciceTypeDao.getExerciceTypeById(Integer.parseInt(mapValues.get("id_type"))));
