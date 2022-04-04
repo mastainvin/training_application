@@ -1,0 +1,52 @@
+<project default="all" name="Fichier ant">
+	<!-- this file was created by Eclipse Runnable JAR Export Wizard -->
+	<!-- ANT 1.7 is required                                         -->
+	<!-- Définition des propriétés du projet -->
+	<property name="dir.buildfile" value="."/>
+	<property name="dir.workspace" value="${dir.buildfile}/.."/>
+	<property name="dir.jarfile" value="${dir.workspace}"/>
+  	<property name="projet.sources.dir"    value="src"/> 
+  	<property name="projet.bin.dir"        value="bin"/> 
+	<property name="projet.doc.dir"        value="doc"/> 
+
+	<!-- Définition du classpath-->
+	<path id="projet.classpath">
+	    <pathelement location="${projet.bin.dir}" />
+	</path>
+
+	<target name="all" depends="clean, build, packaging, run">
+	</target>
+	
+	<target name="clean">
+		<!-- Suppression du fichier bin -->
+		<delete dir="${projet.bin.dir}" />
+		<!-- Création du fichier bin vide-->
+		<mkdir dir="${projet.bin.dir}" /> 
+	</target>
+	<target name="build">
+		<!-- Compilation des fichiers avec javac -->
+		<echo message="Compilation du projet" /> 
+		<javac srcdir="${projet.sources.dir}" 
+			          destdir="${projet.bin.dir}" 
+					  debug="on" 
+					  optimize="off" 
+					  deprecation="on">
+			<classpath refid="projet.classpath"/>
+		</javac>
+	</target>
+	<target name="packaging">
+		<jar jarfile="archive.jar" basedir="${projet.sources.dir}" />
+	</target> 
+	<target name="run">
+	    <java classname="Exercice" fork="true">
+	      <classpath refid="projet.classpath"/>
+	    </java>
+	</target>
+	<target name="doc">
+		<delete dir="${projet.doc.dir}" />
+		<mkdir dir="${projet.doc.dir}" />
+	    <javadoc destdir="${projet.doc.dir}">
+	        <fileset dir="${projet.sources.dir}" />
+	    </javadoc>
+	</target>
+</project>

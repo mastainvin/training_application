@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 30 mars 2022 à 11:11
+-- Généré le : jeu. 31 mars 2022 à 11:09
 -- Version du serveur :  8.0.28-0ubuntu0.20.04.3
 -- Version de PHP : 7.4.3
 
@@ -365,7 +365,7 @@ CREATE TABLE `User` (
 CREATE TABLE `UserExerciceData` (
   `id_exercice` int NOT NULL,
   `id_user` int NOT NULL,
-  `weigth` float DEFAULT '0',
+  `weight` float DEFAULT '0',
   `mark` int DEFAULT '5'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

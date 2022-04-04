@@ -212,7 +212,7 @@ CREATE TABLE CompatibleEquipment(
 CREATE TABLE UserExerciceData(
 	id_exercice int,
     id_user int,
-    weigth float default 0,
+    weight float default 0,
     mark int default 5,
     CONSTRAINT user_exercice_data PRIMARY KEY  (id_exercice, id_user),
     FOREIGN KEY fkExerciceUser(id_exercice) REFERENCES Exercice(id_exercice) ON DELETE CASCADE,
@@ -252,8 +252,6 @@ CREATE TABLE CompatibleDisponibility(
     CONSTRAINT compatible_disponibility_pk PRIMARY KEY (id_structure, id_disponibility),
     FOREIGN KEY fkStructureDisponibility(id_structure) REFERENCES Structure(id_structure) ON DELETE CASCADE,
     FOREIGN KEY fkDisponibilityStructure(id_disponibility) REFERENCES Disponibility(id_disponibility) ON DELETE CASCADE);
-
-
 
 
 
