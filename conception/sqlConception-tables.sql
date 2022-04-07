@@ -1,7 +1,7 @@
-DROP DATABASE if exists Training_application;
+DROP DATABASE if exists Training_application2;
 
-CREATE DATABASE Training_application;
-USE Training_application;
+CREATE DATABASE Training_application2;
+USE Training_application2;
 
 # ---- Drop all tables ----
 #General
@@ -130,7 +130,7 @@ CREATE TABLE ComposeTraining(
     id_training_method int,
     layout int default 0,
     is_super_set bool,
-    CONSTRAINT id_compose_training PRIMARY KEY (id_training, id_type, id_training_method),
+    CONSTRAINT id_compose_training PRIMARY KEY (id_training, id_type, id_training_method, layout),
     FOREIGN KEY fkTrainingType(id_training) REFERENCES Training(id_training) ON DELETE CASCADE,
     FOREIGN KEY fkTypeTraining(id_type) REFERENCES ExerciceType(id_exercice_type) ON DELETE CASCADE,
     FOREIGN KEY fkTrainingMethod(id_training_method) REFERENCES TrainingMethod(id_training_method) ON DELETE CASCADE);
@@ -257,6 +257,32 @@ CREATE TABLE CompatibleDisponibility(
 
 
 
+CREATE TABLE BiomecanicFunctionList(
+	id_biomecanic_function_list int PRIMARY KEY auto_increment
+);
+
+CREATE TABLE BiomecanicFunction(
+	id_biomecanic_function int PRIMARY KEY auto_increment,
+    name VARCHAR(30) );
+
+
+
+CREATE TABLE BiomecanicFunctionUseLimb(
+	id_biomecanic_function int ,
+	id_BodyLimb int,
+    FOREIGN KEY fkBiomecanicFunctionLimb(id_biomecanic_function) REFERENCES BiomecanicFunction(id_biomecanic_function),
+    FOREIGN KEY fkBodyLimb(id_BodyLimb) REFERENCES BodyLimb(id_BodyLimb),
+    PRIMARY KEY (id_biomecanic_function, id_BodyLimb)
+);
+
+
+CREATE TABLE UseBiomecanicFunction(
+	id_biomecanic_function int,
+	id_biomecanic_function_list int,
+    FOREIGN KEY fkUseBiomecanicFunction(id_biomecanic_function) REFERENCES BiomecanicFunction(id_biomecanic_function),
+    FOREIGN KEY fkBiomecanicFunctionList(id_biomecanic_function_list) REFERENCES BiomecanicFunctionList(id_biomecanic_function_list),
+    PRIMARY KEY (id_biomecanic_function, id_biomecanic_function_list)
+);
 
 
 
