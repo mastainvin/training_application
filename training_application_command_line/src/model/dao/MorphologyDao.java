@@ -7,64 +7,73 @@ import java.util.List;
 
 import model.objects.Morphology;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Interface MorphologyDao.
+ *
  * @author Vincent Mastain
  * @version 1.0
  */
 public interface MorphologyDao {
 	
 	/**
-	 * 
+	 * Gets the first morphology.
+	 *
 	 * @return the first morphology in the db
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Morphology getFirstMorphology() throws EmptyResultsQueryException;
 	
 	/**
-	 * 
+	 * Gets the morphology by name.
+	 *
 	 * @param name of the morphology
 	 * @return the corresponding morphology
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Morphology getMorphologyByName(String name) throws EmptyResultsQueryException;
 	
 	/**
-	 * 
+	 * Gets the morphology by id.
+	 *
 	 * @param morphology_id the id requested
 	 * @return the corresponding morphology
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Morphology getMorphologyById(Integer morphology_id) throws EmptyResultsQueryException;
 	
 	/**
-	 * 
-	 * @param morphology the morphology which we want the id
-	 * @return the morphology's id
-	 * @throws EmptyResultsQueryException
+	 * Adds the morphology.
+	 *
+	 * @param morphology the morphology
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	Integer getMorphologyId(Morphology morphology) throws EmptyResultsQueryException;
+	void addMorphology(Morphology morphology) throws InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param Morphology morphology to add
+	 * Update morphology.
+	 *
+	 * @param morphology the morphology
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	void addMorphology(Morphology Morphology);
+	void updateMorphology(Morphology morphology) throws EmptyResultsQueryException, InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param previousMorphology morphology to change
-	 * @param newMorphology morphology used to change
-	 * @throws EmptyResultsQueryException
-	 */
-	void updateMorphology(Morphology previousMorphology, Morphology newMorphology) throws EmptyResultsQueryException;
-	
-	/**
-	 * 
+	 * Delete morphology.
+	 *
 	 * @param morphology morphology wanted to be delete
-	 * @throws EmptyResultsQueryException 
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void deleteMorphology(Morphology morphology) throws EmptyResultsQueryException;
 	
+	/**
+	 * Gets the all morphology.
+	 *
+	 * @return the all morphology
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	public List<Morphology> getAllMorphology() throws EmptyResultsQueryException;
 }

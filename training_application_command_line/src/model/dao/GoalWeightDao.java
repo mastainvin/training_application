@@ -7,54 +7,55 @@ import java.util.List;
 
 import model.objects.GoalWeight;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Vincent Mastain
+ * The Interface GoalWeightDao.
  *
+ * @author Vincent Mastain
  */
 public interface GoalWeightDao {
 	
 	/**
-	 * 
-	 * @return
-	 * @throws EmptyResultsQueryException
+	 * Gets the all goal weight.
+	 *
+	 * @return the all goal weight
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	List<GoalWeight> getAllGoalWeight() throws EmptyResultsQueryException;
 
 	/**
-	 * 
-	 * @param id_goalWeight
+	 * Gets the goal weight by id.
+	 *
+	 * @param id_goalWeight the id goal weight
 	 * @return the corresponding goalWeight
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	GoalWeight getGoalWeightById(Integer id_goalWeight) throws EmptyResultsQueryException;
 	
 	/**
-	 * 
-	 * @param goalWeight which we want the id
-	 * @return the goalWeight's id
-	 * @throws EmptyResultsQueryException
+	 * Adds the goal weight.
+	 *
+	 * @param goalWeight the goal weight
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	Integer getGoalWeightId(GoalWeight goalWeight) throws EmptyResultsQueryException;
+	void addGoalWeight(GoalWeight goalWeight) throws InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param goalWeight
+	 * Update goal weight.
+	 *
+	 * @param goalWeight the goal weight
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	void addGoalWeight(GoalWeight goalWeight);
+	void updateGoalWeight(GoalWeightDao goalWeight) throws EmptyResultsQueryException, InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param previousGoalWeight
-	 * @param newGoalWeight
-	 * @throws EmptyResultsQueryException
-	 */
-	void updateGoalWeight(GoalWeight previousGoalWeight, GoalWeightDao newGoalWeight) throws EmptyResultsQueryException;
-	
-	/**
-	 * 
-	 * @param goalWeight
-	 * @throws EmptyResultsQueryException 
+	 * Delete goal weight.
+	 *
+	 * @param goalWeight the goal weight
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void deleteGoalWeight(GoalWeight goalWeight) throws EmptyResultsQueryException;
 }

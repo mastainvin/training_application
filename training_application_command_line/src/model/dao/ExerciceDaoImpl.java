@@ -4,6 +4,8 @@
 package model.dao;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,18 +15,29 @@ import java.util.List;
 import java.util.Map;
 
 import model.objects.Exercice;
+import model.objects.TrainingComponent;
 import model.objects.User;
-import model.objects.UserExerciceData;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExerciceDaoImpl.
+ *
  * @author Vincednt Mastain
  * @version 1.0
  */
-public class ExerciceDaoImpl extends BasicRequestsDao implements ExerciceDao {
-	private UserExerciceDataDao userExerciceDataDao;
+public class ExerciceDaoImpl extends BasicRequestsDao implements ExerciceDao {	
 	
+	/** The singleton. */
 	private static ExerciceDaoImpl singleton = null;
+	
+	/**
+	 * Instance.
+	 *
+	 * @param daoFactory the dao factory
+	 * @return the exercice dao impl
+	 */
 	public static ExerciceDaoImpl instance(DaoFactory daoFactory) {
 		if(singleton == null) {
 			singleton =  new ExerciceDaoImpl(daoFactory);
@@ -32,50 +45,99 @@ public class ExerciceDaoImpl extends BasicRequestsDao implements ExerciceDao {
 		return singleton;
 	}
 	
+	/**
+	 * Instantiates a new exercice dao impl.
+	 *
+	 * @param daoFactory the dao factory
+	 */
 	private ExerciceDaoImpl(DaoFactory daoFactory) {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("Exercice");
 		this.setIdLabel("id_exercice");
-		this.userExerciceDataDao = daoFactory.getUserExerciceDataDao();
 	}
 	
+
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
+		valuesMap.put("id_exercice", results.getString("id_exercice"));
 		valuesMap.put("name", results.getString("name"));
 		valuesMap.put("description", results.getString("description"));
 		return valuesMap;
 	}
 	
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
 	public class MapOfValuesInsert implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Exercice exercice = (Exercice) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
+			mapValues.put("id_exercice", exercice.getIdExercice().toString());
 			mapValues.put("name", exercice.getName());
 			mapValues.put("description", exercice.getDescription());
 			return mapValues;
 		}
 	}
 	
+	/**
+	 * The Class MapOfValuesGet.
+	 */
 	public class MapOfValuesGet implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Exercice exercice = (Exercice) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("name", exercice.getName());
+			mapValues.put("id_exercice", exercice.getIdExercice().toString());
 			return mapValues;
 		}	
 	}
 	
+	/**
+	 * Object constructor.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues the map values
+	 * @param dataBaseObject the data base object
+	 */
 	@Override
 	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
 		((Exercice) dataBaseObject).setName(mapValues.get("name"));
 		((Exercice) dataBaseObject).setDescription(mapValues.get("description"));
-
+		((Exercice) dataBaseObject).setIdExercice(Integer.parseInt(mapValues.get("id_exercice")));
 	}
 	
 	
+	/**
+	 * Gets the all exercice.
+	 *
+	 * @return the all exercice
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public List<Exercice> getAllExercice() throws EmptyResultsQueryException {
 		List<Exercice> exerciceList = new ArrayList<>();
@@ -88,6 +150,12 @@ public class ExerciceDaoImpl extends BasicRequestsDao implements ExerciceDao {
 		return exerciceList;
 	}	
 
+	/**
+	 * Gets the first exercice.
+	 *
+	 * @return the first exercice
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Exercice getFirstExercice() throws EmptyResultsQueryException {
 		Exercice exercice = new Exercice();
@@ -95,17 +163,34 @@ public class ExerciceDaoImpl extends BasicRequestsDao implements ExerciceDao {
 		return exercice;
 	}
 
+	/**
+	 * Gets the exercice by name.
+	 *
+	 * @param name the name
+	 * @return the exercice by name
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Exercice getExerciceByName(String name) throws EmptyResultsQueryException {
 		ValuesMap valuesMapGet = new MapOfValuesGet();
-		Exercice exercice = new Exercice();
-		exercice.setName(name);
-		ArrayList<Map<String, String>> results = this.get(valuesMapGet.getMapOfValues(exercice));
+		Map<String,String> getMap = valuesMapGet.getMapOfValues(null);
+		getMap.put("name", name);
+		
+		ArrayList<Map<String, String>> results = this.get(getMap);
 		Iterator<Map<String, String>> iterator = results.iterator();
+		
+		Exercice exercice = new Exercice();
 		this.objectConstructor(iterator.next(), exercice);
 		return exercice;
 	}
 	
+	/**
+	 * Gets the exercice by id.
+	 *
+	 * @param id_exercice the id exercice
+	 * @return the exercice by id
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Exercice getExerciceById(Integer id_exercice) throws EmptyResultsQueryException {
 		Exercice exercice = new Exercice();
@@ -113,25 +198,40 @@ public class ExerciceDaoImpl extends BasicRequestsDao implements ExerciceDao {
 		return exercice;
 	}
 	
-	@Override
-	public Integer getExerciceId(Exercice exercice) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
-		return this.getId(valuesMapGet.getMapOfValues(exercice));
-	}
+
 	
+	/**
+	 * Adds the exercice.
+	 *
+	 * @param exercice the exercice
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public void addExercice(Exercice exercice) {
+	public void addExercice(Exercice exercice) throws InsertDataBaseException {
 		ValuesMap valuesMap = new MapOfValuesInsert();
 		this.add(valuesMap.getMapOfValues(exercice));
 	}
 
+	/**
+	 * Update exercice.
+	 *
+	 * @param exercice the exercice
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public void updateExercice(Exercice previousExercice, Exercice newExercice) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
+	public void updateExercice(Exercice exercice) throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		this.update(this.getId(valuesMapGet.getMapOfValues(previousExercice)), valuesMapInsert.getMapOfValues(newExercice));
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(exercice), keysMap.getMapOfValues(exercice));
 	}
 
+	/**
+	 * Delete exercice.
+	 *
+	 * @param exercice the exercice
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public void deleteExercice(Exercice exercice) throws EmptyResultsQueryException {
 		ValuesMap valuesMap = new MapOfValuesGet();
@@ -139,14 +239,49 @@ public class ExerciceDaoImpl extends BasicRequestsDao implements ExerciceDao {
 	}
 
 	@Override
-	public void getUserExerciceData(Exercice exercice, User user) {
-		try {
-			exercice.setUserExerciceDatas(userExerciceDataDao.getUserExerciceData(user, exercice));
-		} catch (EmptyResultsQueryException e) {
-			UserExerciceData userExerciceDataDefault = new UserExerciceData();
-			userExerciceDataDefault.setMark(5);
-			userExerciceDataDefault.setWeight(0);
-		}
+	public void getTrainingComponentExerciceList(TrainingComponent trainingComponent, User user) throws EmptyResultsQueryException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+	    ResultSet results = null;
+	    
+	    try {
+	    	String sqlRequest;
+	    	
+    		sqlRequest = "SELECT e.* FROM Exercice e, ExerciceType et, ExerciceTyping etg, CompatibleEquipment ce\n"
+    				+ "WHERE e.id_exercice = etg.id_exercice\n"
+    				+ "AND et.id_exercice_type = etg.id_exercice_type\n"
+    				+ "AND et.id_exercice_type = " + trainingComponent.getIdExerciceType() + "\n"
+    				+ "AND ce.id_exercice = e.id_exercice\n"
+    				+ "AND " + user.getIdMorphology() + " in (select id_morphology FROM CompatibleMorph cm\n"
+    				+ "		WHERE e.id_exercice = cm.id_exercice)\n"
+    				+ "AND ce.id_equipment in (SELECT eq.id_equipment FROM HasEquipment he, Equipment eq\n"
+    				+ "    WHERE he.id_equipment = eq.id_equipment\n"
+    				+ "    AND he.id_user = " + user.getIdUser() + ")\n"
+    				+ "GROUP BY e.id_exercice;";
+    	
+        	
+	        connection = this.getDaoFactory().getConnection();
+            preparedStatement = connection.prepareStatement(sqlRequest);
+            results = preparedStatement.executeQuery();
+            
+            boolean empty = true;
+            List<Exercice> exerciceList = new ArrayList<>();
+            while(results.next()) {
+            	Exercice exercice = new Exercice();
+            	this.objectConstructor( this.setMapFromResultSet(results), exercice);
+            	exerciceList.add(exercice);
+            	empty = false;
+            }
+           
+            if(empty) {
+            	throw new EmptyResultsQueryException();
+            } 
+            trainingComponent.setExercicesList(exerciceList);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } 
 	}
+
+
 
 }

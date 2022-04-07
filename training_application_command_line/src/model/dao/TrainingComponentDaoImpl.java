@@ -14,22 +14,38 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import model.objects.ExerciceType;
 import model.objects.Training;
 import model.objects.TrainingComponent;
-import model.objects.TrainingMethod;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class TrainingComponentDaoImpl.
+ *
  * @author Vincent Mastain
  * @version 1.0
  */
 public class TrainingComponentDaoImpl extends BasicRequestsDao implements TrainingComponentDao {
+	
+	/** The exercice type dao. */
 	ExerciceTypeDao exerciceTypeDao;
+	
+	/** The training method dao. */
 	TrainingMethodDao trainingMethodDao;
+	
+	/** The training dao. */
 	TrainingDao trainingDao;
 	
+	/** The singleton. */
 	static TrainingComponentDaoImpl singleton = null;
+	
+	/**
+	 * Instance.
+	 *
+	 * @param daoFactory the dao factory
+	 * @return the training component dao impl
+	 */
 	public static TrainingComponentDaoImpl instance(DaoFactory daoFactory) {
 		if(singleton == null) {
 			return new TrainingComponentDaoImpl(daoFactory);
@@ -37,6 +53,11 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		return singleton;
 	}
 	
+	/**
+	 * Instantiates a new training component dao impl.
+	 *
+	 * @param daoFactory the dao factory
+	 */
 	private TrainingComponentDaoImpl(DaoFactory daoFactory) {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("ComposeTraining");
@@ -45,58 +66,121 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		this.trainingDao = daoFactory.getTrainingDao();
 	}
 	
+
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
 		valuesMap.put("id_training", results.getString("id_training"));
 		valuesMap.put("id_exercice_type", results.getString("id_type"));
 		valuesMap.put("id_training_method", results.getString("id_training_method"));
+		valuesMap.put("id_biomecanic_function_list", results.getString("id_biomecanic_function_list"));
 		valuesMap.put("layout", results.getString("layout"));
 		valuesMap.put("is_super_set", results.getString("is_super_set"));
 		valuesMap.put("id_type", results.getString("id_type"));
 		return valuesMap;
 	}
 	
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
 	public class MapOfValuesInsert implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			TrainingComponent trainingComponent = (TrainingComponent) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
 			mapValues.put("layout", trainingComponent.getLayout().toString());
-			mapValues.put("is_super_set", trainingComponent.getIsSuperSet().toString());
-
+			mapValues.put("is_super_set", (trainingComponent.getIsSuperSet() ? "1" : "0"));
+			mapValues.put("id_training", trainingComponent.getIdTraining().toString());
+			try {
+				mapValues.put("id_biomecanic_function_list", trainingComponent.getIdBiomecanicFunctionList().toString());
+			} catch (NullPointerException e) {
+			}
+			
+			try {
+				mapValues.put("id_training_method", trainingComponent.getIdTrainingMethod().toString());
+			} catch (NullPointerException e) {
+			}
+			
+			try {
+				mapValues.put("id_type", trainingComponent.getIdExerciceType().toString());
+			} catch (NullPointerException e) {
+			}
 			return mapValues;
 		}
 	}
 	
+	/**
+	 * The Class MapOfValuesGet.
+	 */
 	public class MapOfValuesGet implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			TrainingComponent trainingComponent = (TrainingComponent) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("layout", trainingComponent.getLayout().toString());
 			return mapValues;
 		}	
 	}
 	
+	/**
+	 * Object constructor.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues the map values
+	 * @param dataBaseObject the data base object
+	 */
 	@Override
 	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
 		((TrainingComponent) dataBaseObject).setLayout(Integer.parseInt(mapValues.get("layout")));
-		((TrainingComponent) dataBaseObject).setIsSuperSet(Boolean.parseBoolean(mapValues.get("is_super_set")));
+		((TrainingComponent) dataBaseObject).setIsSuperSet(mapValues.get("is_super_set") == "1" ? true : false);
+		((TrainingComponent) dataBaseObject).setIdTraining(Integer.parseInt(mapValues.get("id_training")));
 		
 		try {
-			((TrainingComponent) dataBaseObject).setExerciceType(exerciceTypeDao.getExerciceTypeById(Integer.parseInt(mapValues.get("id_type"))));
-		} catch (EmptyResultsQueryException e) {
+			((TrainingComponent) dataBaseObject).setIdBiomecanicFunctionList(Integer.parseInt(mapValues.get("id_biomecanic_function_list")));
+		} catch (NumberFormatException e) {
 		}
+		
 		
 		try {
-			((TrainingComponent) dataBaseObject).setTrainingMethod(trainingMethodDao.getTrainingMethodById(Integer.parseInt(mapValues.get("id_training_method"))));
-		} catch (EmptyResultsQueryException e) {
+			((TrainingComponent) dataBaseObject).setIdExerciceType(Integer.parseInt(mapValues.get("id_type")));
+		} catch (NumberFormatException e) {
 		}
 		
+		
+		try {
+			((TrainingComponent) dataBaseObject).setIdTrainingMethod(Integer.parseInt(mapValues.get("id_training_method")));
+		} catch (NumberFormatException e) {
+		}
 	}
 	
 	
+	/**
+	 * Gets the all training component.
+	 *
+	 * @return the all training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public List<TrainingComponent> getAllTrainingComponent() throws EmptyResultsQueryException{
 		List<TrainingComponent> trainingComponentList = new ArrayList<>();
@@ -109,6 +193,12 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		return trainingComponentList;
 	}	
 
+	/**
+	 * Gets the first training component.
+	 *
+	 * @return the first training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public TrainingComponent getFirstTrainingComponent() throws EmptyResultsQueryException {
 		TrainingComponent trainingComponent = new TrainingComponent();
@@ -116,16 +206,22 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		return trainingComponent;
 	}
 
+	/**
+	 * Gets the training component.
+	 *
+	 * @param training the training
+	 * @param layout the layout
+	 * @return the training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
-	public TrainingComponent getTrainingComponent(TrainingMethod trainingMethod, ExerciceType exerciceType, Training training, Integer layout) throws EmptyResultsQueryException {
+	public TrainingComponent getTrainingComponent(Training training, Integer layout) throws EmptyResultsQueryException {
 		ValuesMap valuesMapGet = new MapOfValuesGet();
 		TrainingComponent trainingComponent = new TrainingComponent();
 		trainingComponent.setLayout(layout);
 		Map<String,String> values = valuesMapGet.getMapOfValues(trainingComponent);
-		values.put("id_training", this.trainingDao.getTrainingId(training).toString());
-		values.put("id_type", this.exerciceTypeDao.getExerciceTypeId(exerciceType).toString());
-		values.put("id_training_method", this.trainingMethodDao.getTrainingMethodId(trainingMethod).toString());
-		
+		values.put("id_training", training.getIdTraining().toString());
+		values.put("layout", layout.toString());
 		ArrayList<Map<String, String>> results = this.get(values);
 		Iterator<Map<String, String>> iterator = results.iterator();
 		
@@ -133,133 +229,84 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		return trainingComponent;
 	}
 	
+	/**
+	 * Adds the training component.
+	 *
+	 * @param trainingComponent the training component
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public void addTrainingComponent(TrainingComponent trainingComponent, Training training) {
+	public void addTrainingComponent(TrainingComponent trainingComponent) throws InsertDataBaseException {
 		ValuesMap valuesMap = new MapOfValuesInsert();
 		Map<String,String> getMap = valuesMap.getMapOfValues(trainingComponent);
-		
-		try {
-			getMap.put("id_type", exerciceTypeDao.getExerciceTypeId(trainingComponent.getExerciceType()).toString());
-		} catch (EmptyResultsQueryException e) {
-			getMap.put("id_type", "NULL");
-		}
-		
-		try {
-			getMap.put("id_training_method", trainingMethodDao.getTrainingMethodId(trainingComponent.getTrainingMethod()).toString());
-		} catch (EmptyResultsQueryException e) {
-			getMap.put("id_training_method", "NULL");
-		}
-		
-		try {
-			getMap.put("id_training", trainingDao.getTrainingId(training).toString());
-		} catch (EmptyResultsQueryException e) {
-			getMap.put("id_training", "NULL");
-		}
-		
 		this.add(getMap);
 	}
 
+	/**
+	 * Update training component.
+	 *
+	 * @param trainingComponent the training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public void updateTrainingComponent(TrainingComponent previousTrainingComponent, TrainingComponent newTrainingComponent, Training training) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
+	public void updateTrainingComponent(TrainingComponent trainingComponent) throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		Map<String,String> insertMap = valuesMapInsert.getMapOfValues(newTrainingComponent);
-		try {
-			insertMap.put("id_type", exerciceTypeDao.getExerciceTypeId(newTrainingComponent.getExerciceType()).toString());
-		} catch (EmptyResultsQueryException e) {
-			insertMap.put("id_type", "NULL");
-		}
-		
-		try {
-			insertMap.put("id_training_method", trainingMethodDao.getTrainingMethodId(newTrainingComponent.getTrainingMethod()).toString());
-		} catch (EmptyResultsQueryException e) {
-			insertMap.put("id_training_method", "NULL");
-		}
-		
-		try {
-			insertMap.put("id_training", trainingDao.getTrainingId(training).toString());
-		} catch (EmptyResultsQueryException e) {
-			insertMap.put("id_training", "NULL");
-		}
-		this.update(this.getId(valuesMapGet.getMapOfValues(previousTrainingComponent)), insertMap);
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(trainingComponent), keysMap.getMapOfValues(trainingComponent));
 	}
 
+	/**
+	 * Delete training component.
+	 *
+	 * @param trainingComponent the training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
-	public void deleteTrainingComponent(TrainingComponent trainingComponent, Training training) throws EmptyResultsQueryException {
+	public void deleteTrainingComponent(TrainingComponent trainingComponent) throws EmptyResultsQueryException {
 		ValuesMap valuesMap = new MapOfValuesGet();
 		Map<String,String> insertMap = valuesMap.getMapOfValues(trainingComponent);
-		try {
-			insertMap.put("id_training", trainingDao.getTrainingId(training).toString());
-		} catch (EmptyResultsQueryException e) {
-			insertMap.put("id_training", "NULL");
-		}
-		
 		this.delete(insertMap);
 	}
 
 	@Override
-	public Map<String, String> getTrainingComponentId(TrainingComponent trainingComponent, Training training) throws EmptyResultsQueryException {
-		Map<String, String> ids = new HashMap<>();
+	public void getTrainingTrainingComponentList(Training training) throws EmptyResultsQueryException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 	    ResultSet results = null;
-
+	    
 	    try {
+	    	String sqlRequest;
+	    	try {
+	    		sqlRequest = "SELECT tc.* FROM Training t, ComposeTraining tc\n"
+	    				+ "WHERE tc.id_training = t.id_training\n"
+	    				+ "AND t.id_training = " + training.getIdTraining() + ";";
+	    	} catch (NullPointerException e) {
+	    		sqlRequest = "SELECT * FROM "+ this.getDbName() + ";";
+	    	}
 	    	
-	    	String sqlRequest = "SELECT id_training, id_type, id_training_method, layout FROM Training t, ComposeTraining ct WHERE t.id_training = ct.id_training AND t.name = '" + training.getName()+ "' AND ct.layout = '"+ trainingComponent.getLayout()+"';";
-	
+        	
 	        connection = this.getDaoFactory().getConnection();
-	        preparedStatement = connection.prepareStatement(sqlRequest);
-	        results = preparedStatement.executeQuery();
-	        
-	        if (results.next()) {
-	        	ids.put("id_training", results.getString("id_training"));
-	        	ids.put("id_type", results.getString("id_type"));
-	        	ids.put("id_training_method", results.getString("id_training_method"));
-	        	ids.put("layout", results.getString("layout"));
-            } else {
-            	throw new EmptyResultsQueryException();
-            }
-	        
-	  
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-		return ids;
-	}
-
-	@Override
-	public List<TrainingComponent> getTrainingsComponentsListFromTraining(Training training) throws EmptyResultsQueryException {
-		List<TrainingComponent> trainingComponentList = new ArrayList<>();
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-	    ResultSet results = null;
-
-	    try {
-	    	
-	    	String sqlRequest = "SELECT ct.* FROM Training t, ComposeTraining ct WHERE t.id_training = ct.id_training AND t.name = '" + training.getName()+ "';";
-	
-	        connection = this.getDaoFactory().getConnection();
-	        preparedStatement = connection.prepareStatement(sqlRequest);
-	        results = preparedStatement.executeQuery();
-	        
-	        boolean empty = true;
-	        while(results.next()) {
-	        	TrainingComponent trainingComponent = new TrainingComponent();
-	        	this.objectConstructor(this.setMapFromResultSet(results), trainingComponent);
-	        	trainingComponentList.add(trainingComponent);
-            	empty=false;
-            }
+            preparedStatement = connection.prepareStatement(sqlRequest);
+            results = preparedStatement.executeQuery();
             
-	        if (empty) {
-	        	throw new EmptyResultsQueryException();
+            boolean empty = true;
+            List<TrainingComponent> trainingComponentList = new ArrayList<>();
+            while(results.next()) {
+            	TrainingComponent trainingComponent = new TrainingComponent();
+            	this.objectConstructor( this.setMapFromResultSet(results), trainingComponent);
+            	trainingComponentList.add(trainingComponent);
+            	empty = false;
+            }
+           
+            if(empty) {
+            	throw new EmptyResultsQueryException();
             } 
-	        
-	  
+            trainingComponentList.sort(null);
+            training.setTrainingComponentList(trainingComponentList);
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	    }
-	    return trainingComponentList;
+	    } 
 	}
 
 	

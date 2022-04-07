@@ -7,65 +7,73 @@ import java.util.List;
 
 import model.objects.Role;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Interface RoleDao.
+ *
  * @author Vincent Mastain
  * @version 1.0
- *
  */
 public interface RoleDao {
 	
+	/**
+	 * Gets the all role.
+	 *
+	 * @return the all role
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	List<Role> getAllRole() throws EmptyResultsQueryException;
 	
 	/**
-	 * 
+	 * Gets the first role.
+	 *
 	 * @return the first role in the db
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Role getFirstRole() throws EmptyResultsQueryException;
 	
 	/**
-	 * 
+	 * Gets the role by name.
+	 *
 	 * @param name of the goal
 	 * @return the corresponding goal
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Role getRoleByName(String name) throws EmptyResultsQueryException;
 	
 	/**
-	 * 
-	 * @param id_role
+	 * Gets the role by id.
+	 *
+	 * @param id_role the id role
 	 * @return the corresponding role
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Role getRoleById(Integer id_role) throws EmptyResultsQueryException;
 	
 	/**
-	 * 
-	 * @param role which we want the id
-	 * @return the role's id
-	 * @throws EmptyResultsQueryException
+	 * Adds the role.
+	 *
+	 * @param role the role
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	Integer getRoleId(Role role) throws EmptyResultsQueryException;
+	void addRole(Role role) throws InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param role
+	 * Update role.
+	 *
+	 * @param role the role
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	void addRole(Role role);
+	void updateRole(Role role) throws EmptyResultsQueryException, InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param previousRole
-	 * @param newRole
-	 * @throws EmptyResultsQueryException
-	 */
-	void updateRole(Role previousRole, Role newRole) throws EmptyResultsQueryException;
-	
-	/**
-	 * 
-	 * @param role
-	 * @throws EmptyResultsQueryException 
+	 * Delete role.
+	 *
+	 * @param role the role
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void deleteRole(Role role) throws EmptyResultsQueryException;
 	

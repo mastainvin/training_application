@@ -3,6 +3,7 @@
  */
 package model.dao;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,41 +14,89 @@ import java.util.Map;
 
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class UserDaoImpl.
+ *
  * @author Vincent Mastain
  * @version 1.0
  */
 public class UserDaoImpl extends BasicRequestsDao implements UserDao {
+	
+	/** The role dao. */
 	private RoleDao roleDao;
+	
+	/** The morphology dao. */
 	private MorphologyDao morphologyDao;
+	
+	/** The goal dao. */
 	private GoalDao goalDao;
 	
+	/**
+	 * Gets the role dao.
+	 *
+	 * @return the role dao
+	 */
 	public RoleDao getRoleDao() {
 		return roleDao;
 	}
 
+	/**
+	 * Sets the role dao.
+	 *
+	 * @param roleDao the new role dao
+	 */
 	public void setRoleDao(RoleDao roleDao) {
 		this.roleDao = roleDao;
 	}
 
+	/**
+	 * Gets the morphology dao.
+	 *
+	 * @return the morphology dao
+	 */
 	public MorphologyDao getMorphologyDao() {
 		return morphologyDao;
 	}
 
+	/**
+	 * Sets the morphology dao.
+	 *
+	 * @param morphologyDao the new morphology dao
+	 */
 	public void setMorphologyDao(MorphologyDao morphologyDao) {
 		this.morphologyDao = morphologyDao;
 	}
 
+	/**
+	 * Gets the goal dao.
+	 *
+	 * @return the goal dao
+	 */
 	public GoalDao getGoalDao() {
 		return goalDao;
 	}
 
+	/**
+	 * Sets the goal dao.
+	 *
+	 * @param goalDao the new goal dao
+	 */
 	public void setGoalDao(GoalDao goalDao) {
 		this.goalDao = goalDao;
 	}
 	
+	/** The singleton. */
 	static UserDaoImpl singleton = null;
+	
+	/**
+	 * Instance.
+	 *
+	 * @param daoFactory the dao factory
+	 * @return the user dao impl
+	 */
 	public static UserDaoImpl instance(DaoFactory daoFactory) {
 		if(singleton == null) {
 			return new UserDaoImpl(daoFactory);
@@ -57,6 +106,11 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 	
 	
 
+	/**
+	 * Instantiates a new user dao impl.
+	 *
+	 * @param daoFactory the dao factory
+	 */
 	private UserDaoImpl(DaoFactory daoFactory) {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("User");
@@ -67,6 +121,13 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		this.setGoalDao(daoFactory.getGoalDao());
 	}
 	
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
@@ -81,10 +142,22 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		valuesMap.put("id_role", results.getString("id_role"));
 		valuesMap.put("id_morphology", results.getString("id_morphology"));
 		valuesMap.put("id_goal", results.getString("id_goal"));
+		valuesMap.put("id_user", results.getString("id_user"));
 		return valuesMap;
 	}
 	
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
 	public class MapOfValuesInsert implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
@@ -98,30 +171,65 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 			mapValues.put("body_fat", user.getBodyFat().toString());
 			mapValues.put("muscle_mass", user.getMuscleMass().toString());
 			
+
 			try {
-				mapValues.put("id_role", roleDao.getRoleId(user.getRole()).toString());
-			} catch (EmptyResultsQueryException e) {
-				mapValues.put("id_role", "NULL");
+				mapValues.put("id_role", user.getIdRole().toString());
+			} catch (NullPointerException e) {
 			}
 			
 			try {
-				mapValues.put("id_morphology", morphologyDao.getMorphologyId(user.getMorphology()).toString());
-			} catch (EmptyResultsQueryException e) {
-				mapValues.put("id_morphology", "NULL");
+				mapValues.put("id_morphology", user.getIdMorphology().toString());
+			} catch (NullPointerException e) {
 			}
 			
 			try {
-				mapValues.put("id_goal", goalDao.getGoalId(user.getGoal()).toString());
-			} catch (EmptyResultsQueryException e) {
-				mapValues.put("id_goal", "NULL");
+				mapValues.put("id_goal", user.getIdGoal().toString());
+			} catch (NullPointerException e) {
 			}
 			
+			try {
+				mapValues.put("id_user", user.getIdUser().toString());		
+			} catch (NullPointerException e) {
+			}
+			
+				
 			return mapValues;
 		}
 	}
 	
+	/**
+	 * The Class MapOfValuesGet.
+	 */
+	public class MapOfValuesGet implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			User user = (User) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String,String>();
+			mapValues.put("id_user", user.getIdUser().toString());
+			return mapValues;
+		}	
+	}
 	
+	/**
+	 * The Class MapOfValuesGetByPseudonym.
+	 */
 	public class MapOfValuesGetByPseudonym implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
@@ -131,7 +239,18 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		}	
 	}
 	
+	/**
+	 * The Class MapOfValuesGetByEmail.
+	 */
 	public class MapOfValuesGetByEmail implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
@@ -141,7 +260,18 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		}	
 	}
 	
+	/**
+	 * The Class MapOfValuesGetByAuthenfication.
+	 */
 	public class MapOfValuesGetByAuthenfication implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
@@ -152,6 +282,13 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		}	
 	}
 	
+	/**
+	 * Object constructor.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues the map values
+	 * @param dataBaseObject the data base object
+	 */
 	@Override
 	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
 		((User) dataBaseObject).setPseudonym(mapValues.get("pseudonym"));
@@ -162,25 +299,34 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		((User) dataBaseObject).setGender(mapValues.get("gender"));
 		((User) dataBaseObject).setBodyFat(Integer.parseInt(mapValues.get("body_fat")));
 		((User) dataBaseObject).setMuscleMass(Integer.parseInt(mapValues.get("muscle_mass")));
+		((User) dataBaseObject).setIdUser(Integer.parseInt(mapValues.get("id_user")));
 		
 		try {
-			((User) dataBaseObject).setRole(roleDao.getRoleById(Integer.valueOf(mapValues.get("id_role"))));
-		} catch (EmptyResultsQueryException e) {
+			((User) dataBaseObject).setIdRole(Integer.parseInt(mapValues.get("id_role")));
+		} catch (NumberFormatException e) {
 		}
 		
 		try {
-			((User) dataBaseObject).setMorphology(morphologyDao.getMorphologyById(Integer.valueOf(mapValues.get("id_morphology"))));
-		} catch (EmptyResultsQueryException e) {
+			((User) dataBaseObject).setIdMorphology(Integer.parseInt(mapValues.get("id_morphology")));
+		} catch (NumberFormatException e) {
 		}
-        
+
 		try {
-			((User) dataBaseObject).setGoal(goalDao.getGoalById(Integer.valueOf(mapValues.get("id_goal"))));
-		} catch (EmptyResultsQueryException e) {
+			((User) dataBaseObject).setIdGoal(Integer.parseInt(mapValues.get("id_goal")));
+		} catch (NumberFormatException e) {
 		}
+		
+		
 		
 	}
 	
 	
+	/**
+	 * Gets the all user.
+	 *
+	 * @return the all user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public List<User> getAllUser() throws EmptyResultsQueryException {
 		List<User> userList = new ArrayList<>();
@@ -193,6 +339,12 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		return userList;
 	}	
 
+	/**
+	 * Gets the first user.
+	 *
+	 * @return the first user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public User getFirstUser() throws EmptyResultsQueryException {
 		User user = new User();
@@ -200,6 +352,14 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		return user;
 	}
 
+	/**
+	 * Authentificate.
+	 *
+	 * @param pseudonym the pseudonym
+	 * @param password the password
+	 * @return the user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public User authentificate(String pseudonym, String password) throws EmptyResultsQueryException {
 		ValuesMap valuesMapGet = new MapOfValuesGetByAuthenfication();
@@ -212,6 +372,13 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		return user;
 	}
 	
+	/**
+	 * Gets the user by pseudonym.
+	 *
+	 * @param pseudonym the pseudonym
+	 * @return the user by pseudonym
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public User getUserByPseudonym(String pseudonym) throws EmptyResultsQueryException {
 		ValuesMap valuesMapGet = new MapOfValuesGetByPseudonym();
@@ -223,6 +390,13 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		return user;
 	}
 	
+	/**
+	 * Gets the user by email.
+	 *
+	 * @param email the email
+	 * @return the user by email
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public User getUserByEmail(String email) throws EmptyResultsQueryException {
 		ValuesMap valuesMapGet = new MapOfValuesGetByEmail();
@@ -235,6 +409,13 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 	}
 
 	
+	/**
+	 * Gets the user by id.
+	 *
+	 * @param id_user the id user
+	 * @return the user by id
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public User getUserById(Integer id_user) throws EmptyResultsQueryException {
 		User user = new User();
@@ -242,28 +423,43 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		return user;
 	}
 	
+	/**
+	 * Adds the user.
+	 *
+	 * @param user the user
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public Integer getUserId(User user) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGetByPseudonym();
-		return this.getId(valuesMapGet.getMapOfValues(user));
-	}
-	
-	@Override
-	public void addUser(User user) {
+	public void addUser(User user) throws InsertDataBaseException {
 		ValuesMap valuesMap = new MapOfValuesInsert();
 		this.add(valuesMap.getMapOfValues(user));
 	}
 
+	/**
+	 * Update user.
+	 *
+	 * @param user the user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public void updateUser(User previousUser, User newUser) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGetByPseudonym();
+	public void updateUser(User user) throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		this.update(this.getId(valuesMapGet.getMapOfValues(previousUser)), valuesMapInsert.getMapOfValues(newUser));
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(user), keysMap.getMapOfValues(user));
 	}
 
+	/**
+	 * Delete user.
+	 *
+	 * @param user the user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public void deleteUser(User user) throws EmptyResultsQueryException {
 		ValuesMap valuesMap = new MapOfValuesGetByPseudonym();
 		this.delete(valuesMap.getMapOfValues(user));
 	}
+
+	
 }

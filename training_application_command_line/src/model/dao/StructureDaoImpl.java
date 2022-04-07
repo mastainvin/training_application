@@ -16,16 +16,28 @@ import java.util.Map;
 
 import model.objects.Structure;
 import model.objects.Training;
+import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Vincednt Mastain
+ * The Class StructureDaoImpl.
+ *
+ * @author Vincent Mastain
  * @version 1.0
  */
 public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
-	private GoalDao goalDao;
 	
+	/** The singleton. */
 	static StructureDaoImpl singleton = null;
+	
+	/**
+	 * Instance.
+	 *
+	 * @param daoFactory the dao factory
+	 * @return the structure dao impl
+	 */
 	public static StructureDaoImpl instance(DaoFactory daoFactory) {
 		if(singleton == null) {
 			return new StructureDaoImpl(daoFactory);
@@ -33,61 +45,108 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 		return singleton;
 	}
 	
+	/**
+	 * Instantiates a new structure dao impl.
+	 *
+	 * @param daoFactory the dao factory
+	 */
 	private StructureDaoImpl(DaoFactory daoFactory) {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("Structure");
 		this.setIdLabel("id_structure");
-		this.goalDao = daoFactory.getGoalDao();
 	}
-	
+
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
 		valuesMap.put("name", results.getString("name"));
 		valuesMap.put("id_goal", results.getString("id_goal"));
+		valuesMap.put("id_structure", results.getString("id_structure"));
 		return valuesMap;
 	}
 	
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
 	public class MapOfValuesInsert implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Structure structure = (Structure) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
 			mapValues.put("name", structure.getName());
 			
+			mapValues.put("id_structure", structure.getIdStructure().toString());
+			
 			try {
-				mapValues.put("id_goal", goalDao.getGoalId(structure.getGoal()).toString());
-			} catch (EmptyResultsQueryException e) {	
-				mapValues.put("id_goal", "NULL");
+				mapValues.put("id_goal", structure.getIdGoal().toString());
+			} catch (NullPointerException e) {
 			}
 			
-
 			return mapValues;
 		}
 	}
 	
+	/**
+	 * The Class MapOfValuesGet.
+	 */
 	public class MapOfValuesGet implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Structure structure = (Structure) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("name", structure.getName());
+			mapValues.put("id_structure", structure.getIdStructure().toString());
 			return mapValues;
 		}	
 	}
 	
+	/**
+	 * Object constructor.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues the map values
+	 * @param dataBaseObject the data base object
+	 */
 	@Override
 	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
 		((Structure) dataBaseObject).setName(mapValues.get("name"));
+		((Structure) dataBaseObject).setIdStructure(Integer.parseInt(mapValues.get("id_structure")));
 		
 		try {
-			((Structure) dataBaseObject).setGoal(goalDao.getGoalById(Integer.parseInt(mapValues.get("id_goal"))));
-		} catch (EmptyResultsQueryException e) {	
+			((Structure) dataBaseObject).setIdGoal(Integer.parseInt(mapValues.get("id_goal")));
+		} catch (NumberFormatException e) {
 		}
-		
 	}
 	
 	
+	/**
+	 * Gets the all structure.
+	 *
+	 * @return the all structure
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public List<Structure> getAllStructure() throws EmptyResultsQueryException {
 		List<Structure> structureList = new ArrayList<>();
@@ -100,6 +159,12 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 		return structureList;
 	}	
 
+	/**
+	 * Gets the first structure.
+	 *
+	 * @return the first structure
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Structure getFirstStructure() throws EmptyResultsQueryException {
 		Structure structure = new Structure();
@@ -107,43 +172,74 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 		return structure;
 	}
 
+	/**
+	 * Gets the structure by name.
+	 *
+	 * @param name the name
+	 * @return the structure by name
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Structure getStructureByName(String name) throws EmptyResultsQueryException {
 		ValuesMap valuesMapGet = new MapOfValuesGet();
-		Structure structure = new Structure();
-		structure.setName(name);
-		ArrayList<Map<String, String>> results = this.get(valuesMapGet.getMapOfValues(structure));
+		Map<String,String> getMap = valuesMapGet.getMapOfValues(null);
+		getMap.put("name", name);
+		
+		ArrayList<Map<String, String>> results = this.get(getMap);
 		Iterator<Map<String, String>> iterator = results.iterator();
+		
+		Structure structure = new Structure();
 		this.objectConstructor(iterator.next(), structure);
 		return structure;
 	}
 	
+	/**
+	 * Gets the structure by id.
+	 *
+	 * @param id_structure the id structure
+	 * @return the structure by id
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Structure getStructureById(Integer id_structure) throws EmptyResultsQueryException {
 		Structure structure = new Structure();
 		this.<Structure>getById(id_structure, structure);
 		return structure;
 	}
+
 	
+	/**
+	 * Adds the structure.
+	 *
+	 * @param structure the structure
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public Integer getStructureId(Structure structure) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
-		return this.getId(valuesMapGet.getMapOfValues(structure));
-	}
-	
-	@Override
-	public void addStructure(Structure structure) {
+	public void addStructure(Structure structure) throws InsertDataBaseException {
 		ValuesMap valuesMap = new MapOfValuesInsert();
 		this.add(valuesMap.getMapOfValues(structure));
 	}
 
+	/**
+	 * Update structure.
+	 *
+	 * @param structure the structure
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public void updateStructure(Structure previousStructure, Structure newStructure) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
+	public void updateStructure(Structure structure) throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		this.update(this.getId(valuesMapGet.getMapOfValues(previousStructure)), valuesMapInsert.getMapOfValues(newStructure));
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(structure), keysMap.getMapOfValues(structure));
 	}
 
+	/**
+	 * Delete structure.
+	 *
+	 * @param structure the structure
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public void deleteStructure(Structure structure) throws EmptyResultsQueryException {
 		ValuesMap valuesMap = new MapOfValuesGet();
@@ -152,6 +248,13 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 
 	
 
+	/**
+	 * Gets the structure from training.
+	 *
+	 * @param training the training
+	 * @return the structure from training
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Structure getStructureFromTraining(Training training) throws EmptyResultsQueryException {
 		Structure structure = new Structure();
@@ -177,6 +280,45 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 	        e.printStackTrace();
 	    }
 	    return structure;
+	}
+	
+	@Override
+	public void getUserStructure(User user) throws EmptyResultsQueryException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+	    ResultSet results = null;
+	    
+	    try {
+	    	String sqlRequest;
+	    	try {
+	    		sqlRequest = "SELECT s.* FROM Structure s, User u, CompatibleDisponibility cd, CanTrainOn cto\n"
+	    				+ "WHERE s.id_goal = u.id_goal\n"
+	    				+ "AND cd.id_disponibility = cto.id_disponibility\n"
+	    				+ "AND cd.id_structure = s.id_structure\n"
+	    				+ "AND cto.id_user = u.id_user\n"
+	    				+ "AND u.id_user = "+ user.getIdUser() +";";
+	    	} catch (NullPointerException e) {
+	    		sqlRequest = "SELECT * FROM "+ this.getDbName() + ";";
+	    	}
+	    	
+        	
+	        connection = this.getDaoFactory().getConnection();
+            preparedStatement = connection.prepareStatement(sqlRequest);
+            results = preparedStatement.executeQuery();
+            
+            if(results.next()) {
+            	Structure structure = new Structure();
+            	this.objectConstructor( this.setMapFromResultSet(results), structure);
+            	user.setStructure(structure);
+            } else {
+            	throw new EmptyResultsQueryException();
+            }
+   
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } 
+	    
 	}
 
 }

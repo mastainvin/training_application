@@ -7,45 +7,111 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Vincent Mastain
+ * The Class BasicRequestsDao.
  *
+ * @author Vincent Mastain
  */
 public abstract class BasicRequestsDao {
-	private String id_label;
+	
+	/** The db name. */
 	private String db_name;
+	
+	/** The id label. */
+	private String id_label;
+	
+	/** The dao factory. */
 	private DaoFactory daoFactory;
 	
-	public String getIdLabel() {
-		return this.id_label;
-	}
-	public void setIdLabel(String id_label) {
-		this.id_label = id_label;
-	}
-	
+	/**
+	 * Gets the db name.
+	 *
+	 * @return the db name
+	 */
 	public String getDbName() {
 		return db_name;
 	}
+	
+	/**
+	 * Sets the db name.
+	 *
+	 * @param db_name the new db name
+	 */
 	public void setDbName(String db_name) {
 		this.db_name = db_name;
 	}
 	
+	/**
+	 * Gets the id label.
+	 *
+	 * @return the id_label
+	 */
+	public String getIdLabel() {
+		return id_label;
+	}
+	
+	/**
+	 * Sets the id label.
+	 *
+	 * @param id_label the id_label to set
+	 */
+	public void setIdLabel(String id_label) {
+		this.id_label = id_label;
+	}
+	
+	/**
+	 * Gets the dao factory.
+	 *
+	 * @return the dao factory
+	 */
 	public DaoFactory getDaoFactory() {
 		return daoFactory;
 	}
+	
+	/**
+	 * Sets the dao factory.
+	 *
+	 * @param daoFactory the new dao factory
+	 */
 	public void setDaoFactory(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 	
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
 	abstract Map<String,String> setMapFromResultSet(ResultSet results) throws SQLException;
-	abstract <DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject);
 	
+	/**
+	 * Object constructor.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues the map values
+	 * @param dataBaseObject the data base object
+	 */
+	abstract <DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject);
+
+	
+	/**
+	 * Gets the first.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param dataBaseObject the data base object
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	public <DataBaseObject> void getFirst(DataBaseObject dataBaseObject) throws EmptyResultsQueryException {
 		Connection connexion = null;
 		Statement statement = null;
@@ -66,6 +132,13 @@ public abstract class BasicRequestsDao {
         }
 	}
 	
+	/**
+	 * Gets the.
+	 *
+	 * @param valuesMap the values map
+	 * @return the array list
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	public ArrayList<Map<String, String>> get(Map<String, String> valuesMap) throws EmptyResultsQueryException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -107,11 +180,19 @@ public abstract class BasicRequestsDao {
             } 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	    }
+	    } 
 	    
 	    return resultsArray;
 	}
 	
+	/**
+	 * Gets the by id.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param id the id
+	 * @param dataBaseObject the data base object
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	public <DataBaseObject> void getById(Integer id, DataBaseObject dataBaseObject) throws EmptyResultsQueryException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -134,44 +215,14 @@ public abstract class BasicRequestsDao {
         }
 	}
 	
-	public <DataBaseObject> Integer getId(Map<String, String> valuesMap) throws EmptyResultsQueryException {
-		Integer id = -1;
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-	    ResultSet results = null;
 
-	    try {
-	    	
-	    	String sqlRequest = "SELECT " + this.getIdLabel() + " FROM "+ this.getDbName() +" WHERE ";
-        	
-	    	boolean first = true;
-        	for(String valueKey : valuesMap.keySet()) {
-        		if (first) {
-        			sqlRequest +=  valueKey + " = " + "'" + valuesMap.get(valueKey) + "'";
-        			first = false;
-        		} else {
-        			sqlRequest += " AND " + valueKey + " = " + "'" + valuesMap.get(valueKey) + "'";
-        		}
-        	}
-        	sqlRequest += ";";
-	    		
-	        connection = this.getDaoFactory().getConnection();
-	        preparedStatement = connection.prepareStatement(sqlRequest);
-	        results = preparedStatement.executeQuery();
-	        
-	        if (results.next()) {
-	        	id = results.getInt(this.getIdLabel());
-	        } else {
-	        	throw new EmptyResultsQueryException();
-	        }
-	     
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-		return id;
-	}
-
-	public void add(Map<String, String> valuesMap) {
+	/**
+	 * Adds the.
+	 *
+	 * @param valuesMap the values map
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	public void add(Map<String, String> valuesMap) throws InsertDataBaseException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -205,18 +256,27 @@ public abstract class BasicRequestsDao {
             preparedStatement = connection.prepareStatement(sqlRequest);
             preparedStatement.executeUpdate();
             
+        } catch (SQLIntegrityConstraintViolationException e2) {
+        	throw new InsertDataBaseException("insert error foreign key invalid");
         } catch (SQLException e) {
             e.printStackTrace();
-        }	
+        } 
 	}
 	
-	public void update(Integer id, Map<String, String> valuesMap) throws EmptyResultsQueryException {
+	/**
+	 * Update.
+	 *
+	 * @param valuesMap the values map
+	 * @param keysMap the keys map
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	public void update(Map<String, String> valuesMap, Map<String, String> keysMap) throws EmptyResultsQueryException, InsertDataBaseException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
         try {
         	String sqlRequest = "UPDATE " + this.getDbName();
-        	
         	boolean first = true;
         	for(String valueKey : valuesMap.keySet()) {
         		if (first) {
@@ -226,17 +286,37 @@ public abstract class BasicRequestsDao {
         			sqlRequest += ", " + valueKey + " = " + "'" + valuesMap.get(valueKey) + "'";
         		}
         	}
-        	sqlRequest += " WHERE " + this.getIdLabel() + " = " + "'" + id + "'";
+        	sqlRequest += " WHERE ";
+        	
+
+        	first = true;
+        	for(String keyMap : keysMap.keySet()) {
+        		if (first) {
+        			sqlRequest += keyMap + " = " + "'" + valuesMap.get(keyMap) + "'";
+        			first = true;
+        		} else {
+        			sqlRequest += ", AND" + keyMap + " = " + "'" + valuesMap.get(keyMap) +"'";
+        		}
+        	}
+        	
         	sqlRequest += ";";
             connection = this.getDaoFactory().getConnection();
             preparedStatement = connection.prepareStatement(sqlRequest);
             preparedStatement.executeUpdate();
             
+        } catch (SQLIntegrityConstraintViolationException e2) {
+        	throw new InsertDataBaseException("insert error foreign key invalid");
         } catch (SQLException e) {
         	throw new EmptyResultsQueryException();
         }	
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param valuesMap the values map
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	public void delete(Map<String, String> valuesMap) throws EmptyResultsQueryException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;

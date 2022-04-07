@@ -13,15 +13,26 @@ import java.util.Map;
 
 import model.objects.Morphology;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class MorphologyDaoImpl.
+ *
  * @author Vincent Mastain
  * @version 1.0
- *
  */
 public class MorphologyDaoImpl extends BasicRequestsDao implements MorphologyDao {
 
+	/** The singleton. */
 	static MorphologyDaoImpl singleton = null;
+	
+	/**
+	 * Instance.
+	 *
+	 * @param daoFactory the dao factory
+	 * @return the morphology dao impl
+	 */
 	public static MorphologyDaoImpl instance(DaoFactory daoFactory) {
 		if(singleton == null) {
 			return new MorphologyDaoImpl(daoFactory);
@@ -29,48 +40,99 @@ public class MorphologyDaoImpl extends BasicRequestsDao implements MorphologyDao
 		return singleton;
 	}
 	
+	/**
+	 * Instantiates a new morphology dao impl.
+	 *
+	 * @param daoFactory the dao factory
+	 */
 	private MorphologyDaoImpl(DaoFactory daoFactory) {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("Morphology");
 		this.setIdLabel("id_morphology");
 	}
 	
+
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
 		valuesMap.put("name", results.getString("name"));
 		valuesMap.put("description", results.getString("description"));
+		valuesMap.put("id_morphology", results.getString("id_morphology"));
 		return valuesMap;
 	}
 	
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
 	public class MapOfValuesInsert implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Morphology morphology = (Morphology) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
 			mapValues.put("name", morphology.getName());
 			mapValues.put("description",morphology.getDescription());
+			mapValues.put("id_morphology",morphology.getIdMorphology().toString());
 			return mapValues;
 		}
 	}
 	
+	/**
+	 * The Class MapOfValuesGet.
+	 */
 	public class MapOfValuesGet implements ValuesMap {
+		
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject the data base object
+		 * @return the map of values
+		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Morphology morphology = (Morphology) dataBaseObject;
 			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("name", morphology.getName());
+			mapValues.put("id_morphology",morphology.getIdMorphology().toString());
 			return mapValues;
 		}	
 	}
 	
+	/**
+	 * Object constructor.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues the map values
+	 * @param dataBaseObject the data base object
+	 */
 	@Override
 	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
 		((Morphology) dataBaseObject).setName(mapValues.get("name"));
 		((Morphology) dataBaseObject).setDescription(mapValues.get("description"));
+		((Morphology) dataBaseObject).setIdMorphology(Integer.parseInt(mapValues.get("id_morphology")));
 	}
 	
 	
+	/**
+	 * Gets the all morphology.
+	 *
+	 * @return the all morphology
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public List<Morphology> getAllMorphology() throws EmptyResultsQueryException {
 		List<Morphology> morphologyList = new ArrayList<>();
@@ -83,6 +145,12 @@ public class MorphologyDaoImpl extends BasicRequestsDao implements MorphologyDao
 		return morphologyList;
 	}	
 
+	/**
+	 * Gets the first morphology.
+	 *
+	 * @return the first morphology
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Morphology getFirstMorphology() throws EmptyResultsQueryException {
 		Morphology morphology = new Morphology();
@@ -90,17 +158,34 @@ public class MorphologyDaoImpl extends BasicRequestsDao implements MorphologyDao
 		return morphology;
 	}
 
+	/**
+	 * Gets the morphology by name.
+	 *
+	 * @param name the name
+	 * @return the morphology by name
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Morphology getMorphologyByName(String name) throws EmptyResultsQueryException {
 		ValuesMap valuesMapGet = new MapOfValuesGet();
-		Morphology morphology = new Morphology();
-		morphology.setName(name);
-		ArrayList<Map<String, String>> results = this.get(valuesMapGet.getMapOfValues(morphology));
+		Map<String,String> getMap = valuesMapGet.getMapOfValues(null);
+		getMap.put("name", name);
+		
+		ArrayList<Map<String, String>> results = this.get(getMap);
 		Iterator<Map<String, String>> iterator = results.iterator();
+		
+		Morphology morphology = new Morphology();
 		this.objectConstructor(iterator.next(), morphology);
 		return morphology;
 	}
 	
+	/**
+	 * Gets the morphology by id.
+	 *
+	 * @param id_morphology the id morphology
+	 * @return the morphology by id
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public Morphology getMorphologyById(Integer id_morphology) throws EmptyResultsQueryException {
 		Morphology morphology = new Morphology();
@@ -108,25 +193,39 @@ public class MorphologyDaoImpl extends BasicRequestsDao implements MorphologyDao
 		return morphology;
 	}
 	
-	@Override
-	public Integer getMorphologyId(Morphology morphology) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
-		return this.getId(valuesMapGet.getMapOfValues(morphology));
-	}
 	
+	/**
+	 * Adds the morphology.
+	 *
+	 * @param morphology the morphology
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public void addMorphology(Morphology morphology) {
+	public void addMorphology(Morphology morphology) throws InsertDataBaseException {
 		ValuesMap valuesMap = new MapOfValuesInsert();
 		this.add(valuesMap.getMapOfValues(morphology));
 	}
 
+	/**
+	 * Update morphology.
+	 *
+	 * @param morphology the morphology
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
 	@Override
-	public void updateMorphology(Morphology previousMorphology, Morphology newMorphology) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
+	public void updateMorphology(Morphology morphology) throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		this.update(this.getId(valuesMapGet.getMapOfValues(previousMorphology)), valuesMapInsert.getMapOfValues(newMorphology));
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(morphology), keysMap.getMapOfValues(morphology));
 	}
 
+	/**
+	 * Delete morphology.
+	 *
+	 * @param morphology the morphology
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	@Override
 	public void deleteMorphology(Morphology morphology) throws EmptyResultsQueryException {
 		ValuesMap valuesMap = new MapOfValuesGet();

@@ -4,55 +4,71 @@
 package model.dao;
 
 import java.util.List;
-import java.util.Map;
 
-import model.objects.ExerciceType;
 import model.objects.Training;
 import model.objects.TrainingComponent;
-import model.objects.TrainingMethod;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Interface TrainingComponentDao.
+ *
  * @author Vincent Mastain
  * @version 1.0
  */
 public interface TrainingComponentDao {
 	
 	/**
-	 * 
+	 * Gets the first training component.
+	 *
 	 * @return Frist trainingComponent of the db
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	TrainingComponent getFirstTrainingComponent() throws EmptyResultsQueryException;
 	
-	TrainingComponent getTrainingComponent(TrainingMethod trainingMethod, ExerciceType exerciceType, Training training, Integer layout) throws EmptyResultsQueryException;
-	
-	Map<String, String> getTrainingComponentId(TrainingComponent trainingComponent, Training training) throws EmptyResultsQueryException;
 	/**
-	 * 
+	 * Gets the training component.
+	 *
+	 * @param training the training
+	 * @param layout the layout
+	 * @return the training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	TrainingComponent getTrainingComponent(Training training, Integer layout) throws EmptyResultsQueryException;
+	
+	/**
+	 * Adds the training component.
+	 *
 	 * @param trainingComponent trainingComponent wanted
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	void addTrainingComponent(TrainingComponent trainingComponent, Training training);
+	void addTrainingComponent(TrainingComponent trainingComponent) throws InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param previousTrainingComponent trainingComponent to change
-	 * @param newTrainingComponent trainingComponent used to make the change
-	 * @throws EmptyResultsQueryException
+	 * Update training component.
+	 *
+	 * @param trainingComponent the training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	void updateTrainingComponent(TrainingComponent previousTrainingComponent, TrainingComponent newTrainingComponent, Training training) throws EmptyResultsQueryException;
+	void updateTrainingComponent(TrainingComponent trainingComponent) throws EmptyResultsQueryException, InsertDataBaseException;
 	
 	/**
-	 * 
+	 * Delete training component.
+	 *
 	 * @param trainingComponent trainingComponent to delete
-	 * @throws EmptyResultsQueryException 
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	void deleteTrainingComponent(TrainingComponent trainingComponent, Training training) throws EmptyResultsQueryException;
+	void deleteTrainingComponent(TrainingComponent trainingComponent) throws EmptyResultsQueryException;
 	
+	/**
+	 * Gets the all training component.
+	 *
+	 * @return the all training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	List<TrainingComponent> getAllTrainingComponent() throws EmptyResultsQueryException;
-	
-	
-	List<TrainingComponent> getTrainingsComponentsListFromTraining(Training training) throws EmptyResultsQueryException;
 
-	
+	void getTrainingTrainingComponentList(Training training) throws EmptyResultsQueryException;
 }

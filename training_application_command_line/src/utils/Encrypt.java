@@ -6,11 +6,21 @@ package utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Encrypt.
+ *
  * @author Vincent Mastain
  * @version 1.0
  */
 public class Encrypt {
+	
+	/**
+	 * Encrypt.
+	 *
+	 * @param password the password
+	 * @return the string
+	 */
 	public static String encrypt(String password) {
 		/* Plain-text password initialization. */   
         String encryptedpassword = null;  

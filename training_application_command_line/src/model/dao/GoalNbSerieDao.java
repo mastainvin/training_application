@@ -7,54 +7,56 @@ import java.util.List;
 
 import model.objects.GoalNbSerie;
 import model.objects.exceptions.EmptyResultsQueryException;
+import model.objects.exceptions.InsertDataBaseException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Vincent Mastain
+ * The Interface GoalNbSerieDao.
  *
+ * @author Vincent Mastain
  */
 public interface GoalNbSerieDao {
 	
 	/**
-	 * 
-	 * @return
-	 * @throws EmptyResultsQueryException
+	 * Gets the all goal nb serie.
+	 *
+	 * @return the all goal nb serie
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	List<GoalNbSerie> getAllGoalNbSerie() throws EmptyResultsQueryException;
 
 	/**
-	 * 
-	 * @param id_goalNbSerie
+	 * Gets the goal nb serie by id.
+	 *
+	 * @param id_goalNbSerie the id goal nb serie
 	 * @return the corresponding goalNbSerie
-	 * @throws EmptyResultsQueryException
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	GoalNbSerie getGoalNbSerieById(Integer id_goalNbSerie) throws EmptyResultsQueryException;
 	
-	/**
-	 * 
-	 * @param goalNbSerie which we want the id
-	 * @return the goalNbSerie's id
-	 * @throws EmptyResultsQueryException
-	 */
-	Integer getGoalNbSerieId(GoalNbSerie goalNbSerie) throws EmptyResultsQueryException;
 	
 	/**
-	 * 
-	 * @param goalNbSerie
+	 * Adds the goal nb serie.
+	 *
+	 * @param goalNbSerie the goal nb serie
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	void addGoalNbSerie(GoalNbSerie goalNbSerie);
+	void addGoalNbSerie(GoalNbSerie goalNbSerie) throws InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param previousGoalNbSerie
-	 * @param newGoalNbSerie
-	 * @throws EmptyResultsQueryException
+	 * Update goal nb serie.
+	 *
+	 * @param goalNbSerie the goal nb serie
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
-	void updateGoalNbSerie(GoalNbSerie previousGoalNbSerie, GoalNbSerieDao newGoalNbSerie) throws EmptyResultsQueryException;
+	void updateGoalNbSerie(GoalNbSerieDao goalNbSerie) throws EmptyResultsQueryException, InsertDataBaseException;
 	
 	/**
-	 * 
-	 * @param goalNbSerie
-	 * @throws EmptyResultsQueryException 
+	 * Delete goal nb serie.
+	 *
+	 * @param goalNbSerie the goal nb serie
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void deleteGoalNbSerie(GoalNbSerie goalNbSerie) throws EmptyResultsQueryException;
 }
