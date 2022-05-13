@@ -16,7 +16,23 @@ import model.objects.exceptions.InsertDataBaseException;
  * @author Vincent Mastain
  */
 public interface GoalNbSerieDao {
-	
+
+	/**
+	 * Adds the goal nb serie.
+	 *
+	 * @param goalNbSerie the goal nb serie
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addGoalNbSerie(GoalNbSerie goalNbSerie) throws InsertDataBaseException;
+
+	/**
+	 * Delete goal nb serie.
+	 *
+	 * @param goalNbSerie the goal nb serie
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	void deleteGoalNbSerie(GoalNbSerie goalNbSerie) throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the all goal nb serie.
 	 *
@@ -33,30 +49,13 @@ public interface GoalNbSerieDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	GoalNbSerie getGoalNbSerieById(Integer id_goalNbSerie) throws EmptyResultsQueryException;
-	
-	
-	/**
-	 * Adds the goal nb serie.
-	 *
-	 * @param goalNbSerie the goal nb serie
-	 * @throws InsertDataBaseException the insert data base exception
-	 */
-	void addGoalNbSerie(GoalNbSerie goalNbSerie) throws InsertDataBaseException;
-	
+
 	/**
 	 * Update goal nb serie.
 	 *
 	 * @param goalNbSerie the goal nb serie
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	void updateGoalNbSerie(GoalNbSerieDao goalNbSerie) throws EmptyResultsQueryException, InsertDataBaseException;
-	
-	/**
-	 * Delete goal nb serie.
-	 *
-	 * @param goalNbSerie the goal nb serie
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteGoalNbSerie(GoalNbSerie goalNbSerie) throws EmptyResultsQueryException;
 }

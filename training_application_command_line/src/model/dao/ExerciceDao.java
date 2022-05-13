@@ -19,24 +19,31 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface ExerciceDao {
-	
+
 	/**
-	 * Gets the first exercice.
+	 * Adds the exercice.
 	 *
-	 * @return Frist exercice of the db
+	 * @param exercice exercice wanted
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addExercice(Exercice exercice) throws InsertDataBaseException;
+
+	/**
+	 * Delete exercice.
+	 *
+	 * @param exercice exercice to delete
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	Exercice getFirstExercice() throws EmptyResultsQueryException;
-	
+	void deleteExercice(Exercice exercice) throws EmptyResultsQueryException;
+
 	/**
-	 * Gets the exercice by name.
+	 * Gets the all exercice.
 	 *
-	 * @param name  name of the exercice
-	 * @return exercice which corresponds to the name
+	 * @return the all exercice
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	Exercice getExerciceByName(String name) throws EmptyResultsQueryException;
-	
+	public List<Exercice> getAllExercice() throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the exercice by id.
 	 *
@@ -45,40 +52,42 @@ public interface ExerciceDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Exercice getExerciceById(Integer id_exercice) throws EmptyResultsQueryException;
-	
+
 	/**
-	 * Adds the exercice.
+	 * Gets the exercice by name.
 	 *
-	 * @param exercice exercice wanted
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @param name name of the exercice
+	 * @return exercice which corresponds to the name
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	void addExercice(Exercice exercice) throws InsertDataBaseException;
-	
+	Exercice getExerciceByName(String name) throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the first exercice.
+	 *
+	 * @return Frist exercice of the db
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	Exercice getFirstExercice() throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the training component exercice list.
+	 *
+	 * @param trainingComponent the training component
+	 * @param user              the user
+	 * @return the training component exercice list
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	void getTrainingComponentExerciceList(TrainingComponent trainingComponent, User user)
+			throws EmptyResultsQueryException;
+
 	/**
 	 * Update exercice.
 	 *
 	 * @param exercice the exercice
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	void updateExercice(Exercice exercice) throws EmptyResultsQueryException, InsertDataBaseException;
-	
-	/**
-	 * Delete exercice.
-	 *
-	 * @param exercice exercice to delete
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteExercice(Exercice exercice) throws EmptyResultsQueryException;
-	
-	/**
-	 * Gets the all exercice.
-	 *
-	 * @return the all exercice
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<Exercice> getAllExercice() throws EmptyResultsQueryException;
-	
-	void getTrainingComponentExerciceList(TrainingComponent trainingComponent, User user) throws EmptyResultsQueryException ;
-	
+
 }

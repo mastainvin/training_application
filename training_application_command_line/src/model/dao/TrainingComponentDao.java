@@ -7,6 +7,7 @@ import java.util.List;
 
 import model.objects.Training;
 import model.objects.TrainingComponent;
+import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
@@ -18,25 +19,7 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface TrainingComponentDao {
-	
-	/**
-	 * Gets the first training component.
-	 *
-	 * @return Frist trainingComponent of the db
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	TrainingComponent getFirstTrainingComponent() throws EmptyResultsQueryException;
-	
-	/**
-	 * Gets the training component.
-	 *
-	 * @param training the training
-	 * @param layout the layout
-	 * @return the training component
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	TrainingComponent getTrainingComponent(Training training, Integer layout) throws EmptyResultsQueryException;
-	
+
 	/**
 	 * Adds the training component.
 	 *
@@ -44,16 +27,7 @@ public interface TrainingComponentDao {
 	 * @throws InsertDataBaseException the insert data base exception
 	 */
 	void addTrainingComponent(TrainingComponent trainingComponent) throws InsertDataBaseException;
-	
-	/**
-	 * Update training component.
-	 *
-	 * @param trainingComponent the training component
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
-	 */
-	void updateTrainingComponent(TrainingComponent trainingComponent) throws EmptyResultsQueryException, InsertDataBaseException;
-	
+
 	/**
 	 * Delete training component.
 	 *
@@ -61,7 +35,7 @@ public interface TrainingComponentDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void deleteTrainingComponent(TrainingComponent trainingComponent) throws EmptyResultsQueryException;
-	
+
 	/**
 	 * Gets the all training component.
 	 *
@@ -70,5 +44,49 @@ public interface TrainingComponentDao {
 	 */
 	List<TrainingComponent> getAllTrainingComponent() throws EmptyResultsQueryException;
 
+	/**
+	 * Gets the first training component.
+	 *
+	 * @return Frist trainingComponent of the db
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	TrainingComponent getFirstTrainingComponent() throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the training component.
+	 *
+	 * @param training the training
+	 * @param layout   the layout
+	 * @return the training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	TrainingComponent getTrainingComponent(Training training, Integer layout) throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the training component done list.
+	 *
+	 * @param user the user
+	 * @return the training component done list
+	 */
+	List<TrainingComponent> getTrainingComponentDoneList(User user);
+
+	/**
+	 * Gets the training training component list.
+	 *
+	 * @param training the training
+	 * @return the training training component list
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
 	void getTrainingTrainingComponentList(Training training) throws EmptyResultsQueryException;
+
+	/**
+	 * Update training component.
+	 *
+	 * @param trainingComponent the training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	void updateTrainingComponent(TrainingComponent trainingComponent)
+			throws EmptyResultsQueryException, InsertDataBaseException;
+
 }

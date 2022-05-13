@@ -17,7 +17,33 @@ import model.objects.exceptions.EmptyResultsQueryException;
  * @author Vincent Mastain
  */
 public interface CanTrainOnDao {
-	
+
+	/**
+	 * Adds the compatible disponibility.
+	 *
+	 * @param id_user          the id user
+	 * @param id_disponibility the id disponibility
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	void addCompatibleDisponibility(Integer id_user, Integer id_disponibility)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
+
+	/**
+	 * Delete compatible disponibility.
+	 *
+	 * @param id_user          the id user
+	 * @param id_disponibility the id disponibility
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	void deleteCompatibleDisponibility(Integer id_user, Integer id_disponibility)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
+
 	/**
 	 * Gets the disponbilities.
 	 *
@@ -26,7 +52,7 @@ public interface CanTrainOnDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	List<Disponibility> getDisponibilities(Integer id_user) throws EmptyResultsQueryException;
-	
+
 	/**
 	 * Gets the users.
 	 *
@@ -35,24 +61,4 @@ public interface CanTrainOnDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	List<User> getUsers(Integer id_disponibility) throws EmptyResultsQueryException;
-	
-	/**
-	 * Adds the compatible disponibility.
-	 *
-	 * @param id_user the id user
-	 * @param id_disponibility the id disponibility
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	void addCompatibleDisponibility(Integer id_user, Integer id_disponibility) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
-	
-	/**
-	 * Delete compatible disponibility.
-	 *
-	 * @param id_user the id user
-	 * @param id_disponibility the id disponibility
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	void deleteCompatibleDisponibility(Integer id_user, Integer id_disponibility) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 }

@@ -23,9 +23,53 @@ import model.objects.exceptions.InsertDataBaseException;
  */
 public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements BiomecanicFunctionListDao {
 
+	/**
+	 * The Class MapOfValuesGet.
+	 */
+	public class MapOfValuesGet implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			BiomecanicFunctionList biomecanicFunctionList = (BiomecanicFunctionList) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("id_biomecanic_function_list",
+					biomecanicFunctionList.getIdBiomecanicFunctionList().toString());
+			return mapValues;
+		}
+	}
+
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
+	public class MapOfValuesInsert implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			BiomecanicFunctionList biomecanicFunctionList = (BiomecanicFunctionList) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("id_biomecanic_function_list",
+					biomecanicFunctionList.getIdBiomecanicFunctionList().toString());
+			return mapValues;
+		}
+	}
+
 	/** The singleton. */
 	static BiomecanicFunctionListDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -33,12 +77,12 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 	 * @return the biomecanic function list dao impl
 	 */
 	public static BiomecanicFunctionListDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			return new BiomecanicFunctionListDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new biomecanic function list dao impl.
 	 *
@@ -49,81 +93,33 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 		this.setDbName("BiomecanicFunctionList");
 		this.setIdLabel("id_biomecanic_function_list");
 	}
-	
-	
+
 	/**
-	 * Sets the map from result set.
+	 * Adds the biomecanic function list.
 	 *
-	 * @param results the results
-	 * @return the map
-	 * @throws SQLException the SQL exception
+	 * @param biomecanicFunctionList the biomecanic function list
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
 	@Override
-	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
-		Map<String, String> valuesMap = new HashMap<>();
-		valuesMap.put("id_biomecanic_function_list", results.getString("id_biomecanic_function_list"));
-		return valuesMap;
+	public void addBiomecanicFunctionList(BiomecanicFunctionList biomecanicFunctionList)
+			throws InsertDataBaseException {
+		ValuesMap valuesMap = new MapOfValuesInsert();
+		this.add(valuesMap.getMapOfValues(biomecanicFunctionList));
 	}
-	
-	
-	
+
 	/**
-	 * The Class MapOfValuesInsert.
-	 */
-	public class MapOfValuesInsert implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			BiomecanicFunctionList biomecanicFunctionList = (BiomecanicFunctionList) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("id_biomecanic_function_list", biomecanicFunctionList.getIdBiomecanicFunctionList().toString());
-			return mapValues;
-		}
-	}
-	
-	/**
-	 * The Class MapOfValuesGet.
-	 */
-	public class MapOfValuesGet implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			BiomecanicFunctionList biomecanicFunctionList = (BiomecanicFunctionList) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("id_biomecanic_function_list", biomecanicFunctionList.getIdBiomecanicFunctionList().toString());
-			return mapValues;
-		}	
-	}
-	
-	
-	
-	/**
-	 * Object constructor.
+	 * Delete biomecanic function list.
 	 *
-	 * @param <DataBaseObject> the generic type
-	 * @param mapValues the map values
-	 * @param dataBaseObject the data base object
+	 * @param biomecanicFunctionList the biomecanic function list
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
-		((BiomecanicFunctionList) dataBaseObject).setIdBiomecanicFunctionList(Integer.parseInt(mapValues.get("id_biomecanic_function_list")));
+	public void deleteBiomecanicFunctionList(BiomecanicFunctionList biomecanicFunctionList)
+			throws EmptyResultsQueryException {
+		ValuesMap valuesMap = new MapOfValuesGet();
+		this.delete(valuesMap.getMapOfValues(biomecanicFunctionList));
 	}
-	
-	
+
 	/**
 	 * Gets the all biomecanic function list.
 	 *
@@ -134,13 +130,28 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 	public List<BiomecanicFunctionList> getAllBiomecanicFunctionList() throws EmptyResultsQueryException {
 		List<BiomecanicFunctionList> biomecanicFunctionListList = new ArrayList<>();
 		ArrayList<Map<String, String>> results = this.get(null);
-		for(Map<String, String>valueMap : results) {
+		for (Map<String, String> valueMap : results) {
 			BiomecanicFunctionList biomecanicFunctionList = new BiomecanicFunctionList();
 			this.objectConstructor(valueMap, biomecanicFunctionList);
 			biomecanicFunctionListList.add(biomecanicFunctionList);
 		}
 		return biomecanicFunctionListList;
-	}	
+	}
+
+	/**
+	 * Gets the biomecanic function list by id.
+	 *
+	 * @param id_biomecanicFunctionList the id biomecanic function list
+	 * @return the biomecanic function list by id
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public BiomecanicFunctionList getBiomecanicFunctionListById(Integer id_biomecanicFunctionList)
+			throws EmptyResultsQueryException {
+		BiomecanicFunctionList biomecanicFunctionList = new BiomecanicFunctionList();
+		this.<BiomecanicFunctionList>getById(id_biomecanicFunctionList, biomecanicFunctionList);
+		return biomecanicFunctionList;
+	}
 
 	/**
 	 * Gets the first biomecanic function list.
@@ -155,32 +166,31 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 		return biomecanicFunctionList;
 	}
 
-	
 	/**
-	 * Gets the biomecanic function list by id.
+	 * Object constructor.
 	 *
-	 * @param id_biomecanicFunctionList the id biomecanic function list
-	 * @return the biomecanic function list by id
-	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues        the map values
+	 * @param dataBaseObject   the data base object
 	 */
 	@Override
-	public BiomecanicFunctionList getBiomecanicFunctionListById(Integer id_biomecanicFunctionList) throws EmptyResultsQueryException {
-		BiomecanicFunctionList biomecanicFunctionList = new BiomecanicFunctionList();
-		this.<BiomecanicFunctionList>getById(id_biomecanicFunctionList, biomecanicFunctionList);
-		return biomecanicFunctionList;
+	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
+		((BiomecanicFunctionList) dataBaseObject)
+				.setIdBiomecanicFunctionList(Integer.parseInt(mapValues.get("id_biomecanic_function_list")));
 	}
-	
 
 	/**
-	 * Adds the biomecanic function list.
+	 * Sets the map from result set.
 	 *
-	 * @param biomecanicFunctionList the biomecanic function list
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
-	public void addBiomecanicFunctionList(BiomecanicFunctionList biomecanicFunctionList) throws InsertDataBaseException {
-		ValuesMap valuesMap = new MapOfValuesInsert();
-		this.add(valuesMap.getMapOfValues(biomecanicFunctionList));
+	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
+		Map<String, String> valuesMap = new HashMap<>();
+		valuesMap.put("id_biomecanic_function_list", results.getString("id_biomecanic_function_list"));
+		return valuesMap;
 	}
 
 	/**
@@ -188,30 +198,14 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 	 *
 	 * @param bioMecanicFunction the bio mecanic function
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	@Override
-	public void updateBiomecanicFunctionList(BiomecanicFunctionList bioMecanicFunction) throws EmptyResultsQueryException, InsertDataBaseException {
+	public void updateBiomecanicFunctionList(BiomecanicFunctionList bioMecanicFunction)
+			throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
 		ValuesMap keysMap = new MapOfValuesGet();
 		this.update(valuesMapInsert.getMapOfValues(bioMecanicFunction), keysMap.getMapOfValues(bioMecanicFunction));
 	}
 
-	
-
-	/**
-	 * Delete biomecanic function list.
-	 *
-	 * @param biomecanicFunctionList the biomecanic function list
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public void deleteBiomecanicFunctionList(BiomecanicFunctionList biomecanicFunctionList) throws EmptyResultsQueryException {
-		ValuesMap valuesMap = new MapOfValuesGet();
-		this.delete(valuesMap.getMapOfValues(biomecanicFunctionList));
-	}
-
-	
-
-	
 }

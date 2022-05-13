@@ -6,7 +6,6 @@ package model.dao;
 import java.util.List;
 
 import model.objects.Goal;
-
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
@@ -18,7 +17,31 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface GoalDao {
-	
+
+	/**
+	 * Adds the goal.
+	 *
+	 * @param goal goal wanted
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addGoal(Goal goal) throws InsertDataBaseException;
+
+	/**
+	 * Delete goal.
+	 *
+	 * @param goal goal to delete
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	void deleteGoal(Goal goal) throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the all goal.
+	 *
+	 * @return the all goal
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<Goal> getAllGoal() throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the first goal.
 	 *
@@ -26,16 +49,7 @@ public interface GoalDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Goal getFirstGoal() throws EmptyResultsQueryException;
-	
-	/**
-	 * Gets the goal by name.
-	 *
-	 * @param name  name of the goal
-	 * @return goal which corresponds to the name
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	Goal getGoalByName(String name) throws EmptyResultsQueryException;
-	
+
 	/**
 	 * Gets the goal by id.
 	 *
@@ -46,35 +60,20 @@ public interface GoalDao {
 	Goal getGoalById(Integer id_goal) throws EmptyResultsQueryException;
 
 	/**
-	 * Adds the goal.
+	 * Gets the goal by name.
 	 *
-	 * @param goal goal wanted
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @param name name of the goal
+	 * @return goal which corresponds to the name
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	void addGoal(Goal goal) throws InsertDataBaseException;
-	
+	Goal getGoalByName(String name) throws EmptyResultsQueryException;
+
 	/**
 	 * Update goal.
 	 *
 	 * @param goal the goal
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	void updateGoal(Goal goal) throws EmptyResultsQueryException, InsertDataBaseException;
-	
-	/**
-	 * Delete goal.
-	 *
-	 * @param goal goal to delete
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteGoal(Goal goal) throws EmptyResultsQueryException;
-	
-	/**
-	 * Gets the all goal.
-	 *
-	 * @return the all goal
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<Goal> getAllGoal() throws EmptyResultsQueryException;
 }

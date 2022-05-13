@@ -7,7 +7,6 @@ import java.util.List;
 
 import model.objects.TrainingComponent;
 import model.objects.TrainingMethod;
-
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
@@ -19,7 +18,31 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface TrainingMethodDao {
-	
+
+	/**
+	 * Adds the training method.
+	 *
+	 * @param trainingMethod trainingMethod wanted
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addTrainingMethod(TrainingMethod trainingMethod) throws InsertDataBaseException;
+
+	/**
+	 * Delete training method.
+	 *
+	 * @param trainingMethod trainingMethod to delete
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	void deleteTrainingMethod(TrainingMethod trainingMethod) throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the all training method.
+	 *
+	 * @return the all training method
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<TrainingMethod> getAllTrainingMethod() throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the first training method.
 	 *
@@ -27,16 +50,16 @@ public interface TrainingMethodDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	TrainingMethod getFirstTrainingMethod() throws EmptyResultsQueryException;
-	
+
 	/**
-	 * Gets the training method by name.
+	 * Gets the training component training method.
 	 *
-	 * @param name  name of the trainingMethod
-	 * @return trainingMethod which corresponds to the name
+	 * @param trainingComponent the training component
+	 * @return the training component training method
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	TrainingMethod getTrainingMethodByName(String name) throws EmptyResultsQueryException;
-	
+	void getTrainingComponentTrainingMethod(TrainingComponent trainingComponent) throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the training method by id.
 	 *
@@ -45,40 +68,23 @@ public interface TrainingMethodDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	TrainingMethod getTrainingMethodById(Integer id_trainingMethod) throws EmptyResultsQueryException;
-	
+
 	/**
-	 * Adds the training method.
+	 * Gets the training method by name.
 	 *
-	 * @param trainingMethod trainingMethod wanted
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @param name name of the trainingMethod
+	 * @return trainingMethod which corresponds to the name
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	void addTrainingMethod(TrainingMethod trainingMethod) throws InsertDataBaseException;
-	
+	TrainingMethod getTrainingMethodByName(String name) throws EmptyResultsQueryException;
+
 	/**
 	 * Update training method.
 	 *
 	 * @param trainingMethod the training method
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	void updateTrainingMethod(TrainingMethod trainingMethod) throws EmptyResultsQueryException, InsertDataBaseException;
-	
-	/**
-	 * Delete training method.
-	 *
-	 * @param trainingMethod trainingMethod to delete
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteTrainingMethod(TrainingMethod trainingMethod) throws EmptyResultsQueryException;
-	
-	/**
-	 * Gets the all training method.
-	 *
-	 * @return the all training method
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<TrainingMethod> getAllTrainingMethod() throws EmptyResultsQueryException;
-	
-	void getTrainingComponentTrainingMethod(TrainingComponent trainingComponent) throws EmptyResultsQueryException;
-	
+
 }

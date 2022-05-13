@@ -4,8 +4,8 @@ package model.objects;
 /**
  * The Class GoalWeight.
  */
-public class GoalWeight extends Interval {	
-	
+public class GoalWeight extends Interval {
+
 	/** The id goal weight. */
 	private Integer id_GoalWeight;
 

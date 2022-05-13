@@ -2,23 +2,23 @@ package model.objects;
 
 // TODO: Auto-generated Javadoc
 /**
- *  Represents the speed of execution of one repetition.
+ * Represents the speed of execution of one repetition.
  *
  * @author Vincent Mastain
  * @version 1.0
  */
 public enum Velocity {
-	
+
+	/** The low. */
+	LOW(4.0),
+	/** The medium. */
+	MEDIUM(2.0),
 	/** The quick. */
-	QUICK (1.0), 
- /** The medium. */
- MEDIUM (2.0), 
- /** The low. */
- LOW (4.0);
-	
+	QUICK(1.0);
+
 	/** The speed. */
 	private final double speed;
-	
+
 	/**
 	 * Instantiates a new velocity.
 	 *
@@ -27,7 +27,7 @@ public enum Velocity {
 	private Velocity(double speed) {
 		this.speed = speed;
 	}
-	
+
 	/**
 	 * Gets the speed.
 	 *

@@ -17,7 +17,33 @@ import model.objects.exceptions.EmptyResultsQueryException;
  * @author Vincent Mastain
  */
 public interface HasEquipmentDao {
-	
+
+	/**
+	 * Adds the compatible equipment.
+	 *
+	 * @param id_user      the id user
+	 * @param id_equipment the id equipment
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	void addCompatibleEquipment(Integer id_user, Integer id_equipment)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
+
+	/**
+	 * Delete compatible equipment.
+	 *
+	 * @param id_user      the id user
+	 * @param id_equipment the id equipment
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	void deleteCompatibleEquipment(Integer id_user, Integer id_equipment)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
+
 	/**
 	 * Gets the disponbilities.
 	 *
@@ -25,8 +51,8 @@ public interface HasEquipmentDao {
 	 * @return the disponbilities
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	List<Equipment> getDisponbilities(Integer id_user) throws EmptyResultsQueryException;
-	
+	List<Equipment> getEquipments(Integer id_user) throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the users.
 	 *
@@ -35,24 +61,4 @@ public interface HasEquipmentDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	List<User> getUsers(Integer id_equipment) throws EmptyResultsQueryException;
-	
-	/**
-	 * Adds the compatible equipment.
-	 *
-	 * @param id_user the id user
-	 * @param id_equipment the id equipment
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	void addCompatibleEquipment(Integer id_user, Integer id_equipment) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
-	
-	/**
-	 * Delete compatible equipment.
-	 *
-	 * @param id_user the id user
-	 * @param id_equipment the id equipment
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	void deleteCompatibleEquipment(Integer id_user, Integer id_equipment) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 }

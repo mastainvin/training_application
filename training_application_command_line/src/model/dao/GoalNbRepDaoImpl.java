@@ -22,9 +22,53 @@ import model.objects.exceptions.InsertDataBaseException;
  */
 public class GoalNbRepDaoImpl extends BasicRequestsDao implements GoalNbRepDao {
 
+	/**
+	 * The Class MapOfValuesGet.
+	 */
+	public class MapOfValuesGet implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			GoalNbRep goalNbRep = (GoalNbRep) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("id_GoalNbRep", goalNbRep.getIdGoalNbrep().toString());
+			return mapValues;
+		}
+	}
+
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
+	public class MapOfValuesInsert implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			GoalNbRep goalNbRep = (GoalNbRep) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("min", goalNbRep.getMin().toString());
+			mapValues.put("max", goalNbRep.getMax().toString());
+			mapValues.put("id_GoalNbRep", goalNbRep.getIdGoalNbrep().toString());
+			return mapValues;
+		}
+	}
+
 	/** The singleton. */
 	static GoalNbRepDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -32,12 +76,12 @@ public class GoalNbRepDaoImpl extends BasicRequestsDao implements GoalNbRepDao {
 	 * @return the goal nb rep dao impl
 	 */
 	public static GoalNbRepDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			return new GoalNbRepDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new goal nb rep dao impl.
 	 *
@@ -48,82 +92,31 @@ public class GoalNbRepDaoImpl extends BasicRequestsDao implements GoalNbRepDao {
 		this.setDbName("GoalNbRep");
 		this.setIdLabel("id_GoalNbRep");
 	}
-	
 
 	/**
-	 * Sets the map from result set.
+	 * Adds the goal nb rep.
 	 *
-	 * @param results the results
-	 * @return the map
-	 * @throws SQLException the SQL exception
+	 * @param goalNbRep the goal nb rep
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
 	@Override
-	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
-		Map<String, String> valuesMap = new HashMap<>();
-		valuesMap.put("min", results.getString("min"));
-		valuesMap.put("max", results.getString("max"));
-		valuesMap.put("id_GoalNbRep", results.getString("id_GoalNbRep"));
-		return valuesMap;
+	public void addGoalNbRep(GoalNbRep goalNbRep) throws InsertDataBaseException {
+		ValuesMap valuesMap = new MapOfValuesInsert();
+		this.add(valuesMap.getMapOfValues(goalNbRep));
 	}
-	
+
 	/**
-	 * The Class MapOfValuesInsert.
-	 */
-	public class MapOfValuesInsert implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			GoalNbRep goalNbRep = (GoalNbRep) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("min", goalNbRep.getMin().toString());
-			mapValues.put("max", goalNbRep.getMax().toString());
-			mapValues.put("id_GoalNbRep", goalNbRep.getIdGoalNbrep().toString());
-			return mapValues;
-		}
-	}
-	
-	/**
-	 * The Class MapOfValuesGet.
-	 */
-	public class MapOfValuesGet implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			GoalNbRep goalNbRep = (GoalNbRep) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("id_GoalNbRep", goalNbRep.getIdGoalNbrep().toString());
-			return mapValues;
-		}	
-	}
-	
-	/**
-	 * Object constructor.
+	 * Delete goal nb rep.
 	 *
-	 * @param <DataBaseObject> the generic type
-	 * @param mapValues the map values
-	 * @param dataBaseObject the data base object
+	 * @param goalNbRep the goal nb rep
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
-		((GoalNbRep) dataBaseObject).setMin(Integer.parseInt(mapValues.get("min")));
-		((GoalNbRep) dataBaseObject).setMax(Integer.parseInt(mapValues.get("max")));
-		((GoalNbRep) dataBaseObject).setIdGoalNbrep(Integer.parseInt(mapValues.get("id_GoalNbRep")));
+	public void deleteGoalNbRep(GoalNbRep goalNbRep) throws EmptyResultsQueryException {
+		ValuesMap valuesMap = new MapOfValuesGet();
+		this.delete(valuesMap.getMapOfValues(goalNbRep));
 	}
-	
+
 	/**
 	 * Gets the all goal nb rep.
 	 *
@@ -134,7 +127,7 @@ public class GoalNbRepDaoImpl extends BasicRequestsDao implements GoalNbRepDao {
 	public List<GoalNbRep> getAllGoalNbRep() throws EmptyResultsQueryException {
 		List<GoalNbRep> goalNbRepList = new ArrayList<>();
 		ArrayList<Map<String, String>> results = this.get(null);
-		for(Map<String, String>valueMap : results) {
+		for (Map<String, String> valueMap : results) {
 			GoalNbRep goalNbRep = new GoalNbRep();
 			this.objectConstructor(valueMap, goalNbRep);
 			goalNbRepList.add(goalNbRep);
@@ -157,15 +150,33 @@ public class GoalNbRepDaoImpl extends BasicRequestsDao implements GoalNbRepDao {
 	}
 
 	/**
-	 * Adds the goal nb rep.
+	 * Object constructor.
 	 *
-	 * @param goalNbRep the goal nb rep
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues        the map values
+	 * @param dataBaseObject   the data base object
 	 */
 	@Override
-	public void addGoalNbRep(GoalNbRep goalNbRep) throws InsertDataBaseException {
-		ValuesMap valuesMap = new MapOfValuesInsert();
-		this.add(valuesMap.getMapOfValues(goalNbRep));
+	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
+		((GoalNbRep) dataBaseObject).setMin(Integer.parseInt(mapValues.get("min")));
+		((GoalNbRep) dataBaseObject).setMax(Integer.parseInt(mapValues.get("max")));
+		((GoalNbRep) dataBaseObject).setIdGoalNbrep(Integer.parseInt(mapValues.get("id_GoalNbRep")));
+	}
+
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
+	@Override
+	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
+		Map<String, String> valuesMap = new HashMap<>();
+		valuesMap.put("min", results.getString("min"));
+		valuesMap.put("max", results.getString("max"));
+		valuesMap.put("id_GoalNbRep", results.getString("id_GoalNbRep"));
+		return valuesMap;
 	}
 
 	/**
@@ -173,25 +184,13 @@ public class GoalNbRepDaoImpl extends BasicRequestsDao implements GoalNbRepDao {
 	 *
 	 * @param goalNbRep the goal nb rep
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	@Override
 	public void updateGoalNbRep(GoalNbRepDao goalNbRep) throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
 		ValuesMap keysMap = new MapOfValuesGet();
 		this.update(valuesMapInsert.getMapOfValues(goalNbRep), keysMap.getMapOfValues(goalNbRep));
-	}
-
-	/**
-	 * Delete goal nb rep.
-	 *
-	 * @param goalNbRep the goal nb rep
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public void deleteGoalNbRep(GoalNbRep goalNbRep) throws EmptyResultsQueryException {
-		ValuesMap valuesMap = new MapOfValuesGet();
-		this.delete(valuesMap.getMapOfValues(goalNbRep));
 	}
 
 }

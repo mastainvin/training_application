@@ -16,7 +16,23 @@ import model.objects.exceptions.InsertDataBaseException;
  * @author Vincent Mastain
  */
 public interface GoalNbRepDao {
-	
+
+	/**
+	 * Adds the goal nb rep.
+	 *
+	 * @param goalNbRep the goal nb rep
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addGoalNbRep(GoalNbRep goalNbRep) throws InsertDataBaseException;
+
+	/**
+	 * Delete goal nb rep.
+	 *
+	 * @param goalNbRep the goal nb rep
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	void deleteGoalNbRep(GoalNbRep goalNbRep) throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the all goal nb rep.
 	 *
@@ -33,30 +49,13 @@ public interface GoalNbRepDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	GoalNbRep getGoalNbRepById(Integer id_goalNbRep) throws EmptyResultsQueryException;
-	
-	
-	/**
-	 * Adds the goal nb rep.
-	 *
-	 * @param goalNbRep the goal nb rep
-	 * @throws InsertDataBaseException the insert data base exception
-	 */
-	void addGoalNbRep(GoalNbRep goalNbRep) throws InsertDataBaseException;
-	
+
 	/**
 	 * Update goal nb rep.
 	 *
 	 * @param goalNbRep the goal nb rep
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	void updateGoalNbRep(GoalNbRepDao goalNbRep) throws EmptyResultsQueryException, InsertDataBaseException;
-	
-	/**
-	 * Delete goal nb rep.
-	 *
-	 * @param goalNbRep the goal nb rep
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteGoalNbRep(GoalNbRep goalNbRep) throws EmptyResultsQueryException;
 }

@@ -26,7 +26,7 @@ public class CompatibleMorphDaoImpl extends JoinDao<Morphology, Exercice> implem
 
 	/** The singleton. */
 	static private CompatibleMorphDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -34,12 +34,12 @@ public class CompatibleMorphDaoImpl extends JoinDao<Morphology, Exercice> implem
 	 * @return the compatible morph dao impl
 	 */
 	public static CompatibleMorphDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			singleton = new CompatibleMorphDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new compatible morph dao impl.
 	 *
@@ -55,67 +55,19 @@ public class CompatibleMorphDaoImpl extends JoinDao<Morphology, Exercice> implem
 	}
 
 	/**
-	 * Gets the disponbilities.
-	 *
-	 * @param id_morphology the id morphology
-	 * @return the disponbilities
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<Exercice> getDisponbilities(Integer id_morphology) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getBList(id_morphology);
-		List<Exercice> disponibilities = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			Exercice d = BObjectConstructor(value);
-			disponibilities.add(d);
-		}
-		return disponibilities;
-	}
-
-	/**
-	 * Gets the morphologys.
-	 *
-	 * @param id_exercice the id exercice
-	 * @return the morphologys
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<Morphology> getMorphologys(Integer id_exercice) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getAList(id_exercice);
-		List<Morphology> morphologys = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			Morphology s = AObjectConstructor(value);
-			morphologys.add(s);
-		}
-		return morphologys;
-	}
-
-	/**
 	 * Adds the compatible exercice.
 	 *
 	 * @param id_morphology the id morphology
-	 * @param id_exercice the id exercice
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
+	 * @param id_exercice   the id exercice
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
 	 */
 	@Override
-	public void addCompatibleExercice(Integer id_morphology, Integer id_exercice) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+	public void addCompatibleExercice(Integer id_morphology, Integer id_exercice)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_morphology, id_exercice);
-	}
-
-	/**
-	 * Delete compatible exercice.
-	 *
-	 * @param id_morphology the id morphology
-	 * @param id_exercice the id exercice
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	@Override
-	public void deleteCompatibleExercice(Integer id_morphology, Integer id_exercice) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.delete(id_morphology, id_exercice);
 	}
 
 	/**
@@ -145,8 +97,62 @@ public class CompatibleMorphDaoImpl extends JoinDao<Morphology, Exercice> implem
 		exercice.setName(valuesMap.get("name"));
 		exercice.setDescription(valuesMap.get("description"));
 		exercice.setIdExercice(Integer.parseInt(valuesMap.get("id_exercice")));
-		
+
 		return exercice;
+	}
+
+	/**
+	 * Delete compatible exercice.
+	 *
+	 * @param id_morphology the id morphology
+	 * @param id_exercice   the id exercice
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	@Override
+	public void deleteCompatibleExercice(Integer id_morphology, Integer id_exercice)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+		this.delete(id_morphology, id_exercice);
+	}
+
+	/**
+	 * Gets the disponbilities.
+	 *
+	 * @param id_morphology the id morphology
+	 * @return the disponbilities
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<Exercice> getDisponbilities(Integer id_morphology) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getBList(id_morphology);
+		List<Exercice> disponibilities = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			Exercice d = BObjectConstructor(value);
+			disponibilities.add(d);
+		}
+		return disponibilities;
+	}
+
+	/**
+	 * Gets the morphologys.
+	 *
+	 * @param id_exercice the id exercice
+	 * @return the morphologys
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<Morphology> getMorphologys(Integer id_exercice) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getAList(id_exercice);
+		List<Morphology> morphologys = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			Morphology s = AObjectConstructor(value);
+			morphologys.add(s);
+		}
+		return morphologys;
 	}
 
 	/**

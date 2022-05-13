@@ -11,7 +11,7 @@ package model.objects.exceptions;
  * @version 1.0
  */
 public class NullValueForeignKeyException extends Exception {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 

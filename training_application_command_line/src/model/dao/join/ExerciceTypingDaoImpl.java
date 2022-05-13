@@ -26,7 +26,7 @@ public class ExerciceTypingDaoImpl extends JoinDao<ExerciceType, Exercice> imple
 
 	/** The singleton. */
 	static private ExerciceTypingDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -34,12 +34,12 @@ public class ExerciceTypingDaoImpl extends JoinDao<ExerciceType, Exercice> imple
 	 * @return the exercice typing dao impl
 	 */
 	public static ExerciceTypingDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			singleton = new ExerciceTypingDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new exercice typing dao impl.
 	 *
@@ -55,67 +55,19 @@ public class ExerciceTypingDaoImpl extends JoinDao<ExerciceType, Exercice> imple
 	}
 
 	/**
-	 * Gets the disponbilities.
-	 *
-	 * @param id_exerciceType the id exercice type
-	 * @return the disponbilities
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<Exercice> getDisponbilities(Integer id_exerciceType) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getBList(id_exerciceType);
-		List<Exercice> disponibilities = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			Exercice d = BObjectConstructor(value);
-			disponibilities.add(d);
-		}
-		return disponibilities;
-	}
-
-	/**
-	 * Gets the exercice types.
-	 *
-	 * @param id_exercice the id exercice
-	 * @return the exercice types
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<ExerciceType> getExerciceTypes(Integer id_exercice) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getAList(id_exercice);
-		List<ExerciceType> exerciceTypes = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			ExerciceType s = AObjectConstructor(value);
-			exerciceTypes.add(s);
-		}
-		return exerciceTypes;
-	}
-
-	/**
 	 * Adds the compatible exercice.
 	 *
 	 * @param id_exerciceType the id exercice type
-	 * @param id_exercice the id exercice
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
+	 * @param id_exercice     the id exercice
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
 	 */
 	@Override
-	public void addCompatibleExercice(Integer id_exerciceType, Integer id_exercice) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+	public void addCompatibleExercice(Integer id_exerciceType, Integer id_exercice)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_exerciceType, id_exercice);
-	}
-
-	/**
-	 * Delete compatible exercice.
-	 *
-	 * @param id_exerciceType the id exercice type
-	 * @param id_exercice the id exercice
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	@Override
-	public void deleteCompatibleExercice(Integer id_exerciceType, Integer id_exercice) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.delete(id_exerciceType, id_exercice);
 	}
 
 	/**
@@ -146,6 +98,60 @@ public class ExerciceTypingDaoImpl extends JoinDao<ExerciceType, Exercice> imple
 		exercice.setDescription(valuesMap.get("description"));
 		exercice.setIdExercice(Integer.parseInt(valuesMap.get("id_exercice")));
 		return exercice;
+	}
+
+	/**
+	 * Delete compatible exercice.
+	 *
+	 * @param id_exerciceType the id exercice type
+	 * @param id_exercice     the id exercice
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	@Override
+	public void deleteCompatibleExercice(Integer id_exerciceType, Integer id_exercice)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+		this.delete(id_exerciceType, id_exercice);
+	}
+
+	/**
+	 * Gets the disponbilities.
+	 *
+	 * @param id_exerciceType the id exercice type
+	 * @return the disponbilities
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<Exercice> getDisponbilities(Integer id_exerciceType) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getBList(id_exerciceType);
+		List<Exercice> disponibilities = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			Exercice d = BObjectConstructor(value);
+			disponibilities.add(d);
+		}
+		return disponibilities;
+	}
+
+	/**
+	 * Gets the exercice types.
+	 *
+	 * @param id_exercice the id exercice
+	 * @return the exercice types
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<ExerciceType> getExerciceTypes(Integer id_exercice) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getAList(id_exercice);
+		List<ExerciceType> exerciceTypes = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			ExerciceType s = AObjectConstructor(value);
+			exerciceTypes.add(s);
+		}
+		return exerciceTypes;
 	}
 
 	/**

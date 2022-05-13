@@ -26,7 +26,7 @@ public class UseLimbDaoImpl extends JoinDao<User, BodyLimb> implements UseLimbDa
 
 	/** The singleton. */
 	static private UseLimbDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -34,12 +34,12 @@ public class UseLimbDaoImpl extends JoinDao<User, BodyLimb> implements UseLimbDa
 	 * @return the use limb dao impl
 	 */
 	public static UseLimbDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			singleton = new UseLimbDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new use limb dao impl.
 	 *
@@ -55,67 +55,19 @@ public class UseLimbDaoImpl extends JoinDao<User, BodyLimb> implements UseLimbDa
 	}
 
 	/**
-	 * Gets the disponbilities.
-	 *
-	 * @param id_user the id user
-	 * @return the disponbilities
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<BodyLimb> getDisponbilities(Integer id_user) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getBList(id_user);
-		List<BodyLimb> disponibilities = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			BodyLimb d = BObjectConstructor(value);
-			disponibilities.add(d);
-		}
-		return disponibilities;
-	}
-
-	/**
-	 * Gets the users.
-	 *
-	 * @param id_bodyLimb the id body limb
-	 * @return the users
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<User> getUsers(Integer id_bodyLimb) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getAList(id_bodyLimb);
-		List<User> users = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			User s = AObjectConstructor(value);
-			users.add(s);
-		}
-		return users;
-	}
-
-	/**
 	 * Adds the compatible body limb.
 	 *
-	 * @param id_user the id user
+	 * @param id_user     the id user
 	 * @param id_bodyLimb the id body limb
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
 	 */
 	@Override
-	public void addCompatibleBodyLimb(Integer id_user, Integer id_bodyLimb) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+	public void addCompatibleBodyLimb(Integer id_user, Integer id_bodyLimb)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_user, id_bodyLimb);
-	}
-
-	/**
-	 * Delete compatible body limb.
-	 *
-	 * @param id_user the id user
-	 * @param id_bodyLimb the id body limb
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	@Override
-	public void deleteCompatibleBodyLimb(Integer id_user, Integer id_bodyLimb) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.delete(id_user, id_bodyLimb);
 	}
 
 	/**
@@ -136,12 +88,12 @@ public class UseLimbDaoImpl extends JoinDao<User, BodyLimb> implements UseLimbDa
 		user.setBodyFat(Integer.parseInt(valuesMap.get("body_fat")));
 		user.setMuscleMass(Integer.parseInt(valuesMap.get("muscle_mass")));
 		user.setIdUser(Integer.parseInt(valuesMap.get("id_user")));
-		
+
 		try {
 			user.setIdRole(Integer.parseInt(valuesMap.get("id_role")));
 		} catch (NumberFormatException e) {
 		}
-		
+
 		try {
 			user.setIdMorphology(Integer.parseInt(valuesMap.get("id_morphology")));
 		} catch (NumberFormatException e) {
@@ -167,8 +119,62 @@ public class UseLimbDaoImpl extends JoinDao<User, BodyLimb> implements UseLimbDa
 		bodyLimb.setIdBodyLimb(Integer.parseInt(valuesMap.get("id_BodyLimb")));
 		bodyLimb.setLower(valuesMap.get("lower") == "1" ? true : false);
 		bodyLimb.setUpper(valuesMap.get("upper") == "1" ? true : false);
-		
+
 		return bodyLimb;
+	}
+
+	/**
+	 * Delete compatible body limb.
+	 *
+	 * @param id_user     the id user
+	 * @param id_bodyLimb the id body limb
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	@Override
+	public void deleteCompatibleBodyLimb(Integer id_user, Integer id_bodyLimb)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+		this.delete(id_user, id_bodyLimb);
+	}
+
+	/**
+	 * Gets the disponbilities.
+	 *
+	 * @param id_user the id user
+	 * @return the disponbilities
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<BodyLimb> getDisponbilities(Integer id_user) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getBList(id_user);
+		List<BodyLimb> disponibilities = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			BodyLimb d = BObjectConstructor(value);
+			disponibilities.add(d);
+		}
+		return disponibilities;
+	}
+
+	/**
+	 * Gets the users.
+	 *
+	 * @param id_bodyLimb the id body limb
+	 * @return the users
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<User> getUsers(Integer id_bodyLimb) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getAList(id_bodyLimb);
+		List<User> users = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			User s = AObjectConstructor(value);
+			users.add(s);
+		}
+		return users;
 	}
 
 	/**

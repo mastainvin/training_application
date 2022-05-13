@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import model.dao.DaoFactory;
-import model.objects.BiomecanicFunctionList;
 import model.objects.BiomecanicFunction;
+import model.objects.BiomecanicFunctionList;
 import model.objects.exceptions.EmptyResultsQueryException;
 
 // TODO: Auto-generated Javadoc
@@ -22,11 +22,12 @@ import model.objects.exceptions.EmptyResultsQueryException;
  *
  * @author cytech
  */
-public class UseBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, BiomecanicFunctionList> implements UseBiomecanicFunctionDao {
+public class UseBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, BiomecanicFunctionList>
+		implements UseBiomecanicFunctionDao {
 
 	/** The singleton. */
 	static private UseBiomecanicFunctionDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -34,12 +35,12 @@ public class UseBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, Bi
 	 * @return the use biomecanic function dao impl
 	 */
 	public static UseBiomecanicFunctionDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			singleton = new UseBiomecanicFunctionDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new use biomecanic function dao impl.
 	 *
@@ -55,67 +56,19 @@ public class UseBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, Bi
 	}
 
 	/**
-	 * Gets the disponbilities.
-	 *
-	 * @param id_biomecanicFunction the id biomecanic function
-	 * @return the disponbilities
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<BiomecanicFunctionList> getDisponbilities(Integer id_biomecanicFunction) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getBList(id_biomecanicFunction);
-		List<BiomecanicFunctionList> disponibilities = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			BiomecanicFunctionList d = BObjectConstructor(value);
-			disponibilities.add(d);
-		}
-		return disponibilities;
-	}
-
-	/**
-	 * Gets the biomecanic functions.
-	 *
-	 * @param id_biomecanicFunctionList the id biomecanic function list
-	 * @return the biomecanic functions
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<BiomecanicFunction> getBiomecanicFunctions(Integer id_biomecanicFunctionList) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getAList(id_biomecanicFunctionList);
-		List<BiomecanicFunction> biomecanicFunctions = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			BiomecanicFunction s = AObjectConstructor(value);
-			biomecanicFunctions.add(s);
-		}
-		return biomecanicFunctions;
-	}
-
-	/**
 	 * Adds the compatible biomecanic function list.
 	 *
-	 * @param id_biomecanicFunction the id biomecanic function
+	 * @param id_biomecanicFunction     the id biomecanic function
 	 * @param id_biomecanicFunctionList the id biomecanic function list
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
 	 */
 	@Override
-	public void addCompatibleBiomecanicFunctionList(Integer id_biomecanicFunction, Integer id_biomecanicFunctionList) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+	public void addCompatibleBiomecanicFunctionList(Integer id_biomecanicFunction, Integer id_biomecanicFunctionList)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_biomecanicFunction, id_biomecanicFunctionList);
-	}
-
-	/**
-	 * Delete compatible biomecanic function list.
-	 *
-	 * @param id_biomecanicFunction the id biomecanic function
-	 * @param id_biomecanicFunctionList the id biomecanic function list
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	@Override
-	public void deleteCompatibleBiomecanicFunctionList(Integer id_biomecanicFunction, Integer id_biomecanicFunctionList) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.delete(id_biomecanicFunction, id_biomecanicFunctionList);
 	}
 
 	/**
@@ -141,8 +94,65 @@ public class UseBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, Bi
 	@Override
 	BiomecanicFunctionList BObjectConstructor(Map<String, String> valuesMap) {
 		BiomecanicFunctionList biomecanicFunctionList = new BiomecanicFunctionList();
-		biomecanicFunctionList.setIdBiomecanicFunctionList(Integer.parseInt(valuesMap.get("id_biomecanic_function_list")));
+		biomecanicFunctionList
+				.setIdBiomecanicFunctionList(Integer.parseInt(valuesMap.get("id_biomecanic_function_list")));
 		return biomecanicFunctionList;
+	}
+
+	/**
+	 * Delete compatible biomecanic function list.
+	 *
+	 * @param id_biomecanicFunction     the id biomecanic function
+	 * @param id_biomecanicFunctionList the id biomecanic function list
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	@Override
+	public void deleteCompatibleBiomecanicFunctionList(Integer id_biomecanicFunction, Integer id_biomecanicFunctionList)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+		this.delete(id_biomecanicFunction, id_biomecanicFunctionList);
+	}
+
+	/**
+	 * Gets the biomecanic functions.
+	 *
+	 * @param id_biomecanicFunctionList the id biomecanic function list
+	 * @return the biomecanic functions
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<BiomecanicFunction> getBiomecanicFunctions(Integer id_biomecanicFunctionList)
+			throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getAList(id_biomecanicFunctionList);
+		List<BiomecanicFunction> biomecanicFunctions = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			BiomecanicFunction s = AObjectConstructor(value);
+			biomecanicFunctions.add(s);
+		}
+		return biomecanicFunctions;
+	}
+
+	/**
+	 * Gets the disponbilities.
+	 *
+	 * @param id_biomecanicFunction the id biomecanic function
+	 * @return the disponbilities
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<BiomecanicFunctionList> getDisponbilities(Integer id_biomecanicFunction)
+			throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getBList(id_biomecanicFunction);
+		List<BiomecanicFunctionList> disponibilities = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			BiomecanicFunctionList d = BObjectConstructor(value);
+			disponibilities.add(d);
+		}
+		return disponibilities;
 	}
 
 	/**

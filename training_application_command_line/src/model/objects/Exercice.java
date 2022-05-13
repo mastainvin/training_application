@@ -7,23 +7,45 @@ import java.util.List;
 
 // TODO: Auto-generated Javadoc
 /**
- *  Represents a training exercice.
+ * Represents a training exercice.
  *
  * @author Vincent Mastain
  * @version 1.0
  */
 public class Exercice {
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id_exercice == null) ? 0 : id_exercice.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+
+	/** The biomecanic function list. */
+	private List<BiomecanicFunction> biomecanicFunctionList;
+
+	/** The description. */
+	private String description;
+
+	/** The id exercice. */
+	private Integer id_exercice;
+
+	/** The morphologies list. */
+	private List<Morphology> morphologiesList;
+
+	/** The name. */
+	private String name;
+
+	/** The user exercice datas. */
+	private UserExerciceData userExerciceDatas;
+
+	/**
+	 * Z Instantiates a new exercice.
+	 */
+	public Exercice() {
+		name = "";
+		description = "";
 	}
 
+	/**
+	 * Equals.
+	 *
+	 * @param obj the obj
+	 * @return true, if successful
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -51,51 +73,15 @@ public class Exercice {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Exercice [name=" + name + "]";
+	/**
+	 * Gets the biomecanic function list.
+	 *
+	 * @return the biomecanicFunctionList
+	 */
+	public List<BiomecanicFunction> getBiomecanicFunctionList() {
+		return biomecanicFunctionList;
 	}
 
-	/** The name. */
-	private String name;
-	
-	/** The description. */
-	private String description;
-	
-	/** The user exercice datas. */
-	private UserExerciceData userExerciceDatas;
-	
-	/** The id exercice. */
-	private Integer id_exercice;
-	
-	private List<BiomecanicFunction> biomecanicFunctionList;
-	
-	/**Z
-	 * Instantiates a new exercice.
-	 */
-	public Exercice() {
-		name = "";
-		description = "";
-	}
-	
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * Sets the name.
-	 *
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	/**
 	 * Gets the description.
 	 *
@@ -104,34 +90,7 @@ public class Exercice {
 	public String getDescription() {
 		return description;
 	}
-	
-	/**
-	 * Sets the description.
-	 *
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	/**
-	 * Gets the user exercice datas.
-	 *
-	 * @return the userExerciceDatas
-	 */
-	public UserExerciceData getUserExerciceDatas() {
-		return userExerciceDatas;
-	}
-	
-	/**
-	 * Sets the user exercice datas.
-	 *
-	 * @param userExerciceDatas the userExerciceDatas to set
-	 */
-	public void setUserExerciceDatas(UserExerciceData userExerciceDatas) {
-		this.userExerciceDatas = userExerciceDatas;
-	}
-	
+
 	/**
 	 * Gets the id exercice.
 	 *
@@ -140,7 +99,67 @@ public class Exercice {
 	public Integer getIdExercice() {
 		return id_exercice;
 	}
-	
+
+	/**
+	 * Gets the morphologies list.
+	 *
+	 * @return the morphologiesList
+	 */
+	public List<Morphology> getMorphologiesList() {
+		return morphologiesList;
+	}
+
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Gets the user exercice datas.
+	 *
+	 * @return the userExerciceDatas
+	 */
+	public UserExerciceData getUserExerciceDatas() {
+		return userExerciceDatas;
+	}
+
+	/**
+	 * Hash code.
+	 *
+	 * @return the int
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id_exercice == null) ? 0 : id_exercice.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	/**
+	 * Sets the biomecanic function list.
+	 *
+	 * @param biomecanicFunctionList the biomecanicFunctionList to set
+	 */
+	public void setBiomecanicFunctionList(List<BiomecanicFunction> biomecanicFunctionList) {
+		this.biomecanicFunctionList = biomecanicFunctionList;
+	}
+
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	/**
 	 * Sets the id exercice.
 	 *
@@ -151,17 +170,40 @@ public class Exercice {
 	}
 
 	/**
-	 * @return the biomecanicFunctionList
+	 * Sets the morphologies list.
+	 *
+	 * @param morphologiesList the morphologiesList to set
 	 */
-	public List<BiomecanicFunction> getBiomecanicFunctionList() {
-		return biomecanicFunctionList;
+	public void setMorphologiesList(List<Morphology> morphologiesList) {
+		this.morphologiesList = morphologiesList;
 	}
 
 	/**
-	 * @param biomecanicFunctionList the biomecanicFunctionList to set
+	 * Sets the name.
+	 *
+	 * @param name the name to set
 	 */
-	public void setBiomecanicFunctionList(List<BiomecanicFunction> biomecanicFunctionList) {
-		this.biomecanicFunctionList = biomecanicFunctionList;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Sets the user exercice datas.
+	 *
+	 * @param userExerciceDatas the userExerciceDatas to set
+	 */
+	public void setUserExerciceDatas(UserExerciceData userExerciceDatas) {
+		this.userExerciceDatas = userExerciceDatas;
+	}
+
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
+	@Override
+	public String toString() {
+		return "Exercice [name=" + name + "]";
 	}
 
 }

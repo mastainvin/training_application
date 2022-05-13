@@ -10,16 +10,26 @@ package model.objects;
  * @author Vincent Mastain
  */
 public class BiomecanicFunction {
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id_biomecanic_function == null) ? 0 : id_biomecanic_function.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+
+	/** The id biomecanic function. */
+	private Integer id_biomecanic_function;
+
+	/** The name. */
+	private String name;
+
+	/**
+	 * Instantiates a new biomecanic function.
+	 */
+	public BiomecanicFunction() {
+		name = "";
 	}
 
+	/**
+	 * Equals.
+	 *
+	 * @param obj the obj
+	 * @return true, if successful
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -42,37 +52,6 @@ public class BiomecanicFunction {
 		return true;
 	}
 
-	/** The name. */
-	private String name;
-	
-	/** The id biomecanic function. */
-	private Integer id_biomecanic_function;
-	
-	/**
-	 * Instantiates a new biomecanic function.
-	 */
-	public BiomecanicFunction() {
-		name = "";
-	}
-	
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * Sets the name.
-	 *
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	/**
 	 * Gets the id biomecanic function.
 	 *
@@ -81,7 +60,30 @@ public class BiomecanicFunction {
 	public Integer getIdBiomecanicFunction() {
 		return id_biomecanic_function;
 	}
-	
+
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Hash code.
+	 *
+	 * @return the int
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id_biomecanic_function == null) ? 0 : id_biomecanic_function.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
 	/**
 	 * Sets the id biomecanic function.
 	 *
@@ -91,12 +93,23 @@ public class BiomecanicFunction {
 		this.id_biomecanic_function = id_biomecanic_function;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String toString() {
 		return "BiomecanicFunction [name=" + name + "]";
 	}
-	
 
-	
-	
 }

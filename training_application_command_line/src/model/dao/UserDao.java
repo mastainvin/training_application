@@ -8,9 +8,6 @@ import java.util.List;
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
-import model.objects.exceptions.UserEmailTakenException;
-import model.objects.exceptions.UserInsertException;
-import model.objects.exceptions.UserPseudonymTakenException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -20,16 +17,49 @@ import model.objects.exceptions.UserPseudonymTakenException;
  * @version 1.0
  */
 public interface UserDao {
-	
+
 	/**
-	 * Gets the user by pseudonym.
+	 * Adds the user.
+	 *
+	 * @param user to add
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addUser(User user) throws InsertDataBaseException;
+
+	/**
+	 * Authentificate.
 	 *
 	 * @param pseudonym user's pseudonym requested
-	 * @return the user wanted
+	 * @param password  user's password requested
+	 * @return the user authenficate
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	User getUserByPseudonym(String pseudonym) throws EmptyResultsQueryException;
-	
+	User authentificate(String pseudonym, String password) throws EmptyResultsQueryException;
+
+	/**
+	 * Delete user.
+	 *
+	 * @param user the user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	void deleteUser(User user) throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the all user.
+	 *
+	 * @return the all user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<User> getAllUser() throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the first user.
+	 *
+	 * @return the first user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public User getFirstUser() throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the user by email.
 	 *
@@ -37,8 +67,8 @@ public interface UserDao {
 	 * @return the user wanted
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	User getUserByEmail(String email) throws EmptyResultsQueryException ;
-	
+	User getUserByEmail(String email) throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the user by id.
 	 *
@@ -47,60 +77,23 @@ public interface UserDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	User getUserById(Integer id_user) throws EmptyResultsQueryException;
-	
+
 	/**
-	 * Authentificate.
+	 * Gets the user by pseudonym.
 	 *
 	 * @param pseudonym user's pseudonym requested
-	 * @param password user's password requested
-	 * @return the user authenficate
+	 * @return the user wanted
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	User authentificate(String pseudonym, String password) throws EmptyResultsQueryException;
-	
-	/**
-	 * Adds the user.
-	 *
-	 * @param user to add
-	 * @throws UserInsertException the user insert exception
-	 * @throws UserPseudonymTakenException the user pseudonym taken exception
-	 * @throws UserEmailTakenException the user email taken exception
-	 * @throws InsertDataBaseException the insert data base exception
-	 */
-	void addUser(User user) throws UserInsertException, UserPseudonymTakenException, UserEmailTakenException, InsertDataBaseException;
-	
+	User getUserByPseudonym(String pseudonym) throws EmptyResultsQueryException;
+
 	/**
 	 * Update user.
 	 *
 	 * @param user user to update
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	public void updateUser(User user) throws EmptyResultsQueryException, InsertDataBaseException;
-	
-	/**
-	 * Delete user.
-	 *
-	 * @param user the user
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteUser(User user) throws EmptyResultsQueryException;
-	
-	/**
-	 * Gets the all user.
-	 *
-	 * @return the all user
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<User> getAllUser() throws EmptyResultsQueryException;
-	
-	/**
-	 * Gets the first user.
-	 *
-	 * @return the first user
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public User getFirstUser() throws EmptyResultsQueryException;
-	
 
 }

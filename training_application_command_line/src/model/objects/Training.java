@@ -4,37 +4,37 @@ import java.util.List;
 
 // TODO: Auto-generated Javadoc
 /**
- *  Represents a day of training (set of exercice).
+ * Represents a day of training (set of exercice).
  *
  * @author Vincent Mastain
  * @version 1.0
  */
-public class Training implements Comparable<Training>{
-	
-	/** The name. */
-	private String name;
-	
-	/** The layout. */
-	private Integer layout;
-	
+public class Training implements Comparable<Training> {
+
 	/** The description. */
 	private String description;
-	
+
 	/** The duration. */
 	private Integer duration;
-	
-	/** The id training. */
-	private Integer id_training;
-	
-	/** The id training type. */
-	private Integer id_training_type;
-	
+
 	/** The id structure. */
 	private Integer id_structure;
-	
+
+	/** The id training. */
+	private Integer id_training;
+
+	/** The id training type. */
+	private Integer id_training_type;
+
+	/** The layout. */
+	private Integer layout;
+
+	/** The name. */
+	private String name;
+
 	/** The training component list. */
 	private List<TrainingComponent> trainingComponentList;
-	
+
 	/**
 	 * Instantiates a new training.
 	 */
@@ -43,45 +43,59 @@ public class Training implements Comparable<Training>{
 		layout = 0;
 		description = "";
 		duration = 0;
-		
+
 	}
-	
+
 	/**
-	 * Gets the name.
+	 * Compare to.
 	 *
-	 * @return the name
+	 * @param o the o
+	 * @return the int
 	 */
-	public String getName() {
-		return this.name;
+	@Override
+	public int compareTo(Training o) {
+		Training t = o;
+		if (this.getLayout().equals(t.getLayout())) {
+			return 0;
+		} else if (this.getLayout() > t.getLayout()) {
+			return 1;
+		}
+		return -1;
 	}
-	
+
 	/**
-	 * Sets the name.
+	 * Equals.
 	 *
-	 * @param name the new name
+	 * @param obj the obj
+	 * @return true, if successful
 	 */
-	public void setName(String name) {
-		this.name = name;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Training other = (Training) obj;
+		if (id_training == null) {
+			if (other.id_training != null)
+				return false;
+		} else if (!id_training.equals(other.id_training))
+			return false;
+		if (layout == null) {
+			if (other.layout != null)
+				return false;
+		} else if (!layout.equals(other.layout))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
-	
-	/**
-	 * Gets the layout.
-	 *
-	 * @return the layout
-	 */
-	public Integer getLayout() {
-		return this.layout;
-	}
-	
-	/**
-	 * Sets the layout.
-	 *
-	 * @param layout the new layout
-	 */
-	public void setLayout(Integer layout) {
-		this.layout = layout;
-	}
-	
+
 	/**
 	 * Gets the description.
 	 *
@@ -90,16 +104,7 @@ public class Training implements Comparable<Training>{
 	public String getDescription() {
 		return this.description;
 	}
-	
-	/**
-	 * Sets the description.
-	 *
-	 * @param description the new description
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
+
 	/**
 	 * Gets the duration.
 	 *
@@ -107,54 +112,6 @@ public class Training implements Comparable<Training>{
 	 */
 	public Integer getDuration() {
 		return this.duration;
-	}
-	
-	/**
-	 * Sets the duration.
-	 *
-	 * @param duration the new duration
-	 */
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
-	
-
-
-
-	/**
-	 * Gets the training component list.
-	 *
-	 * @return the training component list
-	 */
-	public List<TrainingComponent> getTrainingComponentList() {
-		return trainingComponentList;
-	}
-
-	/**
-	 * Sets the training component list.
-	 *
-	 * @param trainingComponentList the new training component list
-	 */
-	public void setTrainingComponentList(List<TrainingComponent> trainingComponentList) {
-		this.trainingComponentList = trainingComponentList;
-	}
-
-	/**
-	 * Gets the id training type.
-	 *
-	 * @return the id_training_type
-	 */
-	public Integer getIdTrainingType() {
-		return id_training_type;
-	}
-
-	/**
-	 * Sets the id training type.
-	 *
-	 * @param id_training_type the id_training_type to set
-	 */
-	public void setIdTrainingType(Integer id_training_type) {
-		this.id_training_type = id_training_type;
 	}
 
 	/**
@@ -167,45 +124,90 @@ public class Training implements Comparable<Training>{
 	}
 
 	/**
-	 * Sets the id structure.
-	 *
-	 * @param id_structure the id_structure to set
-	 */
-	public void setIdStructure(Integer id_structure) {
-		this.id_structure = id_structure;
-	}
-
-	
-	@Override
-	public String toString() {
-		return "Training [name=" + name + ", layout=" + layout + "]";
-	}	
-
-	/**
-	 * Equals.
-	 *
-	 * @param o the o
-	 * @return true, if successful
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if(o instanceof Training) {
-			Training t = (Training) o;
-			return  this.getName().equals(t.getName()) &&
-					this.getLayout().equals(t.getLayout()) && 
-					this.getDescription().equals(t.getDescription()) &&
-					this.getDuration().equals(t.getDuration());
-		}
-		return false;
-	}
-
-	/**
 	 * Gets the id training.
 	 *
 	 * @return the id_training
 	 */
 	public Integer getIdTraining() {
 		return id_training;
+	}
+
+	/**
+	 * Gets the id training type.
+	 *
+	 * @return the id_training_type
+	 */
+	public Integer getIdTrainingType() {
+		return id_training_type;
+	}
+
+	/**
+	 * Gets the layout.
+	 *
+	 * @return the layout
+	 */
+	public Integer getLayout() {
+		return this.layout;
+	}
+
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Gets the training component list.
+	 *
+	 * @return the training component list
+	 */
+	public List<TrainingComponent> getTrainingComponentList() {
+		return trainingComponentList;
+	}
+
+	/**
+	 * Hash code.
+	 *
+	 * @return the int
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id_training == null) ? 0 : id_training.hashCode());
+		result = prime * result + ((layout == null) ? 0 : layout.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * Sets the duration.
+	 *
+	 * @param duration the new duration
+	 */
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+
+	/**
+	 * Sets the id structure.
+	 *
+	 * @param id_structure the id_structure to set
+	 */
+	public void setIdStructure(Integer id_structure) {
+		this.id_structure = id_structure;
 	}
 
 	/**
@@ -217,15 +219,49 @@ public class Training implements Comparable<Training>{
 		this.id_training = id_training;
 	}
 
+	/**
+	 * Sets the id training type.
+	 *
+	 * @param id_training_type the id_training_type to set
+	 */
+	public void setIdTrainingType(Integer id_training_type) {
+		this.id_training_type = id_training_type;
+	}
 
+	/**
+	 * Sets the layout.
+	 *
+	 * @param layout the new layout
+	 */
+	public void setLayout(Integer layout) {
+		this.layout = layout;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Sets the training component list.
+	 *
+	 * @param trainingComponentList the new training component list
+	 */
+	public void setTrainingComponentList(List<TrainingComponent> trainingComponentList) {
+		this.trainingComponentList = trainingComponentList;
+	}
+
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	@Override
-	public int compareTo(Training o) {
-		Training t = (Training) o;
-		if (this.getLayout().equals(t.getLayout())) {
-			return 0;
-		} else if (this.getLayout() > t.getLayout()) {
-			return 1;
-		}
-		return -1;
+	public String toString() {
+		return "Training [name=" + name + ", layout=" + layout + "]";
 	}
 }

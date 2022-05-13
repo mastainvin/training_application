@@ -10,7 +10,7 @@ package model.objects.exceptions;
  * @author cytech
  */
 public class InsertDataBaseException extends Exception {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 

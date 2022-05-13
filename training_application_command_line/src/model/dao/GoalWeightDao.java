@@ -16,7 +16,23 @@ import model.objects.exceptions.InsertDataBaseException;
  * @author Vincent Mastain
  */
 public interface GoalWeightDao {
-	
+
+	/**
+	 * Adds the goal weight.
+	 *
+	 * @param goalWeight the goal weight
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addGoalWeight(GoalWeight goalWeight) throws InsertDataBaseException;
+
+	/**
+	 * Delete goal weight.
+	 *
+	 * @param goalWeight the goal weight
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	void deleteGoalWeight(GoalWeight goalWeight) throws EmptyResultsQueryException;
+
 	/**
 	 * Gets the all goal weight.
 	 *
@@ -33,29 +49,13 @@ public interface GoalWeightDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	GoalWeight getGoalWeightById(Integer id_goalWeight) throws EmptyResultsQueryException;
-	
-	/**
-	 * Adds the goal weight.
-	 *
-	 * @param goalWeight the goal weight
-	 * @throws InsertDataBaseException the insert data base exception
-	 */
-	void addGoalWeight(GoalWeight goalWeight) throws InsertDataBaseException;
-	
+
 	/**
 	 * Update goal weight.
 	 *
 	 * @param goalWeight the goal weight
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	void updateGoalWeight(GoalWeightDao goalWeight) throws EmptyResultsQueryException, InsertDataBaseException;
-	
-	/**
-	 * Delete goal weight.
-	 *
-	 * @param goalWeight the goal weight
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteGoalWeight(GoalWeight goalWeight) throws EmptyResultsQueryException;
 }

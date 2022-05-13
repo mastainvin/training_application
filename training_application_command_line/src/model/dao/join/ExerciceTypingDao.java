@@ -17,7 +17,33 @@ import model.objects.exceptions.EmptyResultsQueryException;
  * @author Vincent Mastain
  */
 public interface ExerciceTypingDao {
-	
+
+	/**
+	 * Adds the compatible exercice.
+	 *
+	 * @param id_exerciceType the id exercice type
+	 * @param id_exercice     the id exercice
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	void addCompatibleExercice(Integer id_exerciceType, Integer id_exercice)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
+
+	/**
+	 * Delete compatible exercice.
+	 *
+	 * @param id_exerciceType the id exercice type
+	 * @param id_exercice     the id exercice
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	void deleteCompatibleExercice(Integer id_exerciceType, Integer id_exercice)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
+
 	/**
 	 * Gets the disponbilities.
 	 *
@@ -26,7 +52,7 @@ public interface ExerciceTypingDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	List<Exercice> getDisponbilities(Integer id_exerciceType) throws EmptyResultsQueryException;
-	
+
 	/**
 	 * Gets the exercice types.
 	 *
@@ -35,24 +61,4 @@ public interface ExerciceTypingDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	List<ExerciceType> getExerciceTypes(Integer id_exercice) throws EmptyResultsQueryException;
-	
-	/**
-	 * Adds the compatible exercice.
-	 *
-	 * @param id_exerciceType the id exercice type
-	 * @param id_exercice the id exercice
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	void addCompatibleExercice(Integer id_exerciceType, Integer id_exercice) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
-	
-	/**
-	 * Delete compatible exercice.
-	 *
-	 * @param id_exerciceType the id exercice type
-	 * @param id_exercice the id exercice
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	void deleteCompatibleExercice(Integer id_exerciceType, Integer id_exercice) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 }

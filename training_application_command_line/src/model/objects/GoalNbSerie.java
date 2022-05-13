@@ -5,7 +5,7 @@ package model.objects;
  * The Class GoalNbSerie.
  */
 public class GoalNbSerie extends Interval {
-	
+
 	/** The id goal nb serie. */
 	private Integer id_GoalNbSerie;
 

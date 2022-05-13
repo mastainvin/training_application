@@ -26,7 +26,7 @@ public class HasEquipmentDaoImpl extends JoinDao<User, Equipment> implements Has
 
 	/** The singleton. */
 	static private HasEquipmentDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -34,12 +34,12 @@ public class HasEquipmentDaoImpl extends JoinDao<User, Equipment> implements Has
 	 * @return the checks for equipment dao impl
 	 */
 	public static HasEquipmentDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			singleton = new HasEquipmentDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new checks for equipment dao impl.
 	 *
@@ -55,67 +55,19 @@ public class HasEquipmentDaoImpl extends JoinDao<User, Equipment> implements Has
 	}
 
 	/**
-	 * Gets the disponbilities.
-	 *
-	 * @param id_user the id user
-	 * @return the disponbilities
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<Equipment> getDisponbilities(Integer id_user) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getBList(id_user);
-		List<Equipment> disponibilities = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			Equipment d = BObjectConstructor(value);
-			disponibilities.add(d);
-		}
-		return disponibilities;
-	}
-
-	/**
-	 * Gets the users.
-	 *
-	 * @param id_equipment the id equipment
-	 * @return the users
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public List<User> getUsers(Integer id_equipment) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getAList(id_equipment);
-		List<User> users = new ArrayList<>();
-		
-		for(Map<String, String> value : values) {
-			User s = AObjectConstructor(value);
-			users.add(s);
-		}
-		return users;
-	}
-
-	/**
 	 * Adds the compatible equipment.
 	 *
-	 * @param id_user the id user
+	 * @param id_user      the id user
 	 * @param id_equipment the id equipment
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
 	 */
 	@Override
-	public void addCompatibleEquipment(Integer id_user, Integer id_equipment) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+	public void addCompatibleEquipment(Integer id_user, Integer id_equipment)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_user, id_equipment);
-	}
-
-	/**
-	 * Delete compatible equipment.
-	 *
-	 * @param id_user the id user
-	 * @param id_equipment the id equipment
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint violation exception
-	 */
-	@Override
-	public void deleteCompatibleEquipment(Integer id_user, Integer id_equipment) throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.delete(id_user, id_equipment);
 	}
 
 	/**
@@ -136,12 +88,12 @@ public class HasEquipmentDaoImpl extends JoinDao<User, Equipment> implements Has
 		user.setBodyFat(Integer.parseInt(valuesMap.get("body_fat")));
 		user.setMuscleMass(Integer.parseInt(valuesMap.get("muscle_mass")));
 		user.setIdUser(Integer.parseInt(valuesMap.get("id_user")));
-		
+
 		try {
 			user.setIdRole(Integer.parseInt(valuesMap.get("id_role")));
 		} catch (NumberFormatException e) {
 		}
-		
+
 		try {
 			user.setIdMorphology(Integer.parseInt(valuesMap.get("id_morphology")));
 		} catch (NumberFormatException e) {
@@ -165,8 +117,62 @@ public class HasEquipmentDaoImpl extends JoinDao<User, Equipment> implements Has
 		Equipment equipment = new Equipment();
 		equipment.setName(valuesMap.get("name"));
 		equipment.setIdEquipment(Integer.parseInt(valuesMap.get("id_equipment")));
-		
+
 		return equipment;
+	}
+
+	/**
+	 * Delete compatible equipment.
+	 *
+	 * @param id_user      the id user
+	 * @param id_equipment the id equipment
+	 * @throws EmptyResultsQueryException               the empty results query
+	 *                                                  exception
+	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
+	 *                                                  violation exception
+	 */
+	@Override
+	public void deleteCompatibleEquipment(Integer id_user, Integer id_equipment)
+			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
+		this.delete(id_user, id_equipment);
+	}
+
+	/**
+	 * Gets the disponbilities.
+	 *
+	 * @param id_user the id user
+	 * @return the disponbilities
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<Equipment> getEquipments(Integer id_user) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getBList(id_user);
+		List<Equipment> disponibilities = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			Equipment d = BObjectConstructor(value);
+			disponibilities.add(d);
+		}
+		return disponibilities;
+	}
+
+	/**
+	 * Gets the users.
+	 *
+	 * @param id_equipment the id equipment
+	 * @return the users
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<User> getUsers(Integer id_equipment) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getAList(id_equipment);
+		List<User> users = new ArrayList<>();
+
+		for (Map<String, String> value : values) {
+			User s = AObjectConstructor(value);
+			users.add(s);
+		}
+		return users;
 	}
 
 	/**

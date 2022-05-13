@@ -24,9 +24,52 @@ import model.objects.exceptions.InsertDataBaseException;
  */
 public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 
+	/**
+	 * The Class MapOfValuesGet.
+	 */
+	public class MapOfValuesGet implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			Role role = (Role) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("id_role", role.getIdRole().toString());
+			return mapValues;
+		}
+	}
+
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
+	public class MapOfValuesInsert implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			Role role = (Role) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("name", role.getName());
+			mapValues.put("id_role", role.getIdRole().toString());
+			return mapValues;
+		}
+	}
+
 	/** The singleton. */
 	static RoleDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -34,13 +77,12 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 	 * @return the role dao impl
 	 */
 	public static RoleDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			return new RoleDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
-	
+
 	/**
 	 * Instantiates a new role dao impl.
 	 *
@@ -52,79 +94,30 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 		this.setIdLabel("id_role");
 	}
 
+	/**
+	 * Adds the role.
+	 *
+	 * @param role the role
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	@Override
+	public void addRole(Role role) throws InsertDataBaseException {
+		ValuesMap valuesMap = new MapOfValuesInsert();
+		this.add(valuesMap.getMapOfValues(role));
+	}
 
 	/**
-	 * Sets the map from result set.
+	 * Delete role.
 	 *
-	 * @param results the results
-	 * @return the map
-	 * @throws SQLException the SQL exception
+	 * @param role the role
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
-		Map<String, String> valuesMap = new HashMap<>();
-		valuesMap.put("name", results.getString("name"));
-		valuesMap.put("id_role", results.getString("id_role"));
-		return valuesMap;
+	public void deleteRole(Role role) throws EmptyResultsQueryException {
+		ValuesMap valuesMap = new MapOfValuesGet();
+		this.delete(valuesMap.getMapOfValues(role));
 	}
-	
-	/**
-	 * The Class MapOfValuesInsert.
-	 */
-	public class MapOfValuesInsert implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			Role role = (Role) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("name", role.getName());
-			mapValues.put("id_role", role.getIdRole().toString());
-			return mapValues;
-		}
-	}
-	
-	/**
-	 * The Class MapOfValuesGet.
-	 */
-	public class MapOfValuesGet implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			Role role = (Role) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("id_role", role.getIdRole().toString());
-			return mapValues;
-		}	
-	}
-	
-	/**
-	 * Object constructor.
-	 *
-	 * @param <DataBaseObject> the generic type
-	 * @param mapValues the map values
-	 * @param dataBaseObject the data base object
-	 */
-	@Override
-	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
-		((Role) dataBaseObject).setName(mapValues.get("name"));
-		((Role) dataBaseObject).setIdRole(Integer.parseInt(mapValues.get("id_role")));
-	}
-	
-	
+
 	/**
 	 * Gets the all role.
 	 *
@@ -135,13 +128,13 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 	public List<Role> getAllRole() throws EmptyResultsQueryException {
 		List<Role> roleList = new ArrayList<>();
 		ArrayList<Map<String, String>> results = this.get(null);
-		for(Map<String, String>valueMap : results) {
+		for (Map<String, String> valueMap : results) {
 			Role role = new Role();
 			role.setName(valueMap.get("name"));
 			roleList.add(role);
 		}
 		return roleList;
-	}	
+	}
 
 	/**
 	 * Gets the first role.
@@ -157,27 +150,6 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 	}
 
 	/**
-	 * Gets the role by name.
-	 *
-	 * @param name the name
-	 * @return the role by name
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public Role getRoleByName(String name) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
-		Map<String,String> getMap = valuesMapGet.getMapOfValues(null);
-		getMap.put("name", name);
-		
-		ArrayList<Map<String, String>> results = this.get(getMap);
-		Iterator<Map<String, String>> iterator = results.iterator();
-		
-		Role role = new Role();
-		this.objectConstructor(iterator.next(), role);
-		return role;
-	}
-	
-	/**
 	 * Gets the role by id.
 	 *
 	 * @param id_role the id role
@@ -190,17 +162,53 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 		this.<Role>getById(id_role, role);
 		return role;
 	}
-	
+
 	/**
-	 * Adds the role.
+	 * Gets the role by name.
 	 *
-	 * @param role the role
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @param name the name
+	 * @return the role by name
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public void addRole(Role role) throws InsertDataBaseException {
-		ValuesMap valuesMap = new MapOfValuesInsert();
-		this.add(valuesMap.getMapOfValues(role));
+	public Role getRoleByName(String name) throws EmptyResultsQueryException {
+		Map<String, String> getMap = new HashMap<>();
+		getMap.put("name", name);
+
+		ArrayList<Map<String, String>> results = this.get(getMap);
+		Iterator<Map<String, String>> iterator = results.iterator();
+
+		Role role = new Role();
+		this.objectConstructor(iterator.next(), role);
+		return role;
+	}
+
+	/**
+	 * Object constructor.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues        the map values
+	 * @param dataBaseObject   the data base object
+	 */
+	@Override
+	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
+		((Role) dataBaseObject).setName(mapValues.get("name"));
+		((Role) dataBaseObject).setIdRole(Integer.parseInt(mapValues.get("id_role")));
+	}
+
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
+	@Override
+	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
+		Map<String, String> valuesMap = new HashMap<>();
+		valuesMap.put("name", results.getString("name"));
+		valuesMap.put("id_role", results.getString("id_role"));
+		return valuesMap;
 	}
 
 	/**
@@ -208,7 +216,7 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 	 *
 	 * @param role the role
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	@Override
 	public void updateRole(Role role) throws EmptyResultsQueryException, InsertDataBaseException {
@@ -217,17 +225,4 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 		this.update(valuesMapInsert.getMapOfValues(role), keysMap.getMapOfValues(role));
 	}
 
-	/**
-	 * Delete role.
-	 *
-	 * @param role the role
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public void deleteRole(Role role) throws EmptyResultsQueryException {
-		ValuesMap valuesMap = new MapOfValuesGet();
-		this.delete(valuesMap.getMapOfValues(role));
-	}
-
-	
 }

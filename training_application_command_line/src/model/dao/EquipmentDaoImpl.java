@@ -3,12 +3,12 @@
  */
 package model.dao;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import model.objects.Equipment;
@@ -24,9 +24,52 @@ import model.objects.exceptions.InsertDataBaseException;
  */
 public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 
+	/**
+	 * The Class MapOfValuesGet.
+	 */
+	public class MapOfValuesGet implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			Equipment equipment = (Equipment) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("id_equipment", equipment.getIdEquipment().toString());
+			return mapValues;
+		}
+	}
+
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
+	public class MapOfValuesInsert implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			Equipment equipment = (Equipment) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("name", equipment.getName());
+			mapValues.put("id_equipment", equipment.getIdEquipment().toString());
+			return mapValues;
+		}
+	}
+
 	/** The singleton. */
 	static EquipmentDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -34,12 +77,12 @@ public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 	 * @return the equipment dao impl
 	 */
 	public static EquipmentDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			return new EquipmentDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new equipment dao impl.
 	 *
@@ -50,7 +93,48 @@ public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 		this.setDbName("Equipment");
 		this.setIdLabel("id_equipment");
 	}
-	
+
+	/**
+	 * Adds the equipment.
+	 *
+	 * @param equipment the equipment
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	@Override
+	public void addEquipment(Equipment equipment) throws InsertDataBaseException {
+		ValuesMap valuesMap = new MapOfValuesInsert();
+		this.add(valuesMap.getMapOfValues(equipment));
+	}
+
+	/**
+	 * Delete equipment.
+	 *
+	 * @param equipment the equipment
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public void deleteEquipment(Equipment equipment) throws EmptyResultsQueryException {
+		ValuesMap valuesMap = new MapOfValuesGet();
+		this.delete(valuesMap.getMapOfValues(equipment));
+	}
+
+	/**
+	 * Gets the all equipment.
+	 *
+	 * @return the all equipment
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	@Override
+	public List<Equipment> getAllEquipment() throws EmptyResultsQueryException {
+		List<Equipment> equipmentList = new ArrayList<>();
+		ArrayList<Map<String, String>> results = this.get(null);
+		for (Map<String, String> valueMap : results) {
+			Equipment equipment = new Equipment();
+			this.objectConstructor(valueMap, equipment);
+			equipmentList.add(equipment);
+		}
+		return equipmentList;
+	}
 
 	/**
 	 * Gets the equipment by id.
@@ -75,54 +159,28 @@ public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 	 */
 	@Override
 	public Equipment getEquipmentByName(String name) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
-		Map<String,String> getMap = valuesMapGet.getMapOfValues(null);
+		Map<String, String> getMap = new HashMap<>();
 		getMap.put("name", name);
-		
+
 		ArrayList<Map<String, String>> results = this.get(getMap);
 		Iterator<Map<String, String>> iterator = results.iterator();
-		
+
 		Equipment equipment = new Equipment();
 		this.objectConstructor(iterator.next(), equipment);
 		return equipment;
 	}
 
 	/**
-	 * Adds the equipment.
+	 * Object constructor.
 	 *
-	 * @param equipment the equipment
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues        the map values
+	 * @param dataBaseObject   the data base object
 	 */
 	@Override
-	public void addEquipment(Equipment equipment) throws InsertDataBaseException {
-		ValuesMap valuesMap = new MapOfValuesInsert();
-		this.add(valuesMap.getMapOfValues(equipment));
-	}
-
-	/**
-	 * Update equipment.
-	 *
-	 * @param equipment the equipment
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
-	 */
-	@Override
-	public void updateEquipment(Equipment equipment) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(equipment), keysMap.getMapOfValues(equipment));
-	}
-
-	/**
-	 * Delete equipment.
-	 *
-	 * @param equipment the equipment
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public void deleteEquipment(Equipment equipment) throws EmptyResultsQueryException {
-		ValuesMap valuesMap = new MapOfValuesGet();
-		this.delete(valuesMap.getMapOfValues(equipment));
+	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
+		((Equipment) dataBaseObject).setName(mapValues.get("name"));
+		((Equipment) dataBaseObject).setIdEquipment(Integer.parseInt(mapValues.get("id_equipment")));
 	}
 
 	/**
@@ -141,58 +199,16 @@ public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 	}
 
 	/**
-	 * Object constructor.
+	 * Update equipment.
 	 *
-	 * @param <DataBaseObject> the generic type
-	 * @param mapValues the map values
-	 * @param dataBaseObject the data base object
+	 * @param equipment the equipment
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	@Override
-	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
-		((Equipment) dataBaseObject).setName(mapValues.get("name"));
-		((Equipment) dataBaseObject).setIdEquipment(Integer.parseInt(mapValues.get("id_equipment")));
-	}
-
-	/**
-	 * The Class MapOfValuesInsert.
-	 */
-	public class MapOfValuesInsert implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			Equipment equipment = (Equipment) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("name", equipment.getName());
-			mapValues.put("id_equipment", equipment.getIdEquipment().toString());
-			return mapValues;
-		}
-	}
-	
-	/**
-	 * The Class MapOfValuesGet.
-	 */
-	public class MapOfValuesGet implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			Equipment equipment = (Equipment) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("id_equipment", equipment.getIdEquipment().toString());
-			return mapValues;
-		}	
+	public void updateEquipment(Equipment equipment) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(equipment), keysMap.getMapOfValues(equipment));
 	}
 }

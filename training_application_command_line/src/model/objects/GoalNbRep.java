@@ -4,8 +4,8 @@ package model.objects;
 /**
  * The Class GoalNbRep.
  */
-public class GoalNbRep extends Interval{	
-	
+public class GoalNbRep extends Interval {
+
 	/** The id goal nbrep. */
 	private Integer id_GoalNbrep;
 
@@ -26,5 +26,5 @@ public class GoalNbRep extends Interval{
 	public void setIdGoalNbrep(Integer id_GoalNbrep) {
 		this.id_GoalNbrep = id_GoalNbrep;
 	}
-	
+
 }

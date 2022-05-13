@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controller"},{"l":"model.dao"},{"l":"model.dao.join"},{"l":"model.objects"},{"l":"model.objects.exceptions"},{"l":"utils"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controller"},{"l":"model.dao"},{"l":"model.dao.join"},{"l":"model.objects"},{"l":"model.objects.exceptions"},{"l":"utils"},{"l":"view"}];updateSearchResults();

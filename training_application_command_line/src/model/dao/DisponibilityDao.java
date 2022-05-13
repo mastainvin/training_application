@@ -6,7 +6,6 @@ package model.dao;
 import java.util.List;
 
 import model.objects.Disponibility;
-
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
@@ -18,15 +17,40 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface DisponibilityDao {
-	
+
 	/**
-	 * Gets the first disponibility.
+	 * Adds the disponibility.
 	 *
-	 * @return Frist disponibility of the db
+	 * @param disponibility disponibility wanted
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addDisponibility(Disponibility disponibility) throws InsertDataBaseException;
+
+	/**
+	 * Delete disponibility.
+	 *
+	 * @param disponibility disponibility to delete
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	Disponibility getFirstDisponibility() throws EmptyResultsQueryException;
-	
+	void deleteDisponibility(Disponibility disponibility) throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the all disponibility.
+	 *
+	 * @return the all disponibility
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<Disponibility> getAllDisponibility() throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the disponibility.
+	 *
+	 * @param duration the duration
+	 * @param layout   the layout
+	 * @return the disponibility
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public Disponibility getDisponibility(Integer duration, Integer layout) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the disponibility by id.
@@ -36,38 +60,21 @@ public interface DisponibilityDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Disponibility getDisponibilityById(Integer id_disponibility) throws EmptyResultsQueryException;
-	
 
 	/**
-	 * Adds the disponibility.
+	 * Gets the first disponibility.
 	 *
-	 * @param disponibility disponibility wanted
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @return Frist disponibility of the db
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	void addDisponibility(Disponibility disponibility) throws InsertDataBaseException;
-	
+	Disponibility getFirstDisponibility() throws EmptyResultsQueryException;
+
 	/**
 	 * Update disponibility.
 	 *
 	 * @param disponibility the disponibility
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	void updateDisponibility(Disponibility disponibility) throws EmptyResultsQueryException, InsertDataBaseException;
-	
-	/**
-	 * Delete disponibility.
-	 *
-	 * @param disponibility disponibility to delete
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteDisponibility(Disponibility disponibility) throws EmptyResultsQueryException;
-	
-	/**
-	 * Gets the all disponibility.
-	 *
-	 * @return the all disponibility
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<Disponibility> getAllDisponibility() throws EmptyResultsQueryException;
 }

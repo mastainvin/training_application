@@ -3,7 +3,6 @@
  */
 package model.dao;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,9 +24,53 @@ import model.objects.exceptions.InsertDataBaseException;
  */
 public class TrainingTypeDaoImpl extends BasicRequestsDao implements TrainingTypeDao {
 
+	/**
+	 * The Class MapOfValuesGet.
+	 */
+	public class MapOfValuesGet implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			TrainingType trainingType = (TrainingType) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("id_training_type", trainingType.getIdTrainingType().toString());
+			return mapValues;
+		}
+	}
+
+	/**
+	 * The Class MapOfValuesInsert.
+	 */
+	public class MapOfValuesInsert implements ValuesMap {
+
+		/**
+		 * Gets the map of values.
+		 *
+		 * @param <DataBaseObject> the generic type
+		 * @param dataBaseObject   the data base object
+		 * @return the map of values
+		 */
+		@Override
+		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
+			TrainingType trainingType = (TrainingType) dataBaseObject;
+			Map<String, String> mapValues = new HashMap<String, String>();
+			mapValues.put("name", trainingType.getName());
+			mapValues.put("description", trainingType.getDescription());
+			mapValues.put("id_training_type", trainingType.getIdTrainingType().toString());
+			return mapValues;
+		}
+	}
+
 	/** The singleton. */
 	static TrainingTypeDaoImpl singleton = null;
-	
+
 	/**
 	 * Instance.
 	 *
@@ -35,12 +78,12 @@ public class TrainingTypeDaoImpl extends BasicRequestsDao implements TrainingTyp
 	 * @return the training type dao impl
 	 */
 	public static TrainingTypeDaoImpl instance(DaoFactory daoFactory) {
-		if(singleton == null) {
+		if (singleton == null) {
 			return new TrainingTypeDaoImpl(daoFactory);
 		}
 		return singleton;
 	}
-	
+
 	/**
 	 * Instantiates a new training type dao impl.
 	 *
@@ -51,82 +94,31 @@ public class TrainingTypeDaoImpl extends BasicRequestsDao implements TrainingTyp
 		this.setDbName("TrainingType");
 		this.setIdLabel("id_training_type");
 	}
-	
+
 	/**
-	 * Sets the map from result set.
+	 * Adds the training type.
 	 *
-	 * @param results the results
-	 * @return the map
-	 * @throws SQLException the SQL exception
+	 * @param trainingType the training type
+	 * @throws InsertDataBaseException the insert data base exception
 	 */
 	@Override
-	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
-		Map<String, String> valuesMap = new HashMap<>();
-		valuesMap.put("name", results.getString("name"));
-		valuesMap.put("description", results.getString("description"));
-		valuesMap.put("id_training_type", results.getString("id_training_type"));
-		return valuesMap;
+	public void addTrainingType(TrainingType trainingType) throws InsertDataBaseException {
+		ValuesMap valuesMap = new MapOfValuesInsert();
+		this.add(valuesMap.getMapOfValues(trainingType));
 	}
-	
+
 	/**
-	 * The Class MapOfValuesInsert.
-	 */
-	public class MapOfValuesInsert implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			TrainingType trainingType = (TrainingType) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("name", trainingType.getName());
-			mapValues.put("description", trainingType.getDescription());
-			mapValues.put("id_training_type", trainingType.getIdTrainingType().toString());
-			return mapValues;
-		}
-	}
-	
-	/**
-	 * The Class MapOfValuesGet.
-	 */
-	public class MapOfValuesGet implements ValuesMap {
-		
-		/**
-		 * Gets the map of values.
-		 *
-		 * @param <DataBaseObject> the generic type
-		 * @param dataBaseObject the data base object
-		 * @return the map of values
-		 */
-		@Override
-		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			TrainingType trainingType = (TrainingType) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String,String>();
-			mapValues.put("id_training_type", trainingType.getIdTrainingType().toString());
-			return mapValues;
-		}	
-	}
-	
-	/**
-	 * Object constructor.
+	 * Delete training type.
 	 *
-	 * @param <DataBaseObject> the generic type
-	 * @param mapValues the map values
-	 * @param dataBaseObject the data base object
+	 * @param trainingType the training type
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
-		((TrainingType) dataBaseObject).setName(mapValues.get("name"));
-		((TrainingType) dataBaseObject).setDescription(mapValues.get("description"));
-		((TrainingType) dataBaseObject).setIdTrainingType(Integer.parseInt(mapValues.get("id_training_type")));
+	public void deleteTrainingType(TrainingType trainingType) throws EmptyResultsQueryException {
+		ValuesMap valuesMap = new MapOfValuesGet();
+		this.delete(valuesMap.getMapOfValues(trainingType));
 	}
-	
-	
+
 	/**
 	 * Gets the all training type.
 	 *
@@ -137,13 +129,13 @@ public class TrainingTypeDaoImpl extends BasicRequestsDao implements TrainingTyp
 	public List<TrainingType> getAllTrainingType() throws EmptyResultsQueryException {
 		List<TrainingType> trainingTypeList = new ArrayList<>();
 		ArrayList<Map<String, String>> results = this.get(null);
-		for(Map<String, String>valueMap : results) {
+		for (Map<String, String> valueMap : results) {
 			TrainingType trainingType = new TrainingType();
 			this.objectConstructor(valueMap, trainingType);
 			trainingTypeList.add(trainingType);
 		}
 		return trainingTypeList;
-	}	
+	}
 
 	/**
 	 * Gets the first training type.
@@ -159,27 +151,6 @@ public class TrainingTypeDaoImpl extends BasicRequestsDao implements TrainingTyp
 	}
 
 	/**
-	 * Gets the training type by name.
-	 *
-	 * @param name the name
-	 * @return the training type by name
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public TrainingType getTrainingTypeByName(String name) throws EmptyResultsQueryException {
-		ValuesMap valuesMapGet = new MapOfValuesGet();
-		Map<String,String> getMap = valuesMapGet.getMapOfValues(null);
-		getMap.put("name", name);
-		
-		ArrayList<Map<String, String>> results = this.get(getMap);
-		Iterator<Map<String, String>> iterator = results.iterator();
-		
-		TrainingType trainingType = new TrainingType();
-		this.objectConstructor(iterator.next(), trainingType);
-		return trainingType;
-	}
-	
-	/**
 	 * Gets the training type by id.
 	 *
 	 * @param id_trainingType the id training type
@@ -192,17 +163,55 @@ public class TrainingTypeDaoImpl extends BasicRequestsDao implements TrainingTyp
 		this.<TrainingType>getById(id_trainingType, trainingType);
 		return trainingType;
 	}
-	
+
 	/**
-	 * Adds the training type.
+	 * Gets the training type by name.
 	 *
-	 * @param trainingType the training type
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @param name the name
+	 * @return the training type by name
+	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public void addTrainingType(TrainingType trainingType) throws InsertDataBaseException {
-		ValuesMap valuesMap = new MapOfValuesInsert();
-		this.add(valuesMap.getMapOfValues(trainingType));
+	public TrainingType getTrainingTypeByName(String name) throws EmptyResultsQueryException {
+		Map<String, String> getMap = new HashMap<>();
+		getMap.put("name", name);
+
+		ArrayList<Map<String, String>> results = this.get(getMap);
+		Iterator<Map<String, String>> iterator = results.iterator();
+
+		TrainingType trainingType = new TrainingType();
+		this.objectConstructor(iterator.next(), trainingType);
+		return trainingType;
+	}
+
+	/**
+	 * Object constructor.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues        the map values
+	 * @param dataBaseObject   the data base object
+	 */
+	@Override
+	<DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject) {
+		((TrainingType) dataBaseObject).setName(mapValues.get("name"));
+		((TrainingType) dataBaseObject).setDescription(mapValues.get("description"));
+		((TrainingType) dataBaseObject).setIdTrainingType(Integer.parseInt(mapValues.get("id_training_type")));
+	}
+
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
+	@Override
+	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
+		Map<String, String> valuesMap = new HashMap<>();
+		valuesMap.put("name", results.getString("name"));
+		valuesMap.put("description", results.getString("description"));
+		valuesMap.put("id_training_type", results.getString("id_training_type"));
+		return valuesMap;
 	}
 
 	/**
@@ -210,25 +219,14 @@ public class TrainingTypeDaoImpl extends BasicRequestsDao implements TrainingTyp
 	 *
 	 * @param trainingType the training type
 	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException the insert data base exception
+	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	@Override
-	public void updateTrainingType(TrainingType trainingType) throws EmptyResultsQueryException, InsertDataBaseException {
+	public void updateTrainingType(TrainingType trainingType)
+			throws EmptyResultsQueryException, InsertDataBaseException {
 		ValuesMap valuesMapInsert = new MapOfValuesInsert();
 		ValuesMap keysMap = new MapOfValuesGet();
 		this.update(valuesMapInsert.getMapOfValues(trainingType), keysMap.getMapOfValues(trainingType));
-	}
-
-	/**
-	 * Delete training type.
-	 *
-	 * @param trainingType the training type
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	@Override
-	public void deleteTrainingType(TrainingType trainingType) throws EmptyResultsQueryException {
-		ValuesMap valuesMap = new MapOfValuesGet();
-		this.delete(valuesMap.getMapOfValues(trainingType));
 	}
 
 }

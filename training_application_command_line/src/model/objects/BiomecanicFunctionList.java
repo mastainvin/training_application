@@ -10,7 +10,7 @@ package model.objects;
  * @author cytech
  */
 public class BiomecanicFunctionList {
-	
+
 	/** The id biomecanic function list. */
 	private Integer id_biomecanic_function_list;
 
