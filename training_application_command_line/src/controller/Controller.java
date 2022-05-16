@@ -379,8 +379,7 @@ public class Controller {
 					}
 
 					exerciceToRemove.getUserExerciceDatas().setMark(0.0);
-					this.getDaoFactory().getUserExerciceDataDao()
-							.updateUserExerciceData(exerciceToRemove.getUserExerciceDatas());
+					this.getDaoFactory().getUserExerciceDataDao().updateUserExerciceData(exerciceToRemove.getUserExerciceDatas());
 				}
 				this.printAllCurrentTraining();
 			} else {
