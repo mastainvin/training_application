@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -18,7 +18,6 @@ import model.objects.TrainingMethod;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TrainingMethodDaoImpl.
  *
@@ -42,7 +41,7 @@ public class TrainingMethodDaoImpl extends BasicRequestsDao implements TrainingM
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			TrainingMethod trainingMethod = (TrainingMethod) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_training_method", trainingMethod.getIdTrainingMethod().toString());
 			return mapValues;
 		}
@@ -63,7 +62,7 @@ public class TrainingMethodDaoImpl extends BasicRequestsDao implements TrainingM
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			TrainingMethod trainingMethod = (TrainingMethod) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", trainingMethod.getName());
 			mapValues.put("rep_min", trainingMethod.getRepMin().toString());
 			mapValues.put("rep_max", trainingMethod.getRepMax().toString());
@@ -160,7 +159,6 @@ public class TrainingMethodDaoImpl extends BasicRequestsDao implements TrainingM
 	 * Gets the training component training method.
 	 *
 	 * @param trainingComponent the training component
-	 * @return the training component training method
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
@@ -227,6 +225,21 @@ public class TrainingMethodDaoImpl extends BasicRequestsDao implements TrainingM
 	}
 
 	/**
+	 * Update training method.
+	 *
+	 * @param trainingMethod the training method
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateTrainingMethod(TrainingMethod trainingMethod)
+			throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(trainingMethod), keysMap.getMapOfValues(trainingMethod));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -260,21 +273,6 @@ public class TrainingMethodDaoImpl extends BasicRequestsDao implements TrainingM
 		valuesMap.put("weight_min", results.getString("weight_min"));
 		valuesMap.put("id_training_method", results.getString("id_training_method"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update training method.
-	 *
-	 * @param trainingMethod the training method
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateTrainingMethod(TrainingMethod trainingMethod)
-			throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(trainingMethod), keysMap.getMapOfValues(trainingMethod));
 	}
 
 }

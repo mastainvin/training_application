@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.objects;
 
@@ -7,11 +7,11 @@ import java.util.List;
 
 import model.objects.exceptions.NotFindInArrayException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TrainingComponentList.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class TrainingComponentList {
 

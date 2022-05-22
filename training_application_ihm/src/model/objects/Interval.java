@@ -1,10 +1,10 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 /**
  * Represents an interval (min, max) of integers.
  *
  * @author Vincent Mastain
+ * @version 1.0
  */
 public class Interval {
 

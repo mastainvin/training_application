@@ -1,13 +1,14 @@
 /**
- * 
+ *
  */
 package model.objects;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class BiomecanicFunctionList.
+ * Represents a list of biomecanic function.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class BiomecanicFunctionList {
 

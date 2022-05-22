@@ -1,13 +1,14 @@
 /**
- * 
+ *
  */
 package model.objects;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class BiomecanicFunction.
+ * Represents a biomecanic function that symbolize a way to move parts of our body.
  *
  * @author Vincent Mastain
+ * @version 1.0
  */
 public class BiomecanicFunction {
 
@@ -34,9 +35,7 @@ public class BiomecanicFunction {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		BiomecanicFunction other = (BiomecanicFunction) obj;
 		if (id_biomecanic_function == null) {

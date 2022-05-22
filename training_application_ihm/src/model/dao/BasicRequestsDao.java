@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -10,16 +10,24 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class BasicRequestsDao.
- *
+ * Abstract class  made to make to basic sql requests. This class have the method add, addAll, delete, update.
+ * 
+ * <br>
+ * Every child class have to redifine :
+ * <ul>
+ * 	<li>{@link objectConstructor} which build an object from the result.</li>
+ * 	<li>{@link setMapFromResultSet} which create a make (key, value) for the sql request.</li>
+ * 	<li> They also have to initialize in their constructor the db_name and the id_label made to facilite the requests.</li>
+ * </ul>
  * @author Vincent Mastain
+ * @version 1.0
  */
 public abstract class BasicRequestsDao {
 
@@ -33,7 +41,7 @@ public abstract class BasicRequestsDao {
 	private String id_label;
 
 	/**
-	 * Adds the.
+	 * Adds the values inside the database.
 	 *
 	 * @param valuesMap the values map
 	 * @throws InsertDataBaseException the insert data base exception
@@ -79,7 +87,64 @@ public abstract class BasicRequestsDao {
 	}
 
 	/**
-	 * Delete.
+	 * Adds the every object of the list.
+	 *
+	 * @param valuesMapsList the values maps list
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	public void addAll(List<Map<String, String>> valuesMapsList) throws InsertDataBaseException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			String sqlRequest = "INSERT INTO " + this.getDbName() + " (";
+
+			boolean first = true;
+			for (String valueKey : valuesMapsList.get(0).keySet()) {
+				if (first) {
+					sqlRequest += valueKey;
+					first = false;
+				} else {
+					sqlRequest += ", " + valueKey;
+				}
+			}
+			sqlRequest += ") VALUES ";
+
+			boolean firstMap = true;
+			for (Map<String, String> valuesMap : valuesMapsList) {
+				first = true;
+				if (firstMap) {
+					sqlRequest += "(";
+					firstMap = false;
+				} else {
+					sqlRequest += ",(";
+				}
+
+				for (String valueKey : valuesMap.keySet()) {
+					if (first) {
+						sqlRequest += "'" + valuesMap.get(valueKey) + "'";
+						first = false;
+					} else {
+						sqlRequest += ", '" + valuesMap.get(valueKey) + "'";
+					}
+				}
+				sqlRequest += ")";
+			}
+
+			sqlRequest += ";";
+			connection = this.getDaoFactory().getConnection();
+			preparedStatement = connection.prepareStatement(sqlRequest);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLIntegrityConstraintViolationException e2) {
+			throw new InsertDataBaseException("insert error foreign key invalid");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Delete the object from the database with corresponding values.
 	 *
 	 * @param valuesMap the values map
 	 * @throws EmptyResultsQueryException the empty results query exception
@@ -112,7 +177,7 @@ public abstract class BasicRequestsDao {
 	}
 
 	/**
-	 * Gets the.
+	 * Gets the object from the database with the corresponding values.
 	 *
 	 * @param valuesMap the values map
 	 * @return the array list
@@ -122,7 +187,7 @@ public abstract class BasicRequestsDao {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet results = null;
-		ArrayList<Map<String, String>> resultsArray = new ArrayList<Map<String, String>>();
+		ArrayList<Map<String, String>> resultsArray = new ArrayList<>();
 
 		try {
 			String sqlRequest;
@@ -164,12 +229,11 @@ public abstract class BasicRequestsDao {
 	}
 
 	/**
-	 * Gets the by id.
+	 * Gets the object by id.
 	 *
 	 * @param <DataBaseObject> the generic type
 	 * @param id               the id
 	 * @param dataBaseObject   the data base object
-	 * @return the by id
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	public <DataBaseObject> void getById(Integer id, DataBaseObject dataBaseObject) throws EmptyResultsQueryException {
@@ -214,11 +278,10 @@ public abstract class BasicRequestsDao {
 	}
 
 	/**
-	 * Gets the first.
+	 * Gets the first object from the database.
 	 *
 	 * @param <DataBaseObject> the generic type
 	 * @param dataBaseObject   the data base object
-	 * @return the first
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	public <DataBaseObject> void getFirst(DataBaseObject dataBaseObject) throws EmptyResultsQueryException {
@@ -251,15 +314,6 @@ public abstract class BasicRequestsDao {
 	}
 
 	/**
-	 * Object constructor.
-	 *
-	 * @param <DataBaseObject> the generic type
-	 * @param mapValues        the map values
-	 * @param dataBaseObject   the data base object
-	 */
-	abstract <DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject);
-
-	/**
 	 * Sets the dao factory.
 	 *
 	 * @param daoFactory the new dao factory
@@ -287,16 +341,7 @@ public abstract class BasicRequestsDao {
 	}
 
 	/**
-	 * Sets the map from result set.
-	 *
-	 * @param results the results
-	 * @return the map
-	 * @throws SQLException the SQL exception
-	 */
-	abstract Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException;
-
-	/**
-	 * Update.
+	 * Update the object in the database.
 	 *
 	 * @param valuesMap the values map
 	 * @param keysMap   the keys map
@@ -343,4 +388,22 @@ public abstract class BasicRequestsDao {
 			throw new EmptyResultsQueryException();
 		}
 	}
+
+	/**
+	 * Object constructor of databaseObject.
+	 *
+	 * @param <DataBaseObject> the generic type
+	 * @param mapValues        the map values
+	 * @param dataBaseObject   the data base object
+	 */
+	abstract <DataBaseObject> void objectConstructor(Map<String, String> mapValues, DataBaseObject dataBaseObject);
+
+	/**
+	 * Sets the map from result set.
+	 *
+	 * @param results the results
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
+	abstract Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException;
 }

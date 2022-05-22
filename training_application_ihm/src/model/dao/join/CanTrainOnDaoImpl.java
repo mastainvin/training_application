@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -16,11 +16,12 @@ import model.objects.Disponibility;
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CanTrainOnDaoImpl.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class CanTrainOnDaoImpl extends JoinDao<User, Disponibility> implements CanTrainOnDao {
 
@@ -68,58 +69,6 @@ public class CanTrainOnDaoImpl extends JoinDao<User, Disponibility> implements C
 	public void addCompatibleDisponibility(Integer id_user, Integer id_disponibility)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_user, id_disponibility);
-	}
-
-	/**
-	 * A object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the user
-	 */
-	@Override
-	User AObjectConstructor(Map<String, String> valuesMap) {
-		User user = new User();
-		user.setPseudonym(valuesMap.get("pseudonym"));
-		user.setPassword(valuesMap.get("password"));
-		user.setEmail(valuesMap.get("email"));
-		user.setSize(Integer.parseInt(valuesMap.get("size")));
-		user.setWeight(Integer.parseInt(valuesMap.get("weight")));
-		user.setGender(valuesMap.get("gender"));
-		user.setBodyFat(Integer.parseInt(valuesMap.get("body_fat")));
-		user.setMuscleMass(Integer.parseInt(valuesMap.get("muscle_mass")));
-		user.setIdUser(Integer.parseInt(valuesMap.get("id_user")));
-
-		try {
-			user.setIdRole(Integer.parseInt(valuesMap.get("id_role")));
-		} catch (NumberFormatException e) {
-		}
-
-		try {
-			user.setIdMorphology(Integer.parseInt(valuesMap.get("id_morphology")));
-		} catch (NumberFormatException e) {
-		}
-
-		try {
-			user.setIdGoal(Integer.parseInt(valuesMap.get("id_goal")));
-		} catch (NumberFormatException e) {
-		}
-		return user;
-	}
-
-	/**
-	 * B object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the disponibility
-	 */
-	@Override
-	Disponibility BObjectConstructor(Map<String, String> valuesMap) {
-		Disponibility disponibility = new Disponibility();
-		disponibility.setDuration(Integer.parseInt(valuesMap.get("duration")));
-		disponibility.setLayout(Integer.parseInt(valuesMap.get("layout")));
-		disponibility.setIdDisponibility(Integer.parseInt(valuesMap.get("id_disponibility")));
-
-		return disponibility;
 	}
 
 	/**
@@ -174,6 +123,58 @@ public class CanTrainOnDaoImpl extends JoinDao<User, Disponibility> implements C
 			users.add(s);
 		}
 		return users;
+	}
+
+	/**
+	 * A object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the user
+	 */
+	@Override
+	User AObjectConstructor(Map<String, String> valuesMap) {
+		User user = new User();
+		user.setPseudonym(valuesMap.get("pseudonym"));
+		user.setPassword(valuesMap.get("password"));
+		user.setEmail(valuesMap.get("email"));
+		user.setSize(Integer.parseInt(valuesMap.get("size")));
+		user.setWeight(Integer.parseInt(valuesMap.get("weight")));
+		user.setGender(valuesMap.get("gender"));
+		user.setBodyFat(Integer.parseInt(valuesMap.get("body_fat")));
+		user.setMuscleMass(Integer.parseInt(valuesMap.get("muscle_mass")));
+		user.setIdUser(Integer.parseInt(valuesMap.get("id_user")));
+
+		try {
+			user.setIdRole(Integer.parseInt(valuesMap.get("id_role")));
+		} catch (NumberFormatException e) {
+		}
+
+		try {
+			user.setIdMorphology(Integer.parseInt(valuesMap.get("id_morphology")));
+		} catch (NumberFormatException e) {
+		}
+
+		try {
+			user.setIdGoal(Integer.parseInt(valuesMap.get("id_goal")));
+		} catch (NumberFormatException e) {
+		}
+		return user;
+	}
+
+	/**
+	 * B object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the disponibility
+	 */
+	@Override
+	Disponibility BObjectConstructor(Map<String, String> valuesMap) {
+		Disponibility disponibility = new Disponibility();
+		disponibility.setDuration(Integer.parseInt(valuesMap.get("duration")));
+		disponibility.setLayout(Integer.parseInt(valuesMap.get("layout")));
+		disponibility.setIdDisponibility(Integer.parseInt(valuesMap.get("id_disponibility")));
+
+		return disponibility;
 	}
 
 	/**

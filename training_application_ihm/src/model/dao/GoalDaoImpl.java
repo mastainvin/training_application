@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -16,7 +16,6 @@ import model.objects.Velocity;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GoalDaoImpl.
  *
@@ -40,7 +39,7 @@ public class GoalDaoImpl extends BasicRequestsDao implements GoalDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Goal goal = (Goal) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_goal", goal.getIdGoal().toString());
 			return mapValues;
 		}
@@ -61,7 +60,7 @@ public class GoalDaoImpl extends BasicRequestsDao implements GoalDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Goal goal = (Goal) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", goal.getName());
 			mapValues.put("duration", goal.getDuration().toString());
 			mapValues.put("rest_duration", goal.getRestDuration().toString());
@@ -201,6 +200,20 @@ public class GoalDaoImpl extends BasicRequestsDao implements GoalDao {
 	}
 
 	/**
+	 * Update goal.
+	 *
+	 * @param goal the goal
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateGoal(Goal goal) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(goal), keysMap.getMapOfValues(goal));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -250,20 +263,6 @@ public class GoalDaoImpl extends BasicRequestsDao implements GoalDao {
 		valuesMap.put("id_GoalWeight", results.getString("id_GoalWeight"));
 		valuesMap.put("id_goal", results.getString("id_goal"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update goal.
-	 *
-	 * @param goal the goal
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateGoal(Goal goal) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(goal), keysMap.getMapOfValues(goal));
 	}
 
 }

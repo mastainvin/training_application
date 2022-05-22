@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -10,7 +10,6 @@ import model.objects.TrainingMethod;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface TrainingMethodDao.
  *
@@ -18,6 +17,14 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface TrainingMethodDao {
+
+	/**
+	 * Gets the all training method.
+	 *
+	 * @return the all training method
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<TrainingMethod> getAllTrainingMethod() throws EmptyResultsQueryException;
 
 	/**
 	 * Adds the training method.
@@ -36,14 +43,6 @@ public interface TrainingMethodDao {
 	void deleteTrainingMethod(TrainingMethod trainingMethod) throws EmptyResultsQueryException;
 
 	/**
-	 * Gets the all training method.
-	 *
-	 * @return the all training method
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<TrainingMethod> getAllTrainingMethod() throws EmptyResultsQueryException;
-
-	/**
 	 * Gets the first training method.
 	 *
 	 * @return Frist trainingMethod of the db
@@ -55,7 +54,6 @@ public interface TrainingMethodDao {
 	 * Gets the training component training method.
 	 *
 	 * @param trainingComponent the training component
-	 * @return the training component training method
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void getTrainingComponentTrainingMethod(TrainingComponent trainingComponent) throws EmptyResultsQueryException;

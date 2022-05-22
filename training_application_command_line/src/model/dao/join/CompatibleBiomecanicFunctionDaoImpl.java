@@ -13,7 +13,7 @@ import java.util.Map;
 
 import model.dao.DaoFactory;
 import model.objects.BiomecanicFunction;
-import model.objects.Exercice;
+import model.objects.Exercise;
 import model.objects.exceptions.EmptyResultsQueryException;
 
 // TODO: Auto-generated Javadoc
@@ -22,7 +22,7 @@ import model.objects.exceptions.EmptyResultsQueryException;
  *
  * @author cytech
  */
-public class CompatibleBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, Exercice>
+public class CompatibleBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, Exercise>
 		implements CompatibleBiomecanicFunctionDao {
 
 	/** The singleton. */
@@ -49,26 +49,26 @@ public class CompatibleBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunct
 	private CompatibleBiomecanicFunctionDaoImpl(DaoFactory daoFactory) {
 		super(daoFactory);
 		this.setADbName("BiomecanicFunction");
-		this.setBDbName("Exercice");
+		this.setBDbName("Exercise");
 		this.setAIdLabel("id_biomecanic_function");
-		this.setBIdLabel("id_exercice");
+		this.setBIdLabel("id_exercise");
 		this.setDbName("CompatibleBiomecanicFunction");
 	}
 
 	/**
-	 * Adds the compatible exercice.
+	 * Adds the compatible exercise.
 	 *
 	 * @param id_biomecanicFunction the id biomecanic function
-	 * @param id_exercice           the id exercice
+	 * @param id_exercise           the id exercise
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
 	@Override
-	public void addCompatibleExercice(Integer id_biomecanicFunction, Integer id_exercice)
+	public void addCompatibleExercise(Integer id_biomecanicFunction, Integer id_exercise)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.add(id_biomecanicFunction, id_exercice);
+		this.add(id_biomecanicFunction, id_exercise);
 	}
 
 	/**
@@ -89,44 +89,44 @@ public class CompatibleBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunct
 	 * B object constructor.
 	 *
 	 * @param valuesMap the values map
-	 * @return the exercice
+	 * @return the exercise
 	 */
 	@Override
-	Exercice BObjectConstructor(Map<String, String> valuesMap) {
-		Exercice exercice = new Exercice();
-		exercice.setName(valuesMap.get("name"));
-		exercice.setDescription(valuesMap.get("description"));
-		exercice.setIdExercice(Integer.parseInt(valuesMap.get("id_exercice")));
+	Exercise BObjectConstructor(Map<String, String> valuesMap) {
+		Exercise exercise = new Exercise();
+		exercise.setName(valuesMap.get("name"));
+		exercise.setDescription(valuesMap.get("description"));
+		exercise.setIdExercise(Integer.parseInt(valuesMap.get("id_exercise")));
 
-		return exercice;
+		return exercise;
 	}
 
 	/**
-	 * Delete compatible exercice.
+	 * Delete compatible exercise.
 	 *
 	 * @param id_biomecanicFunction the id biomecanic function
-	 * @param id_exercice           the id exercice
+	 * @param id_exercise           the id exercise
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
 	@Override
-	public void deleteCompatibleExercice(Integer id_biomecanicFunction, Integer id_exercice)
+	public void deleteCompatibleExercise(Integer id_biomecanicFunction, Integer id_exercise)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.delete(id_biomecanicFunction, id_exercice);
+		this.delete(id_biomecanicFunction, id_exercise);
 	}
 
 	/**
 	 * Gets the biomecanic functions.
 	 *
-	 * @param id_exercice the id exercice
+	 * @param id_exercise the id exercise
 	 * @return the biomecanic functions
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public List<BiomecanicFunction> getBiomecanicFunctions(Integer id_exercice) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getAList(id_exercice);
+	public List<BiomecanicFunction> getBiomecanicFunctions(Integer id_exercise) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getAList(id_exercise);
 		List<BiomecanicFunction> biomecanicFunctions = new ArrayList<>();
 
 		for (Map<String, String> value : values) {
@@ -144,12 +144,12 @@ public class CompatibleBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunct
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public List<Exercice> getDisponbilities(Integer id_biomecanicFunction) throws EmptyResultsQueryException {
+	public List<Exercise> getDisponbilities(Integer id_biomecanicFunction) throws EmptyResultsQueryException {
 		List<Map<String, String>> values = this.getBList(id_biomecanicFunction);
-		List<Exercice> disponibilities = new ArrayList<>();
+		List<Exercise> disponibilities = new ArrayList<>();
 
 		for (Map<String, String> value : values) {
-			Exercice d = BObjectConstructor(value);
+			Exercise d = BObjectConstructor(value);
 			disponibilities.add(d);
 		}
 		return disponibilities;
@@ -180,7 +180,7 @@ public class CompatibleBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunct
 	@Override
 	Map<String, String> setMapFromResultSetB(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
-		valuesMap.put("id_exercice", results.getString("id_exercice"));
+		valuesMap.put("id_exercise", results.getString("id_exercise"));
 		valuesMap.put("name", results.getString("name"));
 		valuesMap.put("description", results.getString("description"));
 		return valuesMap;

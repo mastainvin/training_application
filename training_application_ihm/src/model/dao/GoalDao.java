@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -9,7 +9,7 @@ import model.objects.Goal;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface GoalDao.
  *
@@ -17,6 +17,14 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface GoalDao {
+
+	/**
+	 * Gets the all goal.
+	 *
+	 * @return the all goal
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<Goal> getAllGoal() throws EmptyResultsQueryException;
 
 	/**
 	 * Adds the goal.
@@ -33,14 +41,6 @@ public interface GoalDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void deleteGoal(Goal goal) throws EmptyResultsQueryException;
-
-	/**
-	 * Gets the all goal.
-	 *
-	 * @return the all goal
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<Goal> getAllGoal() throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the first goal.

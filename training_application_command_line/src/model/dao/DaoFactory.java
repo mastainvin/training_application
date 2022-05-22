@@ -19,8 +19,8 @@ import model.dao.join.CompatibleEquipmentDao;
 import model.dao.join.CompatibleEquipmentDaoImpl;
 import model.dao.join.CompatibleMorphDao;
 import model.dao.join.CompatibleMorphDaoImpl;
-import model.dao.join.ExerciceTypingDao;
-import model.dao.join.ExerciceTypingDaoImpl;
+import model.dao.join.ExerciseTypingDao;
+import model.dao.join.ExerciseTypingDaoImpl;
 import model.dao.join.HasEquipmentDao;
 import model.dao.join.HasEquipmentDaoImpl;
 import model.dao.join.UseBiomecanicFunctionDao;
@@ -192,30 +192,30 @@ public class DaoFactory {
 	}
 
 	/**
-	 * Gets the exercice dao.
+	 * Gets the exercise dao.
 	 *
-	 * @return the exercice dao
+	 * @return the exercise dao
 	 */
-	public ExerciceDao getExerciceDao() {
-		return ExerciceDaoImpl.instance(this);
+	public ExerciseDao getExerciseDao() {
+		return ExerciseDaoImpl.instance(this);
 	}
 
 	/**
-	 * Gets the exercice type dao.
+	 * Gets the exercise type dao.
 	 *
-	 * @return the exercice type dao
+	 * @return the exercise type dao
 	 */
-	public ExerciceTypeDao getExerciceTypeDao() {
-		return ExerciceTypeDaoImpl.instance(this);
+	public ExerciseTypeDao getExerciseTypeDao() {
+		return ExerciseTypeDaoImpl.instance(this);
 	}
 
 	/**
-	 * Gets the exercice typing dao.
+	 * Gets the exercise typing dao.
 	 *
-	 * @return the exercice typing dao
+	 * @return the exercise typing dao
 	 */
-	public ExerciceTypingDao getExerciceTypingDao() {
-		return ExerciceTypingDaoImpl.instance(this);
+	public ExerciseTypingDao getExerciseTypingDao() {
+		return ExerciseTypingDaoImpl.instance(this);
 	}
 
 	/**
@@ -375,12 +375,12 @@ public class DaoFactory {
 	}
 
 	/**
-	 * Gets the user exercice data dao.
+	 * Gets the user exercise data dao.
 	 *
-	 * @return the user exercice data dao
+	 * @return the user exercise data dao
 	 */
-	public UserExerciceDataDao getUserExerciceDataDao() {
-		return UserExerciceDataDaoImpl.instance(this);
+	public UserExerciseDataDao getUserExerciseDataDao() {
+		return UserExerciseDataDaoImpl.instance(this);
 	}
 
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -15,7 +15,7 @@ import model.objects.Role;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class RoleDaoImpl.
  *
@@ -39,7 +39,7 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Role role = (Role) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_role", role.getIdRole().toString());
 			return mapValues;
 		}
@@ -60,7 +60,7 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Role role = (Role) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", role.getName());
 			mapValues.put("id_role", role.getIdRole().toString());
 			return mapValues;
@@ -184,6 +184,20 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 	}
 
 	/**
+	 * Update role.
+	 *
+	 * @param role the role
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateRole(Role role) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(role), keysMap.getMapOfValues(role));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -209,20 +223,6 @@ public class RoleDaoImpl extends BasicRequestsDao implements RoleDao {
 		valuesMap.put("name", results.getString("name"));
 		valuesMap.put("id_role", results.getString("id_role"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update role.
-	 *
-	 * @param role the role
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateRole(Role role) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(role), keysMap.getMapOfValues(role));
 	}
 
 }

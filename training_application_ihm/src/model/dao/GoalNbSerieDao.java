@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -9,11 +9,12 @@ import model.objects.GoalNbSerie;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface GoalNbSerieDao.
  *
- * @author Vincent Mastain
+ * @author Vincent Mastain$
+ * @version 1.0
  */
 public interface GoalNbSerieDao {
 

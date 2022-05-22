@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -10,7 +10,7 @@ import model.objects.Training;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface StructureDao.
  *
@@ -18,6 +18,23 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface StructureDao {
+
+	/**
+	 * Gets the all structure.
+	 *
+	 * @return the all structure
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<Structure> getAllStructure() throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the structure from training.
+	 *
+	 * @param training the training
+	 * @return the structure from training
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public Structure getStructureFromTraining(Training training) throws EmptyResultsQueryException;
 
 	/**
 	 * Adds the structure.
@@ -34,14 +51,6 @@ public interface StructureDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void deleteStructure(Structure structure) throws EmptyResultsQueryException;
-
-	/**
-	 * Gets the all structure.
-	 *
-	 * @return the all structure
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<Structure> getAllStructure() throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the first structure.
@@ -68,15 +77,6 @@ public interface StructureDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	Structure getStructureByName(String name) throws EmptyResultsQueryException;
-
-	/**
-	 * Gets the structure from training.
-	 *
-	 * @param training the training
-	 * @return the structure from training
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public Structure getStructureFromTraining(Training training) throws EmptyResultsQueryException;
 
 	/**
 	 * Update structure.

@@ -1,6 +1,5 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 /**
  * Represents a disponibility in the week.
  *
@@ -9,19 +8,33 @@ package model.objects;
  */
 public class Disponibility {
 
+	/**
+	 * The Enum Duration.
+	 */
 	public static enum Duration {
-		LONG(120), MEDIUM(90), SHORT(60);
 
+		/** The long. */
+		LONG(120),
+		/** The medium. */
+		MEDIUM(90),
+		/** The short. */
+		SHORT(60);
+
+		/** The time in seconds. */
 		private int timeInSeconds;
 
 		/**
-		 * @param i
+		 * Instantiates a new duration.
+		 *
+		 * @param timeInSeconds the time in seconds
 		 */
 		Duration(int timeInSeconds) {
 			this.timeInSeconds = timeInSeconds;
 		}
 
 		/**
+		 * Gets the time in seconds.
+		 *
 		 * @return the timeInSeconds
 		 */
 		public int getTimeInSeconds() {

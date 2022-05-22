@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -15,7 +15,6 @@ import model.objects.Disponibility;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DisponibilityDaoImpl.
  *
@@ -39,7 +38,7 @@ public class DisponibilityDaoImpl extends BasicRequestsDao implements Disponibil
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Disponibility disponibility = (Disponibility) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("duration", disponibility.getDuration().toString());
 			mapValues.put("layout", disponibility.getLayout().toString());
 			return mapValues;
@@ -61,7 +60,7 @@ public class DisponibilityDaoImpl extends BasicRequestsDao implements Disponibil
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Disponibility disponibility = (Disponibility) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("duration", disponibility.getDuration().toString());
 			mapValues.put("layout", disponibility.getLayout().toString());
 			mapValues.put("id_disponibility", disponibility.getIdDisponibility().toString());
@@ -185,6 +184,21 @@ public class DisponibilityDaoImpl extends BasicRequestsDao implements Disponibil
 	}
 
 	/**
+	 * Update disponibility.
+	 *
+	 * @param disponibility the disponibility
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateDisponibility(Disponibility disponibility)
+			throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(disponibility), keysMap.getMapOfValues(disponibility));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -212,21 +226,6 @@ public class DisponibilityDaoImpl extends BasicRequestsDao implements Disponibil
 		valuesMap.put("layout", results.getString("layout"));
 		valuesMap.put("id_disponibility", results.getString("id_disponibility"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update disponibility.
-	 *
-	 * @param disponibility the disponibility
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateDisponibility(Disponibility disponibility)
-			throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(disponibility), keysMap.getMapOfValues(disponibility));
 	}
 
 }

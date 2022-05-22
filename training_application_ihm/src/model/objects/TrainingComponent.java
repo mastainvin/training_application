@@ -1,30 +1,32 @@
 package model.objects;
 
 import java.util.List;
+import java.util.Observable;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * Represents an element in a training (exercice + training method).
+ * Represents an element in a training (exercise + training method).
  *
  * @author Vincent Mastain
  * @version 1.0
  */
-public class TrainingComponent implements Comparable<TrainingComponent> {
+@SuppressWarnings("deprecation")
+public class TrainingComponent extends Observable implements Comparable<TrainingComponent> {
 
 	/** The biomecanic function list. */
 	private List<BiomecanicFunction> biomecanic_function_list;
 
-	/** The chosen exercice. */
-	private Exercice chosenExercice;
+	/** The chosen exercise. */
+	private Exercise chosenExercise;
 
-	/** The exercices list. */
-	private List<Exercice> exercicesList;
+	/** The exercises list. */
+	private List<Exercise> exercisesList;
 
 	/** The id biomecanic function list. */
 	private Integer id_biomecanic_function_list;
 
-	/** The id exercice type. */
-	private Integer id_exercice_type;
+	/** The id exercise type. */
+	private Integer id_exercise_type;
 
 	/** The id training. */
 	private Integer id_training;
@@ -71,6 +73,28 @@ public class TrainingComponent implements Comparable<TrainingComponent> {
 	}
 
 	/**
+	 * Copy.
+	 *
+	 * @param trainingComponent the training component
+	 */
+	public void copy(TrainingComponent trainingComponent) {
+		this.setBiomecanicFunctionList(trainingComponent.getBiomecanicFunctionList());
+		this.setChosenExercise(trainingComponent.getChosenExercise());
+		this.setExercisesList(trainingComponent.getExercisesList());
+		this.setIdBiomecanicFunctionList(trainingComponent.getIdBiomecanicFunctionList());
+		this.setIdExerciseType(trainingComponent.getIdExerciseType());
+		this.setIdTraining(trainingComponent.getIdTraining());
+		this.setIdTrainingMethod(trainingComponent.getIdTrainingMethod());
+		this.setIsSuperSet(trainingComponent.getIsSuperSet());
+		this.setLayout(trainingComponent.getLayout());
+		this.setSeriesList(trainingComponent.getSeriesList());
+		this.setTrainingMethod(trainingComponent.getTrainingMethod());
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+
+	/**
 	 * Equals.
 	 *
 	 * @param obj the obj
@@ -80,20 +104,18 @@ public class TrainingComponent implements Comparable<TrainingComponent> {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		TrainingComponent other = (TrainingComponent) obj;
 		if (id_biomecanic_function_list == null) {
 			if (other.id_biomecanic_function_list != null)
 				return false;
-		} else if (!id_biomecanic_function_list.equals(other.id_biomecanic_function_list) && is_super_set == false)
+		} else if (!id_biomecanic_function_list.equals(other.id_biomecanic_function_list) && !is_super_set)
 			return false;
-		if (id_exercice_type == null) {
-			if (other.id_exercice_type != null)
+		if (id_exercise_type == null) {
+			if (other.id_exercise_type != null)
 				return false;
-		} else if (!id_exercice_type.equals(other.id_exercice_type) && is_super_set == false)
+		} else if (!id_exercise_type.equals(other.id_exercise_type) && !is_super_set)
 			return false;
 		if (id_training == null) {
 			if (other.id_training != null)
@@ -124,21 +146,21 @@ public class TrainingComponent implements Comparable<TrainingComponent> {
 	}
 
 	/**
-	 * Gets the chosen exercice.
+	 * Gets the chosen exercise.
 	 *
-	 * @return the chosenExercice
+	 * @return the chosenExercise
 	 */
-	public Exercice getChosenExercice() {
-		return chosenExercice;
+	public Exercise getChosenExercise() {
+		return chosenExercise;
 	}
 
 	/**
-	 * Gets the exercices list.
+	 * Gets the exercises list.
 	 *
-	 * @return the exercices list
+	 * @return the exercises list
 	 */
-	public List<Exercice> getExercicesList() {
-		return exercicesList;
+	public List<Exercise> getExercisesList() {
+		return exercisesList;
 	}
 
 	/**
@@ -151,12 +173,12 @@ public class TrainingComponent implements Comparable<TrainingComponent> {
 	}
 
 	/**
-	 * Gets the id exercice type.
+	 * Gets the id exercise type.
 	 *
-	 * @return the id_exercice_type
+	 * @return the id_exercise_type
 	 */
-	public Integer getIdExerciceType() {
-		return id_exercice_type;
+	public Integer getIdExerciseType() {
+		return id_exercise_type;
 	}
 
 	/**
@@ -223,7 +245,7 @@ public class TrainingComponent implements Comparable<TrainingComponent> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id_biomecanic_function_list == null) ? 0 : id_biomecanic_function_list.hashCode());
-		result = prime * result + ((id_exercice_type == null) ? 0 : id_exercice_type.hashCode());
+		result = prime * result + ((id_exercise_type == null) ? 0 : id_exercise_type.hashCode());
 		result = prime * result + ((id_training == null) ? 0 : id_training.hashCode());
 		result = prime * result + ((id_training_method == null) ? 0 : id_training_method.hashCode());
 		result = prime * result + ((is_super_set == null) ? 0 : is_super_set.hashCode());
@@ -241,21 +263,21 @@ public class TrainingComponent implements Comparable<TrainingComponent> {
 	}
 
 	/**
-	 * Sets the chosen exercice.
+	 * Sets the chosen exercise.
 	 *
-	 * @param chosenExercice the chosenExercice to set
+	 * @param chosenExercise the chosenExercise to set
 	 */
-	public void setChosenExercice(Exercice chosenExercice) {
-		this.chosenExercice = chosenExercice;
+	public void setChosenExercise(Exercise chosenExercise) {
+		this.chosenExercise = chosenExercise;
 	}
 
 	/**
-	 * Sets the exercices list.
+	 * Sets the exercises list.
 	 *
-	 * @param exercicesList the new exercices list
+	 * @param exercisesList the new exercises list
 	 */
-	public void setExercicesList(List<Exercice> exercicesList) {
-		this.exercicesList = exercicesList;
+	public void setExercisesList(List<Exercise> exercisesList) {
+		this.exercisesList = exercisesList;
 	}
 
 	/**
@@ -268,12 +290,12 @@ public class TrainingComponent implements Comparable<TrainingComponent> {
 	}
 
 	/**
-	 * Sets the id exercice type.
+	 * Sets the id exercise type.
 	 *
-	 * @param id_exercice_type the id_exercice_type to set
+	 * @param id_exercise_type the id_exercise_type to set
 	 */
-	public void setIdExerciceType(Integer id_exercice_type) {
-		this.id_exercice_type = id_exercice_type;
+	public void setIdExerciseType(Integer id_exercise_type) {
+		this.id_exercise_type = id_exercise_type;
 	}
 
 	/**
@@ -340,7 +362,4 @@ public class TrainingComponent implements Comparable<TrainingComponent> {
 		return "TrainingComponent [id_training=" + id_training + ", is_super_set=" + is_super_set + ", layout=" + layout
 				+ "]";
 	}
-
-	// TODO add toString and equals when connection with training, exercice type,
-	// method and serie
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -11,7 +11,7 @@ import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface TrainingComponentDao.
  *
@@ -74,7 +74,6 @@ public interface TrainingComponentDao {
 	 * Gets the training training component list.
 	 *
 	 * @param training the training
-	 * @return the training training component list
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void getTrainingTrainingComponentList(Training training) throws EmptyResultsQueryException;

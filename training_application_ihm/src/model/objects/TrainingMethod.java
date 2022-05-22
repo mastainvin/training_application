@@ -1,11 +1,10 @@
 /**
- * 
+ *
  */
 package model.objects;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * Represents a training method connected to a training componnent.
  *
@@ -39,6 +38,7 @@ public class TrainingMethod {
 	 * Instantiates a new training method.
 	 */
 	public TrainingMethod() {
+		id_training_method = 0;
 		name = "";
 		rep_max = 0;
 		rep_min = 0;

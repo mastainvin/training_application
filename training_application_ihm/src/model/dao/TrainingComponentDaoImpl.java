@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -19,7 +19,7 @@ import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class TrainingComponentDaoImpl.
  *
@@ -42,7 +42,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		 */
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			return mapValues;
 		}
 	}
@@ -62,7 +62,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			TrainingComponent trainingComponent = (TrainingComponent) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("layout", trainingComponent.getLayout().toString());
 			mapValues.put("is_super_set", (trainingComponent.getIsSuperSet() ? "1" : "0"));
 			mapValues.put("id_training", trainingComponent.getIdTraining().toString());
@@ -78,7 +78,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 			}
 
 			try {
-				mapValues.put("id_type", trainingComponent.getIdExerciceType().toString());
+				mapValues.put("id_type", trainingComponent.getIdExerciseType().toString());
 			} catch (NullPointerException e) {
 			}
 			return mapValues;
@@ -101,8 +101,8 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		return singleton;
 	}
 
-	/** The exercice type dao. */
-	ExerciceTypeDao exerciceTypeDao;
+	/** The exercise type dao. */
+	ExerciseTypeDao exerciseTypeDao;
 
 	/** The training dao. */
 	TrainingDao trainingDao;
@@ -118,7 +118,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 	private TrainingComponentDaoImpl(DaoFactory daoFactory) {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("ComposeTraining");
-		this.exerciceTypeDao = daoFactory.getExerciceTypeDao();
+		this.exerciseTypeDao = daoFactory.getExerciseTypeDao();
 		this.trainingMethodDao = daoFactory.getTrainingMethodDao();
 		this.trainingDao = daoFactory.getTrainingDao();
 	}
@@ -214,20 +214,20 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 //		Connection connection = null;
 //		PreparedStatement preparedStatement = null;
 //	    ResultSet results = null;
-//	    
+//
 //	    try {
 //	    	String sqlRequest;
-//	    	
+//
 //    		sqlRequest = "SELECT tc.* FROM Training t, ComposeTraining tc\n"
 //    				+ "WHERE tc.id_training = t.id_training\n"
 //    				+ "AND t.id_training = " + training.getIdTraining() + ";";
-//	    
-//	    	
-//        	
+//
+//
+//
 //	        connection = this.getDaoFactory().getConnection();
 //            preparedStatement = connection.prepareStatement(sqlRequest);
 //            results = preparedStatement.executeQuery();
-//            
+//
 //            boolean empty = true;
 //            List<TrainingComponent> trainingComponentList = new ArrayList<>();
 //            while(results.next()) {
@@ -236,15 +236,15 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 //            	trainingComponentList.add(trainingComponent);
 //            	empty = false;
 //            }
-//           
+//
 //            if(empty) {
 //            	throw new EmptyResultsQueryException();
-//            } 
+//            }
 //            trainingComponentList.sort(null);
 //            training.setTrainingComponentList(trainingComponentList);
 //	    } catch (SQLException e) {
 //	        e.printStackTrace();
-//	    } 
+//	    }
 		return null;
 	}
 
@@ -252,7 +252,6 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 	 * Gets the training training component list.
 	 *
 	 * @param training the training
-	 * @return the training training component list
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
@@ -295,6 +294,21 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 	}
 
 	/**
+	 * Update training component.
+	 *
+	 * @param trainingComponent the training component
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateTrainingComponent(TrainingComponent trainingComponent)
+			throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(trainingComponent), keysMap.getMapOfValues(trainingComponent));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -315,7 +329,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		}
 
 		try {
-			((TrainingComponent) dataBaseObject).setIdExerciceType(Integer.parseInt(mapValues.get("id_type")));
+			((TrainingComponent) dataBaseObject).setIdExerciseType(Integer.parseInt(mapValues.get("id_type")));
 		} catch (NumberFormatException e) {
 		}
 
@@ -337,28 +351,13 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
 		valuesMap.put("id_training", results.getString("id_training"));
-		valuesMap.put("id_exercice_type", results.getString("id_type"));
+		valuesMap.put("id_exercise_type", results.getString("id_type"));
 		valuesMap.put("id_training_method", results.getString("id_training_method"));
 		valuesMap.put("id_biomecanic_function_list", results.getString("id_biomecanic_function_list"));
 		valuesMap.put("layout", results.getString("layout"));
 		valuesMap.put("is_super_set", results.getString("is_super_set"));
 		valuesMap.put("id_type", results.getString("id_type"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update training component.
-	 *
-	 * @param trainingComponent the training component
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateTrainingComponent(TrainingComponent trainingComponent)
-			throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(trainingComponent), keysMap.getMapOfValues(trainingComponent));
 	}
 
 }

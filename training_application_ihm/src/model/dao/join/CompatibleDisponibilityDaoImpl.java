@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -16,11 +16,12 @@ import model.objects.Disponibility;
 import model.objects.Structure;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CompatibleDisponibilityDaoImpl.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class CompatibleDisponibilityDaoImpl extends JoinDao<Structure, Disponibility>
 		implements CompatibleDisponibilityDao {
@@ -69,43 +70,6 @@ public class CompatibleDisponibilityDaoImpl extends JoinDao<Structure, Disponibi
 	public void addCompatibleDisponibility(Integer id_structure, Integer id_disponibility)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_structure, id_disponibility);
-	}
-
-	/**
-	 * A object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the structure
-	 */
-	@Override
-	Structure AObjectConstructor(Map<String, String> valuesMap) {
-		Structure structure = new Structure();
-
-		structure.setName(valuesMap.get("name"));
-		structure.setIdStructure(Integer.parseInt(valuesMap.get("id_structure")));
-
-		try {
-			structure.setIdGoal(Integer.parseInt(valuesMap.get("id_goal")));
-		} catch (NumberFormatException e) {
-
-		}
-		return structure;
-	}
-
-	/**
-	 * B object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the disponibility
-	 */
-	@Override
-	Disponibility BObjectConstructor(Map<String, String> valuesMap) {
-		Disponibility disponibility = new Disponibility();
-		disponibility.setDuration(Integer.parseInt(valuesMap.get("duration")));
-		disponibility.setLayout(Integer.parseInt(valuesMap.get("layout")));
-		disponibility.setIdDisponibility(Integer.parseInt(valuesMap.get("id_disponibility")));
-
-		return disponibility;
 	}
 
 	/**
@@ -160,6 +124,43 @@ public class CompatibleDisponibilityDaoImpl extends JoinDao<Structure, Disponibi
 			structures.add(s);
 		}
 		return structures;
+	}
+
+	/**
+	 * A object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the structure
+	 */
+	@Override
+	Structure AObjectConstructor(Map<String, String> valuesMap) {
+		Structure structure = new Structure();
+
+		structure.setName(valuesMap.get("name"));
+		structure.setIdStructure(Integer.parseInt(valuesMap.get("id_structure")));
+
+		try {
+			structure.setIdGoal(Integer.parseInt(valuesMap.get("id_goal")));
+		} catch (NumberFormatException e) {
+
+		}
+		return structure;
+	}
+
+	/**
+	 * B object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the disponibility
+	 */
+	@Override
+	Disponibility BObjectConstructor(Map<String, String> valuesMap) {
+		Disponibility disponibility = new Disponibility();
+		disponibility.setDuration(Integer.parseInt(valuesMap.get("duration")));
+		disponibility.setLayout(Integer.parseInt(valuesMap.get("layout")));
+		disponibility.setIdDisponibility(Integer.parseInt(valuesMap.get("id_disponibility")));
+
+		return disponibility;
 	}
 
 	/**

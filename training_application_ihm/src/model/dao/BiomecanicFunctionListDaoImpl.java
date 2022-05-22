@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -14,7 +14,6 @@ import model.objects.BiomecanicFunctionList;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BiomecanicFunctionListDaoImpl.
  *
@@ -38,7 +37,7 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			BiomecanicFunctionList biomecanicFunctionList = (BiomecanicFunctionList) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_biomecanic_function_list",
 					biomecanicFunctionList.getIdBiomecanicFunctionList().toString());
 			return mapValues;
@@ -60,7 +59,7 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			BiomecanicFunctionList biomecanicFunctionList = (BiomecanicFunctionList) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_biomecanic_function_list",
 					biomecanicFunctionList.getIdBiomecanicFunctionList().toString());
 			return mapValues;
@@ -167,6 +166,21 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 	}
 
 	/**
+	 * Update biomecanic function list.
+	 *
+	 * @param bioMecanicFunction the bio mecanic function
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateBiomecanicFunctionList(BiomecanicFunctionList bioMecanicFunction)
+			throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(bioMecanicFunction), keysMap.getMapOfValues(bioMecanicFunction));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -191,21 +205,6 @@ public class BiomecanicFunctionListDaoImpl extends BasicRequestsDao implements B
 		Map<String, String> valuesMap = new HashMap<>();
 		valuesMap.put("id_biomecanic_function_list", results.getString("id_biomecanic_function_list"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update biomecanic function list.
-	 *
-	 * @param bioMecanicFunction the bio mecanic function
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateBiomecanicFunctionList(BiomecanicFunctionList bioMecanicFunction)
-			throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(bioMecanicFunction), keysMap.getMapOfValues(bioMecanicFunction));
 	}
 
 }

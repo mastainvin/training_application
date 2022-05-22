@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -18,7 +18,7 @@ import model.objects.TrainingMethod;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class SerieRepartitionDaoImpl.
  *
@@ -42,7 +42,7 @@ public class SerieRepartitionDaoImpl extends BasicRequestsDao implements SerieRe
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			SerieRepartition serieRepartition = (SerieRepartition) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_serie_repartition", serieRepartition.getIdSerieRepartition().toString());
 			return mapValues;
 		}
@@ -63,7 +63,7 @@ public class SerieRepartitionDaoImpl extends BasicRequestsDao implements SerieRe
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			SerieRepartition serieRepartition = (SerieRepartition) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 
 			mapValues.put("id_serie_repartition", serieRepartition.getIdSerieRepartition().toString());
 			mapValues.put("nb_rep", serieRepartition.getNbRep().toString());
@@ -165,7 +165,6 @@ public class SerieRepartitionDaoImpl extends BasicRequestsDao implements SerieRe
 	 * Gets the serie reparition from training method.
 	 *
 	 * @param trainingMethod the training method
-	 * @return the serie reparition from training method
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
@@ -238,6 +237,21 @@ public class SerieRepartitionDaoImpl extends BasicRequestsDao implements SerieRe
 	}
 
 	/**
+	 * Update serieRepartition.
+	 *
+	 * @param serieRepartition the serieRepartition
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateSerieRepartition(SerieRepartition serieRepartition)
+			throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(serieRepartition), keysMap.getMapOfValues(serieRepartition));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -276,21 +290,6 @@ public class SerieRepartitionDaoImpl extends BasicRequestsDao implements SerieRe
 		valuesMap.put("id_training_method", results.getString("id_training_method"));
 		valuesMap.put("id_serie_repartition", results.getString("id_serie_repartition"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update serieRepartition.
-	 *
-	 * @param serieRepartition the serieRepartition
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateSerieRepartition(SerieRepartition serieRepartition)
-			throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(serieRepartition), keysMap.getMapOfValues(serieRepartition));
 	}
 
 }

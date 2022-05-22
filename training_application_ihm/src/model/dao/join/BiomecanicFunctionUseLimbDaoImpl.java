@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -16,11 +16,12 @@ import model.objects.BiomecanicFunction;
 import model.objects.BodyLimb;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class BiomecanicFunctionUseLimbDaoImpl.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class BiomecanicFunctionUseLimbDaoImpl extends JoinDao<BiomecanicFunction, BodyLimb>
 		implements BiomecanicFunctionUseLimbDao {
@@ -69,37 +70,6 @@ public class BiomecanicFunctionUseLimbDaoImpl extends JoinDao<BiomecanicFunction
 	public void addCompatibleBodyLimb(Integer id_biomecanicFunction, Integer id_bodyLimb)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_biomecanicFunction, id_bodyLimb);
-	}
-
-	/**
-	 * A object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the biomecanic function
-	 */
-	@Override
-	BiomecanicFunction AObjectConstructor(Map<String, String> valuesMap) {
-		BiomecanicFunction biomecanicFunction = new BiomecanicFunction();
-		biomecanicFunction.setName(valuesMap.get("name"));
-		biomecanicFunction.setIdBiomecanicFunction(Integer.parseInt(valuesMap.get("id_biomecanic_function")));
-		return biomecanicFunction;
-	}
-
-	/**
-	 * B object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the body limb
-	 */
-	@Override
-	BodyLimb BObjectConstructor(Map<String, String> valuesMap) {
-		BodyLimb bodyLimb = new BodyLimb();
-		bodyLimb.setName(valuesMap.get("name"));
-		bodyLimb.setIdBodyLimb(Integer.parseInt(valuesMap.get("id_BodyLimb")));
-		bodyLimb.setLower(valuesMap.get("lower") == "1" ? true : false);
-		bodyLimb.setUpper(valuesMap.get("upper") == "1" ? true : false);
-
-		return bodyLimb;
 	}
 
 	/**
@@ -154,6 +124,37 @@ public class BiomecanicFunctionUseLimbDaoImpl extends JoinDao<BiomecanicFunction
 			disponibilities.add(d);
 		}
 		return disponibilities;
+	}
+
+	/**
+	 * A object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the biomecanic function
+	 */
+	@Override
+	BiomecanicFunction AObjectConstructor(Map<String, String> valuesMap) {
+		BiomecanicFunction biomecanicFunction = new BiomecanicFunction();
+		biomecanicFunction.setName(valuesMap.get("name"));
+		biomecanicFunction.setIdBiomecanicFunction(Integer.parseInt(valuesMap.get("id_biomecanic_function")));
+		return biomecanicFunction;
+	}
+
+	/**
+	 * B object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the body limb
+	 */
+	@Override
+	BodyLimb BObjectConstructor(Map<String, String> valuesMap) {
+		BodyLimb bodyLimb = new BodyLimb();
+		bodyLimb.setName(valuesMap.get("name"));
+		bodyLimb.setIdBodyLimb(Integer.parseInt(valuesMap.get("id_BodyLimb")));
+		bodyLimb.setLower(valuesMap.get("lower") == "1" ? true : false);
+		bodyLimb.setUpper(valuesMap.get("upper") == "1" ? true : false);
+
+		return bodyLimb;
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -16,11 +16,12 @@ import model.objects.Equipment;
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class HasEquipmentDaoImpl.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class HasEquipmentDaoImpl extends JoinDao<User, Equipment> implements HasEquipmentDao {
 
@@ -68,57 +69,6 @@ public class HasEquipmentDaoImpl extends JoinDao<User, Equipment> implements Has
 	public void addCompatibleEquipment(Integer id_user, Integer id_equipment)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_user, id_equipment);
-	}
-
-	/**
-	 * A object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the user
-	 */
-	@Override
-	User AObjectConstructor(Map<String, String> valuesMap) {
-		User user = new User();
-		user.setPseudonym(valuesMap.get("pseudonym"));
-		user.setPassword(valuesMap.get("password"));
-		user.setEmail(valuesMap.get("email"));
-		user.setSize(Integer.parseInt(valuesMap.get("size")));
-		user.setWeight(Integer.parseInt(valuesMap.get("weight")));
-		user.setGender(valuesMap.get("gender"));
-		user.setBodyFat(Integer.parseInt(valuesMap.get("body_fat")));
-		user.setMuscleMass(Integer.parseInt(valuesMap.get("muscle_mass")));
-		user.setIdUser(Integer.parseInt(valuesMap.get("id_user")));
-
-		try {
-			user.setIdRole(Integer.parseInt(valuesMap.get("id_role")));
-		} catch (NumberFormatException e) {
-		}
-
-		try {
-			user.setIdMorphology(Integer.parseInt(valuesMap.get("id_morphology")));
-		} catch (NumberFormatException e) {
-		}
-
-		try {
-			user.setIdGoal(Integer.parseInt(valuesMap.get("id_goal")));
-		} catch (NumberFormatException e) {
-		}
-		return user;
-	}
-
-	/**
-	 * B object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the equipment
-	 */
-	@Override
-	Equipment BObjectConstructor(Map<String, String> valuesMap) {
-		Equipment equipment = new Equipment();
-		equipment.setName(valuesMap.get("name"));
-		equipment.setIdEquipment(Integer.parseInt(valuesMap.get("id_equipment")));
-
-		return equipment;
 	}
 
 	/**
@@ -173,6 +123,57 @@ public class HasEquipmentDaoImpl extends JoinDao<User, Equipment> implements Has
 			users.add(s);
 		}
 		return users;
+	}
+
+	/**
+	 * A object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the user
+	 */
+	@Override
+	User AObjectConstructor(Map<String, String> valuesMap) {
+		User user = new User();
+		user.setPseudonym(valuesMap.get("pseudonym"));
+		user.setPassword(valuesMap.get("password"));
+		user.setEmail(valuesMap.get("email"));
+		user.setSize(Integer.parseInt(valuesMap.get("size")));
+		user.setWeight(Integer.parseInt(valuesMap.get("weight")));
+		user.setGender(valuesMap.get("gender"));
+		user.setBodyFat(Integer.parseInt(valuesMap.get("body_fat")));
+		user.setMuscleMass(Integer.parseInt(valuesMap.get("muscle_mass")));
+		user.setIdUser(Integer.parseInt(valuesMap.get("id_user")));
+
+		try {
+			user.setIdRole(Integer.parseInt(valuesMap.get("id_role")));
+		} catch (NumberFormatException e) {
+		}
+
+		try {
+			user.setIdMorphology(Integer.parseInt(valuesMap.get("id_morphology")));
+		} catch (NumberFormatException e) {
+		}
+
+		try {
+			user.setIdGoal(Integer.parseInt(valuesMap.get("id_goal")));
+		} catch (NumberFormatException e) {
+		}
+		return user;
+	}
+
+	/**
+	 * B object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the equipment
+	 */
+	@Override
+	Equipment BObjectConstructor(Map<String, String> valuesMap) {
+		Equipment equipment = new Equipment();
+		equipment.setName(valuesMap.get("name"));
+		equipment.setIdEquipment(Integer.parseInt(valuesMap.get("id_equipment")));
+
+		return equipment;
 	}
 
 	/**

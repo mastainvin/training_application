@@ -1,13 +1,13 @@
 /**
- * 
+ *
  */
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SerieRepartition.
+ * Represents the way that we organize an exercise in a training.
  *
  * @author Vincent Mastain
+ * @version 1.0
  */
 public class SerieRepartition implements Comparable<SerieRepartition> {
 

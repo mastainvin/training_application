@@ -6,8 +6,6 @@ import java.util.Observable;
 import java.util.Set;
 
 
-
-// TODO: Auto-generated Javadoc
 /**
  * Represent a week of trainings.
  *
@@ -15,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  */
 @SuppressWarnings("deprecation")
-public class Structure extends Observable{
+public class Structure extends Observable {
 
 	/** The id goal. */
 	private Integer id_goal;
@@ -51,16 +49,21 @@ public class Structure extends Observable{
 		return false;
 	}
 
-	public Set<Exercice> getExercices() {
-		Set<Exercice> exerciceSet = new HashSet<>();
+	/**
+	 * Gets the exercises.
+	 *
+	 * @return the exercises
+	 */
+	public Set<Exercise> getExercises() {
+		Set<Exercise> exerciseSet = new HashSet<>();
 		for (Training t : this.getTrainingsList()) {
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
-				for (Exercice e : tc.getExercicesList()) {
-					exerciceSet.add(e);
+				for (Exercise e : tc.getExercisesList()) {
+					exerciseSet.add(e);
 				}
 			}
 		}
-		return exerciceSet;
+		return exerciseSet;
 	}
 
 	/**
@@ -146,7 +149,5 @@ public class Structure extends Observable{
 	public String toString() {
 		return "Structure [name=" + name + "]";
 	}
-
-
 
 }

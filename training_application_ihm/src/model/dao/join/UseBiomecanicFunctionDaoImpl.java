@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -16,11 +16,12 @@ import model.objects.BiomecanicFunction;
 import model.objects.BiomecanicFunctionList;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class UseBiomecanicFunctionDaoImpl.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class UseBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, BiomecanicFunctionList>
 		implements UseBiomecanicFunctionDao {
@@ -69,34 +70,6 @@ public class UseBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, Bi
 	public void addCompatibleBiomecanicFunctionList(Integer id_biomecanicFunction, Integer id_biomecanicFunctionList)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_biomecanicFunction, id_biomecanicFunctionList);
-	}
-
-	/**
-	 * A object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the biomecanic function
-	 */
-	@Override
-	BiomecanicFunction AObjectConstructor(Map<String, String> valuesMap) {
-		BiomecanicFunction biomecanicFunction = new BiomecanicFunction();
-		biomecanicFunction.setName(valuesMap.get("name"));
-		biomecanicFunction.setIdBiomecanicFunction(Integer.parseInt(valuesMap.get("id_biomecanic_function")));
-		return biomecanicFunction;
-	}
-
-	/**
-	 * B object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the biomecanic function list
-	 */
-	@Override
-	BiomecanicFunctionList BObjectConstructor(Map<String, String> valuesMap) {
-		BiomecanicFunctionList biomecanicFunctionList = new BiomecanicFunctionList();
-		biomecanicFunctionList
-				.setIdBiomecanicFunctionList(Integer.parseInt(valuesMap.get("id_biomecanic_function_list")));
-		return biomecanicFunctionList;
 	}
 
 	/**
@@ -153,6 +126,34 @@ public class UseBiomecanicFunctionDaoImpl extends JoinDao<BiomecanicFunction, Bi
 			disponibilities.add(d);
 		}
 		return disponibilities;
+	}
+
+	/**
+	 * A object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the biomecanic function
+	 */
+	@Override
+	BiomecanicFunction AObjectConstructor(Map<String, String> valuesMap) {
+		BiomecanicFunction biomecanicFunction = new BiomecanicFunction();
+		biomecanicFunction.setName(valuesMap.get("name"));
+		biomecanicFunction.setIdBiomecanicFunction(Integer.parseInt(valuesMap.get("id_biomecanic_function")));
+		return biomecanicFunction;
+	}
+
+	/**
+	 * B object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the biomecanic function list
+	 */
+	@Override
+	BiomecanicFunctionList BObjectConstructor(Map<String, String> valuesMap) {
+		BiomecanicFunctionList biomecanicFunctionList = new BiomecanicFunctionList();
+		biomecanicFunctionList
+				.setIdBiomecanicFunctionList(Integer.parseInt(valuesMap.get("id_biomecanic_function_list")));
+		return biomecanicFunctionList;
 	}
 
 	/**

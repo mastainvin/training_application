@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -18,7 +18,7 @@ import model.objects.Training;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class StructureDaoImpl.
  *
@@ -42,7 +42,7 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Structure structure = (Structure) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_structure", structure.getIdStructure().toString());
 			return mapValues;
 		}
@@ -63,7 +63,7 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Structure structure = (Structure) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", structure.getName());
 
 			mapValues.put("id_structure", structure.getIdStructure().toString());
@@ -229,6 +229,20 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 	}
 
 	/**
+	 * Update structure.
+	 *
+	 * @param structure the structure
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateStructure(Structure structure) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(structure), keysMap.getMapOfValues(structure));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -260,20 +274,6 @@ public class StructureDaoImpl extends BasicRequestsDao implements StructureDao {
 		valuesMap.put("id_goal", results.getString("id_goal"));
 		valuesMap.put("id_structure", results.getString("id_structure"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update structure.
-	 *
-	 * @param structure the structure
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateStructure(Structure structure) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(structure), keysMap.getMapOfValues(structure));
 	}
 
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -14,13 +14,14 @@ import java.util.Map;
 import model.dao.DaoFactory;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class JoinDao.
  *
  * @author Vincent Mastain
- * @param <A> the generic type
- * @param <B> the generic type
+ * @param <A> the first table in the database.
+ * @param <B> the second table in the database.
+ * @version 1.0
  */
 public abstract class JoinDao<A, B> {
 
@@ -80,22 +81,6 @@ public abstract class JoinDao<A, B> {
 	}
 
 	/**
-	 * A object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the a
-	 */
-	abstract A AObjectConstructor(Map<String, String> valuesMap);
-
-	/**
-	 * B object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the b
-	 */
-	abstract B BObjectConstructor(Map<String, String> valuesMap);
-
-	/**
 	 * Delete.
 	 *
 	 * @param A_id the a id
@@ -152,7 +137,7 @@ public abstract class JoinDao<A, B> {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet results = null;
-		ArrayList<Map<String, String>> resultsArray = new ArrayList<Map<String, String>>();
+		ArrayList<Map<String, String>> resultsArray = new ArrayList<>();
 
 		try {
 			String sqlRequest;
@@ -208,7 +193,7 @@ public abstract class JoinDao<A, B> {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet results = null;
-		ArrayList<Map<String, String>> resultsArray = new ArrayList<Map<String, String>>();
+		ArrayList<Map<String, String>> resultsArray = new ArrayList<>();
 
 		try {
 			String sqlRequest;
@@ -306,6 +291,22 @@ public abstract class JoinDao<A, B> {
 	public void setDbName(String db_name) {
 		this.db_name = db_name;
 	}
+
+	/**
+	 * A object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the a
+	 */
+	abstract A AObjectConstructor(Map<String, String> valuesMap);
+
+	/**
+	 * B object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the b
+	 */
+	abstract B BObjectConstructor(Map<String, String> valuesMap);
 
 	/**
 	 * Sets the map from result set A.

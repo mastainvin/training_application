@@ -1,6 +1,6 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Represents a user role.
  *

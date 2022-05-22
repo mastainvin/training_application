@@ -3,14 +3,14 @@ package model.objects;
 import java.util.List;
 import java.util.Observable;
 
-// TODO: Auto-generated Javadoc
 /**
- * Represents a day of training (set of exercice).
+ * Represents a day of training (set of exercise).
  *
  * @author Vincent Mastain
  * @version 1.0
  */
-public class Training extends Observable  implements Comparable<Training> {
+@SuppressWarnings("deprecation")
+public class Training extends Observable implements Comparable<Training> {
 
 	/** The description. */
 	private String description;
@@ -46,20 +46,7 @@ public class Training extends Observable  implements Comparable<Training> {
 		duration = 0;
 
 	}
-	
-	@SuppressWarnings("deprecation")
-	public void copy(Training training) {
-		setDescription(training.getDescription());
-		setDuration(training.getDuration());
-		setIdStructure(training.getIdStructure());
-		setIdTraining(training.getIdTraining());
-		setIdTrainingType(training.getIdTrainingType());
-		setLayout(training.getLayout());
-		setName(training.getName());
-		setTrainingComponentList(training.getTrainingComponentList());
-		this.setChanged();
-		this.notifyObservers();
-	}
+
 	/**
 	 * Compare to.
 	 *
@@ -78,6 +65,24 @@ public class Training extends Observable  implements Comparable<Training> {
 	}
 
 	/**
+	 * Copy.
+	 *
+	 * @param training the training
+	 */
+	public void copy(Training training) {
+		setDescription(training.getDescription());
+		setDuration(training.getDuration());
+		setIdStructure(training.getIdStructure());
+		setIdTraining(training.getIdTraining());
+		setIdTrainingType(training.getIdTrainingType());
+		setLayout(training.getLayout());
+		setName(training.getName());
+		setTrainingComponentList(training.getTrainingComponentList());
+		this.setChanged();
+		this.notifyObservers();
+	}
+
+	/**
 	 * Equals.
 	 *
 	 * @param obj the obj
@@ -87,9 +92,7 @@ public class Training extends Observable  implements Comparable<Training> {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Training other = (Training) obj;
 		if (id_training == null) {

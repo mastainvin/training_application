@@ -1,6 +1,5 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 /**
  * Represents the speed of execution of one repetition.
  *

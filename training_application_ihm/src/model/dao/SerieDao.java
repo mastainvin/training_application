@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package model.dao;
 
 import java.util.List;
 
-import model.objects.Exercice;
+import model.objects.Exercise;
 import model.objects.Serie;
 import model.objects.Training;
 import model.objects.TrainingComponent;
@@ -13,7 +13,7 @@ import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface SerieDao.
  *
@@ -21,6 +21,14 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface SerieDao {
+
+	/**
+	 * Adds the serie.
+	 *
+	 * @param series the series
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addSerie(List<Serie> series) throws InsertDataBaseException;
 
 	/**
 	 * Adds the serie.
@@ -126,12 +134,12 @@ public interface SerieDao {
 	 * Gets the previous best series.
 	 *
 	 * @param user     the user
-	 * @param exercice the exercice
+	 * @param exercise the exercise
 	 * @return the previous best series
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 * @throws InsertDataBaseException    the insert data base exception
 	 */
-	List<Serie> getPreviousBestSeries(User user, Exercice exercice)
+	List<Serie> getPreviousBestSeries(User user, Exercise exercise)
 			throws EmptyResultsQueryException, InsertDataBaseException;
 
 	/**

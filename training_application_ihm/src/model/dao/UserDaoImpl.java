@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -15,7 +15,7 @@ import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class UserDaoImpl.
  *
@@ -39,7 +39,7 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_user", user.getIdUser().toString());
 			return mapValues;
 		}
@@ -60,7 +60,7 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("pseudonym", user.getPseudonym());
 			mapValues.put("password", user.getPassword());
 			return mapValues;
@@ -82,7 +82,7 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("email", user.getEmail());
 			return mapValues;
 		}
@@ -103,7 +103,7 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("pseudonym", user.getPseudonym());
 			return mapValues;
 		}
@@ -124,7 +124,7 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			User user = (User) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("pseudonym", user.getPseudonym());
 			mapValues.put("password", user.getPassword());
 			mapValues.put("email", user.getEmail());
@@ -351,6 +351,47 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 	}
 
 	/**
+	 * Sets the goal dao.
+	 *
+	 * @param goalDao the new goal dao
+	 */
+	public void setGoalDao(GoalDao goalDao) {
+		this.goalDao = goalDao;
+	}
+
+	/**
+	 * Sets the morphology dao.
+	 *
+	 * @param morphologyDao the new morphology dao
+	 */
+	public void setMorphologyDao(MorphologyDao morphologyDao) {
+		this.morphologyDao = morphologyDao;
+	}
+
+	/**
+	 * Sets the role dao.
+	 *
+	 * @param roleDao the new role dao
+	 */
+	public void setRoleDao(RoleDao roleDao) {
+		this.roleDao = roleDao;
+	}
+
+	/**
+	 * Update user.
+	 *
+	 * @param user the user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateUser(User user) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(user), keysMap.getMapOfValues(user));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -387,15 +428,6 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 	}
 
 	/**
-	 * Sets the goal dao.
-	 *
-	 * @param goalDao the new goal dao
-	 */
-	public void setGoalDao(GoalDao goalDao) {
-		this.goalDao = goalDao;
-	}
-
-	/**
 	 * Sets the map from result set.
 	 *
 	 * @param results the results
@@ -418,38 +450,6 @@ public class UserDaoImpl extends BasicRequestsDao implements UserDao {
 		valuesMap.put("id_goal", results.getString("id_goal"));
 		valuesMap.put("id_user", results.getString("id_user"));
 		return valuesMap;
-	}
-
-	/**
-	 * Sets the morphology dao.
-	 *
-	 * @param morphologyDao the new morphology dao
-	 */
-	public void setMorphologyDao(MorphologyDao morphologyDao) {
-		this.morphologyDao = morphologyDao;
-	}
-
-	/**
-	 * Sets the role dao.
-	 *
-	 * @param roleDao the new role dao
-	 */
-	public void setRoleDao(RoleDao roleDao) {
-		this.roleDao = roleDao;
-	}
-
-	/**
-	 * Update user.
-	 *
-	 * @param user the user
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateUser(User user) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(user), keysMap.getMapOfValues(user));
 	}
 
 }

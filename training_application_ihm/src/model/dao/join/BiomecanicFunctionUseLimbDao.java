@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -10,11 +10,12 @@ import model.objects.BiomecanicFunction;
 import model.objects.BodyLimb;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface BiomecanicFunctionUseLimbDao.
  *
  * @author Vincent Mastain
+ * @version 1.0
  */
 public interface BiomecanicFunctionUseLimbDao {
 

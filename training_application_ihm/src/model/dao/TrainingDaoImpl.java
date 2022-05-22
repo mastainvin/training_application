@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -19,7 +19,6 @@ import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TrainingDaoImpl.
  *
@@ -43,7 +42,7 @@ public class TrainingDaoImpl extends BasicRequestsDao implements TrainingDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Training training = (Training) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", training.getName());
 			return mapValues;
 		}
@@ -64,7 +63,7 @@ public class TrainingDaoImpl extends BasicRequestsDao implements TrainingDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Training training = (Training) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", training.getName());
 			mapValues.put("description", training.getDescription());
 			mapValues.put("layout", training.getLayout().toString());
@@ -206,7 +205,6 @@ public class TrainingDaoImpl extends BasicRequestsDao implements TrainingDao {
 	 * Gets the user structure.
 	 *
 	 * @param user the user
-	 * @return the user structure
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
@@ -228,7 +226,7 @@ public class TrainingDaoImpl extends BasicRequestsDao implements TrainingDao {
 			results = preparedStatement.executeQuery();
 			Structure structure = new Structure();
 			structure.setTrainingsList(new ArrayList<>());
-			Boolean empty = true;
+			boolean empty = true;
 
 			while (results.next()) {
 				Training training = new Training();
@@ -245,6 +243,20 @@ public class TrainingDaoImpl extends BasicRequestsDao implements TrainingDao {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * Update training.
+	 *
+	 * @param training the training
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateTraining(Training training) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(training), keysMap.getMapOfValues(training));
 	}
 
 	/**
@@ -291,20 +303,6 @@ public class TrainingDaoImpl extends BasicRequestsDao implements TrainingDao {
 		valuesMap.put("id_structure", results.getString("id_structure"));
 		valuesMap.put("id_training", results.getString("id_training"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update training.
-	 *
-	 * @param training the training
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateTraining(Training training) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(training), keysMap.getMapOfValues(training));
 	}
 
 }

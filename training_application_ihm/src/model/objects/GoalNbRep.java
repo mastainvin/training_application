@@ -1,8 +1,9 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GoalNbRep.
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class GoalNbRep extends Interval {
 

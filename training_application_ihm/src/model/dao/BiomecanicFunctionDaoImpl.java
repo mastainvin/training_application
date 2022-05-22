@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 
 import model.objects.BiomecanicFunction;
-import model.objects.Exercice;
+import model.objects.Exercise;
 import model.objects.TrainingComponent;
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class BiomecanicFunctionDaoImpl.
  *
@@ -44,7 +44,7 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			BiomecanicFunction biomecanicFunction = (BiomecanicFunction) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_biomecanic_function", biomecanicFunction.getIdBiomecanicFunction().toString());
 			return mapValues;
 		}
@@ -65,7 +65,7 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			BiomecanicFunction biomecanicFunction = (BiomecanicFunction) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", biomecanicFunction.getName());
 			mapValues.put("id_biomecanic_function", biomecanicFunction.getIdBiomecanicFunction().toString());
 			return mapValues;
@@ -233,14 +233,14 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 	}
 
 	/**
-	 * Gets the exercice biomecanic function list.
+	 * Gets the exercise biomecanic function list.
 	 *
-	 * @param exercice the exercice
-	 * @return the exercice biomecanic function list
+	 * @param exercise the exercise
+
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public void getExerciceBiomecanicFunctionList(Exercice exercice) throws EmptyResultsQueryException {
+	public void getExerciseBiomecanicFunctionList(Exercise exercise) throws EmptyResultsQueryException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet results = null;
@@ -248,10 +248,10 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 		try {
 			String sqlRequest;
 
-			sqlRequest = "SELECT bf.* FROM BiomecanicFunction bf, CompatibleBiomecanicFunction cbf, Exercice e\n"
-					+ "WHERE e.id_exercice = cbf.id_exercice\n"
-					+ "AND bf.id_biomecanic_function = cbf.id_biomecanic_function\n" + "AND e.id_exercice = "
-					+ exercice.getIdExercice() + ";";
+			sqlRequest = "SELECT bf.* FROM BiomecanicFunction bf, CompatibleBiomecanicFunction cbf, Exercise e\n"
+					+ "WHERE e.id_exercise = cbf.id_exercise\n"
+					+ "AND bf.id_biomecanic_function = cbf.id_biomecanic_function\n" + "AND e.id_exercise = "
+					+ exercise.getIdExercise() + ";";
 
 			connection = this.getDaoFactory().getConnection();
 			preparedStatement = connection.prepareStatement(sqlRequest);
@@ -269,7 +269,7 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 			if (empty) {
 				throw new EmptyResultsQueryException();
 			}
-			exercice.setBiomecanicFunctionList(biomecanicFunctionList);
+			exercise.setBiomecanicFunctionList(biomecanicFunctionList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -292,7 +292,6 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 	 * Gets the training component biomecanic function list.
 	 *
 	 * @param trainingComponent the training component
-	 * @return the training component biomecanic function list
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
@@ -333,6 +332,21 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 	}
 
 	/**
+	 * Update biomecanic function.
+	 *
+	 * @param bioMecanicFunction the bio mecanic function
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateBiomecanicFunction(BiomecanicFunction bioMecanicFunction)
+			throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(bioMecanicFunction), keysMap.getMapOfValues(bioMecanicFunction));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -359,21 +373,6 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 		valuesMap.put("name", results.getString("name"));
 		valuesMap.put("id_biomecanic_function", results.getString("id_biomecanic_function"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update biomecanic function.
-	 *
-	 * @param bioMecanicFunction the bio mecanic function
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateBiomecanicFunction(BiomecanicFunction bioMecanicFunction)
-			throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(bioMecanicFunction), keysMap.getMapOfValues(bioMecanicFunction));
 	}
 
 }

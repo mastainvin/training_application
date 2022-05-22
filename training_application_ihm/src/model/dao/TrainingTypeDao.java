@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -9,7 +9,6 @@ import model.objects.TrainingType;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface TrainingTypeDao.
  *
@@ -17,6 +16,14 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface TrainingTypeDao {
+
+	/**
+	 * Gets the all training type.
+	 *
+	 * @return the all training type
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<TrainingType> getAllTrainingType() throws EmptyResultsQueryException;
 
 	/**
 	 * Adds the training type.
@@ -33,14 +40,6 @@ public interface TrainingTypeDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void deleteTrainingType(TrainingType trainingType) throws EmptyResultsQueryException;
-
-	/**
-	 * Gets the all training type.
-	 *
-	 * @return the all training type
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<TrainingType> getAllTrainingType() throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the first training type.

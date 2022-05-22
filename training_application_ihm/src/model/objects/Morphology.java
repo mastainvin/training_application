@@ -1,6 +1,5 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 /**
  * Represents a morphology.
  *
@@ -36,9 +35,7 @@ public class Morphology {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Morphology other = (Morphology) obj;
 		if (name == null) {

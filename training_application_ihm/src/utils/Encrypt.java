@@ -1,14 +1,13 @@
 /**
- * 
+ *
  */
 package utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Encrypt.
+ * Use to encrypt the password.
  *
  * @author Vincent Mastain
  * @version 1.0
@@ -39,8 +38,8 @@ public class Encrypt {
 			 * format.
 			 */
 			StringBuilder s = new StringBuilder();
-			for (int i = 0; i < bytes.length; i++) {
-				s.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+			for (byte element : bytes) {
+				s.append(Integer.toString((element & 0xff) + 0x100, 16).substring(1));
 			}
 
 			/* Complete hashed password in hexadecimal format */

@@ -1,9 +1,8 @@
 /**
- * 
+ *
  */
 package model.objects.exceptions;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserInsertException.
  *

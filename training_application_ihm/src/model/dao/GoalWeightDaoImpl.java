@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -14,11 +14,12 @@ import model.objects.GoalWeight;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class GoalWeightDaoImpl.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class GoalWeightDaoImpl extends BasicRequestsDao implements GoalWeightDao {
 
@@ -37,7 +38,7 @@ public class GoalWeightDaoImpl extends BasicRequestsDao implements GoalWeightDao
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			GoalWeight goalWeight = (GoalWeight) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_GoalWeight", goalWeight.getIdGoalWeight().toString());
 			return mapValues;
 		}
@@ -58,7 +59,7 @@ public class GoalWeightDaoImpl extends BasicRequestsDao implements GoalWeightDao
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			GoalWeight goalWeight = (GoalWeight) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("min", goalWeight.getMin().toString());
 			mapValues.put("max", goalWeight.getMax().toString());
 			mapValues.put("id_GoalWeight", goalWeight.getIdGoalWeight().toString());
@@ -150,6 +151,20 @@ public class GoalWeightDaoImpl extends BasicRequestsDao implements GoalWeightDao
 	}
 
 	/**
+	 * Update goal weight.
+	 *
+	 * @param goalWeight the goal weight
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateGoalWeight(GoalWeightDao goalWeight) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(goalWeight), keysMap.getMapOfValues(goalWeight));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -177,20 +192,6 @@ public class GoalWeightDaoImpl extends BasicRequestsDao implements GoalWeightDao
 		valuesMap.put("max", results.getString("max"));
 		valuesMap.put("id_GoalWeight", results.getString("id_GoalWeight"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update goal weight.
-	 *
-	 * @param goalWeight the goal weight
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateGoalWeight(GoalWeightDao goalWeight) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(goalWeight), keysMap.getMapOfValues(goalWeight));
 	}
 
 }

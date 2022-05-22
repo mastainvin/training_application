@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -15,7 +15,6 @@ import model.objects.Equipment;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EquipmentDaoImpl.
  *
@@ -39,7 +38,7 @@ public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Equipment equipment = (Equipment) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_equipment", equipment.getIdEquipment().toString());
 			return mapValues;
 		}
@@ -60,7 +59,7 @@ public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Equipment equipment = (Equipment) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", equipment.getName());
 			mapValues.put("id_equipment", equipment.getIdEquipment().toString());
 			return mapValues;
@@ -171,6 +170,20 @@ public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 	}
 
 	/**
+	 * Update equipment.
+	 *
+	 * @param equipment the equipment
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateEquipment(Equipment equipment) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(equipment), keysMap.getMapOfValues(equipment));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -196,19 +209,5 @@ public class EquipmentDaoImpl extends BasicRequestsDao implements EquipmentDao {
 		valuesMap.put("name", results.getString("name"));
 		valuesMap.put("id_equipment", results.getString("id_equipment"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update equipment.
-	 *
-	 * @param equipment the equipment
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateEquipment(Equipment equipment) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(equipment), keysMap.getMapOfValues(equipment));
 	}
 }

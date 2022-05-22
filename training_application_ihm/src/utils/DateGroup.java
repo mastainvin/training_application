@@ -1,20 +1,31 @@
 /**
- * 
+ *
  */
 package utils;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class DateGroup.
+ * Represents a tree of date 
+ * Order of the branch in the tree:
+ * <ul>
+ * <li>Year</li>
+ * <li>Month</li>
+ * <li>Day</li>
+ * </ul>
+ * 
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
-public class DateGroup {
+@SuppressWarnings("deprecation")
+public class DateGroup extends Observable {
 
+	/* The state if the the date is changed for the observers */
+	public static final Integer DATE_CHANGED = 1;
 	/** The date list. */
 	private Map<Integer, Map<Integer, Map<Integer, String>>> date_list;
 
@@ -40,35 +51,9 @@ public class DateGroup {
 			date_list.put(date.getYear(), monthMap);
 
 		}
+		this.setChanged();
+		this.notifyObservers();
 
-	}
-
-	/**
-	 * Adds the day.
-	 *
-	 * @param dayMap the day map
-	 * @param date   the date
-	 */
-	private void addDay(Map<Integer, String> dayMap, LocalDate date) {
-		if (!dayMap.containsKey(date.getDayOfMonth())) {
-			dayMap.put(date.getDayOfMonth(), date.toString());
-		}
-	}
-
-	/**
-	 * Adds the month.
-	 *
-	 * @param monthMap the month map
-	 * @param date     the date
-	 */
-	private void addMonth(Map<Integer, Map<Integer, String>> monthMap, LocalDate date) {
-		if (monthMap.containsKey(date.getMonthValue())) {
-			addDay(monthMap.get(date.getMonthValue()), date);
-		} else {
-			Map<Integer, String> dayMap = new HashMap<>();
-			addDay(dayMap, date);
-			monthMap.put(date.getMonthValue(), dayMap);
-		}
 	}
 
 	/**
@@ -87,5 +72,36 @@ public class DateGroup {
 	 */
 	public void setDate_list(Map<Integer, Map<Integer, Map<Integer, String>>> date_list) {
 		this.date_list = date_list;
+		this.setChanged();
+		this.notifyObservers();
+	}
+
+	/**
+	 * Adds the day.
+	 *
+	 * @param dayMap the day map
+	 * @param date   the date
+	 */
+	private void addDay(Map<Integer, String> dayMap, LocalDate date) {
+		if (!dayMap.containsKey(date.getDayOfMonth())) {
+			dayMap.put(date.getDayOfMonth(), date.toString());
+		}
+
+	}
+
+	/**
+	 * Adds the month.
+	 *
+	 * @param monthMap the month map
+	 * @param date     the date
+	 */
+	private void addMonth(Map<Integer, Map<Integer, String>> monthMap, LocalDate date) {
+		if (monthMap.containsKey(date.getMonthValue())) {
+			addDay(monthMap.get(date.getMonthValue()), date);
+		} else {
+			Map<Integer, String> dayMap = new HashMap<>();
+			addDay(dayMap, date);
+			monthMap.put(date.getMonthValue(), dayMap);
+		}
 	}
 }

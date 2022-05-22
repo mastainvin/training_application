@@ -1,18 +1,17 @@
 /**
- * 
+ *
  */
 package model.dao;
 
 import java.util.List;
 
 import model.objects.BiomecanicFunction;
-import model.objects.Exercice;
+import model.objects.Exercise;
 import model.objects.TrainingComponent;
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface BiomecanicFunctionDao.
  *
@@ -73,13 +72,12 @@ public interface BiomecanicFunctionDao {
 	List<List<BiomecanicFunction>> getBiomecanicFunctionDone(User user) throws EmptyResultsQueryException;
 
 	/**
-	 * Gets the exercice biomecanic function list.
+	 * Gets the exercise biomecanic function list.
 	 *
-	 * @param exercice the exercice
-	 * @return the exercice biomecanic function list
+	 * @param exercise the exercise
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	void getExerciceBiomecanicFunctionList(Exercice exercice) throws EmptyResultsQueryException;
+	void getExerciseBiomecanicFunctionList(Exercise exercise) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the first biomecanic function.
@@ -93,7 +91,6 @@ public interface BiomecanicFunctionDao {
 	 * Gets the training component biomecanic function list.
 	 *
 	 * @param trainingComponent the training component
-	 * @return the training component biomecanic function list
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	void getTrainingComponentBiomecanicFunctionList(TrainingComponent trainingComponent)

@@ -4,10 +4,9 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-// TODO: Auto-generated Javadoc
 /**
  * An implemetation of the Kuhn–Munkres assignment algorithm of the year 1957.
- * https://en.wikipedia.org/wiki/Hungarian_algorithm
+ * <a href"https://en.wikipedia.org/wiki/Hungarian_algorithm">Wikipedia</a>
  *
  *
  * @author https://github.com/aalmi | march 2014
@@ -50,21 +49,6 @@ public class HungarianAlgorithm {
 	}
 
 	/**
-	 * Check if all columns are covered. If that's the case then the optimal
-	 * solution is found
-	 *
-	 * @return true or false
-	 */
-	private boolean allColumnsAreCovered() {
-		for (int i : colIsCovered) {
-			if (i == 0) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * find an optimal assignment.
 	 *
 	 * @return optimal assignment
@@ -101,6 +85,21 @@ public class HungarianAlgorithm {
 	}
 
 	/**
+	 * Check if all columns are covered. If that's the case then the optimal
+	 * solution is found
+	 *
+	 * @return true or false
+	 */
+	private boolean allColumnsAreCovered() {
+		for (int i : colIsCovered) {
+			if (i == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Step 1: Reduce the matrix so that in each row and column at least one zero
 	 * exists: 1. subtract each row minima from each element of the row 2. subtract
 	 * each column minima from each element of the column
@@ -125,9 +124,9 @@ public class HungarianAlgorithm {
 		for (int i = 0; i < matrix[0].length; i++) {
 			// find the min value of the current column
 			int currentColMin = Integer.MAX_VALUE;
-			for (int j = 0; j < matrix.length; j++) {
-				if (matrix[j][i] < currentColMin) {
-					currentColMin = matrix[j][i];
+			for (int[] element : matrix) {
+				if (element[i] < currentColMin) {
+					currentColMin = element[i];
 				}
 			}
 			// subtract min value from each element of the current column

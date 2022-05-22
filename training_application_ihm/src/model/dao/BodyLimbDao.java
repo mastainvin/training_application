@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -9,7 +9,6 @@ import model.objects.BodyLimb;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface BodyLimbDao.
  *
@@ -17,6 +16,22 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface BodyLimbDao {
+
+	/**
+	 * Gets the all body limb.
+	 *
+	 * @return the all body limb
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<BodyLimb> getAllBodyLimb() throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the first body limb.
+	 *
+	 * @return the first body limb
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public BodyLimb getFirstBodyLimb() throws EmptyResultsQueryException;
 
 	/**
 	 * Adds the body limb.
@@ -35,14 +50,6 @@ public interface BodyLimbDao {
 	void deleteBodyLimb(BodyLimb bodyLimb) throws EmptyResultsQueryException;
 
 	/**
-	 * Gets the all body limb.
-	 *
-	 * @return the all body limb
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<BodyLimb> getAllBodyLimb() throws EmptyResultsQueryException;
-
-	/**
 	 * Gets the body limb by id.
 	 *
 	 * @param id_body_limb id of the wanted body limb
@@ -59,14 +66,6 @@ public interface BodyLimbDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	BodyLimb getBodyLimbByName(String name) throws EmptyResultsQueryException;
-
-	/**
-	 * Gets the first body limb.
-	 *
-	 * @return the first body limb
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public BodyLimb getFirstBodyLimb() throws EmptyResultsQueryException;
 
 	/**
 	 * Update body limb.

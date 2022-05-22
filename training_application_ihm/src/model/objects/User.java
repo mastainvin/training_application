@@ -1,6 +1,5 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 import static utils.Encrypt.encrypt;
 
 import java.util.ArrayList;
@@ -14,25 +13,26 @@ import java.util.Set;
 
 import model.dao.BiomecanicFunctionDao;
 import model.dao.DaoFactory;
-import model.dao.ExerciceDao;
+import model.dao.ExerciseDao;
 import model.dao.MorphologyDao;
 import model.dao.SerieDao;
 import model.dao.SerieRepartitionDao;
 import model.dao.TrainingComponentDao;
 import model.dao.TrainingDao;
 import model.dao.TrainingMethodDao;
-import model.dao.UserExerciceDataDao;
+import model.dao.UserExerciseDataDao;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
 /**
- * Represents a user.
+ * Represents a user in the database, he can create is own training and 
+ * transform a list of series into a training.
  *
  * @author Vincent Mastain
  * @version 1.0
  */
 @SuppressWarnings("deprecation")
-public class User extends Observable{
+public class User extends Observable {
 
 	/** The body fat. */
 	private Integer body_fat;
@@ -73,6 +73,8 @@ public class User extends Observable{
 	/** The weight. */
 	private Integer weight;
 
+	/** Define the state for the observers. */
+	public static final Integer USER_CHANGED = 0;
 	/**
 	 * Instantiates a new user.
 	 */
@@ -83,6 +85,12 @@ public class User extends Observable{
 		this.body_fat = 0;
 		this.muscle_mass = 0;
 	}
+
+	/**
+	 * Copy a user to this user.
+	 *
+	 * @param user to copy
+	 */
 	public void copy(User user) {
 		weight = user.getWeight();
 		structure = user.getStructure();
@@ -97,29 +105,53 @@ public class User extends Observable{
 		gender = user.getGender();
 		email = user.getEmail();
 		body_fat = user.getBodyFat();
+		this.setChanged();
+		this.notifyObservers();
+
 	}
+
 	/**
-	 * Creates the or update training.
 	 *
+	 * Create or update the training.
+	 * <ul>
+	 * 	<li>1) First we fill (if it's not already the case) the structure of the training.</li>
+	 * 	<li>2) Then, we remove the training that the user had already done.</li>
+	 * 	<li>3) We put a mark on every exercises at every place in the structure.</li>
+	 * 	<li>4) We compute the hungarian algorithm it will find the best we the attribute for every exercises a place in the structure.</li>
+	 * 	<li>5) Construction of every series and saving in the database.
+	 * </ul>
+	 * <br>
+	 * The hungarian algorithm solves an assignment problem : <a href="https://en.wikipedia.org/wiki/Hungarian_algorithm">Wikipedia</a>
+	 * <br>
+	 *  For the case the some exercises are in superset : for the moment we considerate that we can only put two exercises in a
+	 *  super set. For that two training components with is_super_set = true will merge together.
+	 *  
 	 * @param daoFactory the dao factory
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 * @throws InsertDataBaseException    the insert data base exception
 	 */
-	public void createOrUpdateTraining(DaoFactory daoFactory) throws EmptyResultsQueryException, InsertDataBaseException {
+	public void createOrUpdateTraining(DaoFactory daoFactory)
+			throws EmptyResultsQueryException, InsertDataBaseException {
 
 		TrainingDao tDao = daoFactory.getTrainingDao();
 		TrainingComponentDao tcDao = daoFactory.getTrainingComponentDao();
 		BiomecanicFunctionDao bfDao = daoFactory.getBiomecanicFunctionDao();
-		ExerciceDao eDao = daoFactory.getExerciceDao();
-		UserExerciceDataDao uedDao = daoFactory.getUserExerciceDataDao();
+		ExerciseDao eDao = daoFactory.getExerciseDao();
+		UserExerciseDataDao uedDao = daoFactory.getUserExerciseDataDao();
 		TrainingMethodDao tmDao = daoFactory.getTrainingMethodDao();
 		MorphologyDao mDao = daoFactory.getMorphologyDao();
 		SerieRepartitionDao srDao = daoFactory.getSerieRepartitionDao();
 		SerieDao sDao = daoFactory.getSerieDao();
 
+		/*
+		 * 1) : we construct the user structure
+		 * if we can't find the data in the user we try to find it in from the database
+		 */
 		sDao.deleteNotDoneUserSerie(this);
 
-		List<Exercice> eL = new ArrayList<>();
+		List<Exercise> eL = new ArrayList<>();
+
+		List<UserExerciseData> userExercisesData = new ArrayList<>();
 
 		// get user's structure if he doesn't exist
 		if (this.getStructure() == null) {
@@ -132,52 +164,75 @@ public class User extends Observable{
 			if (utils.Utils.isEmptyOrNull(t.getTrainingComponentList())) {
 				tcDao.getTrainingTrainingComponentList(t);
 			}
-
 			// get all training's components
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
 
-				bfDao.getTrainingComponentBiomecanicFunctionList(tc);
-				if (utils.Utils.isEmptyOrNull(tc.getExercicesList())) {
-					eDao.getTrainingComponentExerciceList(tc, this);
+				if (utils.Utils.isEmptyOrNull(tc.getBiomecanicFunctionList())) {
+					bfDao.getTrainingComponentBiomecanicFunctionList(tc);
 				}
-				
-				// get every exercices
-				for (Exercice e : tc.getExercicesList()) {
-					
-					// get exercice data and if they don't exist we create them
-					try {
-						uedDao.getExerciceUserExerciceData(e, this);
-					} catch (EmptyResultsQueryException err) {
-						UserExerciceData ued = new UserExerciceData();
-						ued.setIdExercice(e.getIdExercice());
-						ued.setIdUser(this.getIdUser());
-						ued.setMark(5.0);
-						ued.setNbDone(0);
-						ued.setWeight(0.0);
-						uedDao.addUserExerciceData(ued);
-						e.setUserExerciceDatas(ued);
-					} finally {
-						mDao.getExerciceMorphology(e);
-						bfDao.getExerciceBiomecanicFunctionList(e);
-						if (!eL.contains(e))
-							eL.add(e);
+
+				if (utils.Utils.isEmptyOrNull(tc.getExercisesList())) {
+					eDao.getTrainingComponentExerciseList(tc, this);
+				}
+
+				for (Exercise e : tc.getExercisesList()) {
+					// get exercise data and if they don't exist we create them
+					boolean exerciseInList = false;
+					for (Exercise eInEl : eL) {
+						if (eInEl.equals(e)) {
+							e.setUserExerciseDatas(eInEl.getUserExerciseDatas());
+							e.setMorphologiesList(eInEl.getMorphologiesList());
+							e.setBiomecanicFunctionList(eInEl.getBiomecanicFunctionList());
+							exerciseInList = true;
+						}
 					}
+
+					if (!exerciseInList) {
+							try {
+								uedDao.getExerciseUserExerciseData(e, this);
+							} catch (EmptyResultsQueryException err) {
+								UserExerciseData ued = new UserExerciseData();
+
+								ued.setIdUser(this.getIdUser());
+								ued.setMark(5.0);
+								ued.setNbDone(0);
+								ued.setWeight(0.0);
+								ued.setIdExercise(e.getIdExercise());
+
+								userExercisesData.add(ued);
+
+								e.setUserExerciseDatas(ued);
+						}
+						mDao.getExerciseMorphology(e);
+						bfDao.getExerciseBiomecanicFunctionList(e);
+						eL.add(e);
+
+					}
+
 				}
+
 				tmDao.getTrainingComponentTrainingMethod(tc);
+
 			}
 		}
 
-		// Removing the trainings that the user done
+		if (!utils.Utils.isEmptyOrNull(userExercisesData)) {
+			uedDao.addUserExerciseData(userExercisesData);
+		}
+
+		/*
+		 * 2) : Removing the trainings that the user done
+		 */
 		List<List<BiomecanicFunction>> bfll = null;
 		try {
 			// Search biomecanic function that the user did
 			bfll = bfDao.getBiomecanicFunctionDone(this);
-			
+
 			int nbTrainingToDelete = this.getStructure().getTrainingsList().size() - bfll.size();
-			
-			// for every biomecanic function list we find the 
+			// for every biomecanic function list we find the training which correspond 
+			// to the list of biomecanic function that the user has done
 			for (List<BiomecanicFunction> bfl : bfll) {
-				if(nbTrainingToDelete > 0) {
+				if (nbTrainingToDelete > 0) {
 					Double min = 9999.9;
 					Training t_done = null;
 					for (Training t : this.getStructure().getTrainingsList()) {
@@ -189,7 +244,9 @@ public class User extends Observable{
 						Set<BiomecanicFunction> bf_training_done = new HashSet<>(bfl);
 						bf_training_done.addAll(bf_training);
 
-						Double cost = bf_training_done.size() * 1.0
+						// The cost is how much the list of morphology worked is far of the training that
+						// the user has to do in the training tested
+						double cost = bf_training_done.size() * 1.0
 								/ (bf_training.size() + bfl.size() - bf_training_done.size());
 						if (cost < min) {
 							min = cost;
@@ -199,23 +256,27 @@ public class User extends Observable{
 					this.getStructure().getTrainingsList().remove(t_done);
 					nbTrainingToDelete--;
 				}
-				
+
 			}
 		} catch (EmptyResultsQueryException e) {
-			// If the user didn't trainings, we do nothing
+			// If the user didn't trained, we do nothing
 		}
 
-		Map<Exercice, Integer> mapEl = new HashMap<>();
+
+		// mapEl correspond to a list of exercise with the same index every time will have to use them
+		Map<Exercise, Integer> mapEl = new HashMap<>();
 		int elLength = eL.size();
 		for (int i = 0; i < elLength; i++) {
 			mapEl.put(eL.get(i), i);
 		}
 
-		int[][] tabExerciceTrainingComponent = new int[elLength][elLength];
-
+		/*
+		 * 3) We put a mark on every exercise for every place in the sructure
+		 */
+		int[][] tabExerciseTrainingComponent = new int[elLength][elLength];
 		int k = 0;
 		Morphology m_morph_u = mDao.getMorphologyById(this.getIdMorphology());
-		Integer nbDoneExerciceUser = uedDao.getNbDoneExerciceUser(this);
+		Integer nbDoneExerciseUser = uedDao.getNbDoneExerciseUser(this);
 		for (Training t : this.getStructure().getTrainingsList()) {
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
 				Double note = 0.0;
@@ -223,11 +284,11 @@ public class User extends Observable{
 				List<BiomecanicFunction> mf_list_e = null;
 				List<BiomecanicFunction> mf_list_tc = tc.getBiomecanicFunctionList();
 
-				if (tc.getChosenExercice() == null) {
-					for (Exercice e : tc.getExercicesList()) {
+				if (tc.getChosenExercise() == null) {
+					for (Exercise e : tc.getExercisesList()) {
 
-						note = e.getUserExerciceDatas().getMark();
-						nb_done = e.getUserExerciceDatas().getNbDone();
+						note = e.getUserExerciseDatas().getMark();
+						nb_done = e.getUserExerciseDatas().getNbDone();
 
 						mf_list_e = e.getBiomecanicFunctionList();
 						Set<BiomecanicFunction> joinSet = new HashSet<>(mf_list_e);
@@ -250,14 +311,14 @@ public class User extends Observable{
 						}
 
 						int value = (int) Math.floor(
-								100 * note * (nbDoneExerciceUser + 1) * (((card_e + card_tc) * 1.0 / card_e_tc) - 1)
+								100 * note * (nbDoneExerciseUser + 1) * (((card_e + card_tc) * 1.0 / card_e_tc) - 1)
 										* ((card_morph_e_u + 1) / (card_morph_e + card_morph_u - card_morph_e_u + 1))
 										/ (nb_done + 1));
-						tabExerciceTrainingComponent[mapEl.get(e)][k] = value;
+						tabExerciseTrainingComponent[mapEl.get(e)][k] = value;
 
 					}
 				} else {
-					tabExerciceTrainingComponent[mapEl.get(tc.getChosenExercice())][k] = 999999;
+					tabExerciseTrainingComponent[mapEl.get(tc.getChosenExercise())][k] = 999999;
 				}
 
 				k++;
@@ -265,52 +326,78 @@ public class User extends Observable{
 			}
 
 		}
+
+		/*
+		 * 4) We use the hungarian algorithm to find the result
+		 * The hungarian algorithm consist in solving an assignation problem
+		 */
+		
+		// We fill the rest of the box with 0
 		int i;
 		while (k < elLength) {
 			for (i = 0; i < elLength; i++) {
-				tabExerciceTrainingComponent[i][k] = 0;
+				tabExerciseTrainingComponent[i][k] = 0;
 			}
 			k++;
 		}
 
+		// We find the max of the tab
 		int max = 0;
 		for (i = 0; i < elLength; i++) {
 			for (int j = 0; j < elLength; j++) {
-				if (max < tabExerciceTrainingComponent[i][j]) {
-					max = tabExerciceTrainingComponent[i][j];
+				if (max < tabExerciseTrainingComponent[i][j]) {
+					max = tabExerciseTrainingComponent[i][j];
 				}
 			}
 		}
+		
+		// For every box we compute the max - the box value
+		// Here we want to make a min problem because the hungarian algorithm work with min value
 		for (i = 0; i < elLength; i++) {
 			for (int j = 0; j < elLength; j++) {
-				tabExerciceTrainingComponent[i][j] = max - tabExerciceTrainingComponent[i][j];
+				tabExerciseTrainingComponent[i][j] = max - tabExerciseTrainingComponent[i][j];
 
 			}
 		}
 
-		HungarianAlgorithm ha = new HungarianAlgorithm(tabExerciceTrainingComponent);
-
+		// We execute the algorithm
+		HungarianAlgorithm ha = new HungarianAlgorithm(tabExerciseTrainingComponent);
 		int[][] assignment = ha.findOptimalAssignment();
 
+		/*
+		 * 5) We construct the series the user will have to do with the result of the algorithm.
+		 */
+		
+		// First we chose the exercise from the result of the algorithm.
 		i = 0;
 		for (Training t : this.getStructure().getTrainingsList()) {
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
-				Exercice exercice = eL.get(assignment[i][1]);
-				uedDao.getExerciceUserExerciceData(exercice, this);
-				tc.setChosenExercice(exercice);
+				Exercise exercise = eL.get(assignment[i][1]);
+				uedDao.getExerciseUserExerciseData(exercise, this);
+				tc.setChosenExercise(exercise);
 				i++;
 			}
 		}
 
+		// Then we build our series
+		List<Serie> seriesToAdd = new ArrayList<>();
 		for (Training t : this.getStructure().getTrainingsList()) {
+			/*
+			 * For every component we construct the series 
+			 * and if it's a super set. 
+			 */
 			Iterator<TrainingComponent> tcIterator = t.getTrainingComponentList().iterator();
 
 			TrainingComponent tc = null;
 
 			int index = 0;
+			
+			// if the component is the second component 
 			boolean is_last_super_set = false;
-			while (tcIterator.hasNext()) {
-
+			
+			while (tcIterator.hasNext()) {	
+				
+				
 				if (!is_last_super_set) {
 					tc = tcIterator.next();
 					index++;
@@ -322,6 +409,9 @@ public class User extends Observable{
 					ct_super_set.add(tc);
 					if (tcIterator.hasNext() && tc.getIsSuperSet()) {
 						TrainingComponent tc2 = t.getTrainingComponentList().get(index);
+						
+						// If the super set component are following there self in the training
+						// So the next component is the last super set.
 						if (tc2.getIsSuperSet() && Math.abs(previous_layout - tc2.getLayout()) == 1) {
 							tc = tcIterator.next();
 							index++;
@@ -341,33 +431,34 @@ public class User extends Observable{
 				srDao.getSerieReparitionFromTrainingMethod(tm);
 
 				int it = 0;
+				
+				// We construct every serie from the repartition from the database.
 				for (SerieRepartition sr : tm.getSerieRepartition()) {
 					TrainingComponent trainingComponent = ct_super_set.get(it);
-					Exercice e = trainingComponent.getChosenExercice();
+					Exercise e = trainingComponent.getChosenExercise();
 					Serie serie = new Serie();
 					serie.setExpectedRepetitions(sr.getNbRep());
 					serie.setExpectedWeight(
-							(int) Math.floor(sr.getWeight() * e.getUserExerciceDatas().getWeight() / 100));
+							(int) Math.floor(sr.getWeight() * e.getUserExerciseDatas().getWeight() / 100));
 					serie.setLayout(sr.getLayout());
 					serie.setInActualWeek(true);
 					serie.setRestDuration(sr.getRestDuration());
 
 					serie.setIdComposeTrainingMethod(trainingComponent.getIdTrainingMethod());
 					serie.setIdComposeTrainingTraining(trainingComponent.getIdTraining());
-					serie.setIdComposeTrainingType(trainingComponent.getIdExerciceType());
-					serie.setIdExercice(e.getIdExercice());
+					serie.setIdComposeTrainingType(trainingComponent.getIdExerciseType());
+					serie.setIdExercise(e.getIdExercise());
 					serie.setIdUser(this.getIdUser());
 					serie.setComposeTrainingLayout(trainingComponent.getLayout());
 
-					sDao.addSerie(serie);
-
+					seriesToAdd.add(serie);
 					it = (it + 1) % ct_super_set.size();
 
 				}
 			}
 		}
-		setChanged();
-		notifyObservers();
+		sDao.addSerie(seriesToAdd);
+
 	}
 
 	/**
@@ -505,10 +596,9 @@ public class User extends Observable{
 	}
 
 	/**
-	 * Gets the user training.
+	 * Get the user's training without the concept of superset. 
 	 *
 	 * @param series     the series
-	 * @param user       the user
 	 * @param daoFactory the dao factory
 	 * @return the user training
 	 * @throws EmptyResultsQueryException the empty results query exception
@@ -521,6 +611,7 @@ public class User extends Observable{
 
 		for (Serie serie : series) {
 
+			// We fill the trainingMap with every training if it's not already contained in.
 			boolean inTrainingMap = false;
 			Training training = null;
 			for (Training t : structure.getTrainingsList()) {
@@ -535,6 +626,7 @@ public class User extends Observable{
 				structure.getTrainingsList().add(training);
 			}
 
+			// Same for the component
 			boolean inTrainingComponentMap = false;
 			TrainingComponent trainingComponent = null;
 
@@ -546,36 +638,40 @@ public class User extends Observable{
 				}
 			}
 
+			
 			if (!inTrainingComponentMap) {
 				trainingComponent = daoFactory.getTrainingComponentDao().getTrainingComponent(training,
 						serie.getComposeTrainingLayout());
 				daoFactory.getBiomecanicFunctionDao().getTrainingComponentBiomecanicFunctionList(trainingComponent);
 				daoFactory.getTrainingMethodDao().getTrainingComponentTrainingMethod(trainingComponent);
 				trainingComponent.setSeriesList(new ArrayList<>());
+				
+				// We add the serie inside the component.
 				trainingComponent.getSeriesList().add(serie);
-				daoFactory.getExerciceDao().getTrainingComponentExerciceList(trainingComponent, this);
+				if(utils.Utils.isEmptyOrNull(trainingComponent.getExercisesList()))
+					daoFactory.getExerciseDao().getTrainingComponentExerciseList(trainingComponent, this);
 				training.getTrainingComponentList().add(trainingComponent);
 			}
 
-			Exercice exerciceChose = daoFactory.getExerciceDao().getExerciceById(serie.getIdExercice());
-			exerciceChose
-					.setUserExerciceDatas(daoFactory.getUserExerciceDataDao().getUserExerciceData(this, exerciceChose));
-			trainingComponent.setChosenExercice(exerciceChose);
+			Exercise exerciseChosen = daoFactory.getExerciseDao().getExerciseById(serie.getIdExercise());
+			exerciseChosen
+					.setUserExerciseDatas(daoFactory.getUserExerciseDataDao().getUserExerciseData(this, exerciseChosen));
+			trainingComponent.setChosenExercise(exerciseChosen);
 
-			boolean inExerciceList = false;
-			Exercice exercice = null;
+			boolean inExerciseList = false;
+			Exercise exercise = null;
 
-			for (Exercice e : trainingComponent.getExercicesList()) {
-				if (e.getIdExercice() == serie.getIdExercice()) {
-					inExerciceList = true;
-					exercice = e;
+			for (Exercise e : trainingComponent.getExercisesList()) {
+				if (e.getIdExercise() == serie.getIdExercise()) {
+					inExerciseList = true;
+					exercise = e;
 				}
 			}
 
-			if (!inExerciceList) {
-				exercice = daoFactory.getExerciceDao().getExerciceById(serie.getIdExercice());
-				exercice.setUserExerciceDatas(daoFactory.getUserExerciceDataDao().getUserExerciceData(this, exercice));
-				trainingComponent.getExercicesList().add(exercice);
+			if (!inExerciseList) {
+				exercise = daoFactory.getExerciseDao().getExerciseById(serie.getIdExercise());
+				exercise.setUserExerciseDatas(daoFactory.getUserExerciseDataDao().getUserExerciseData(this, exercise));
+				trainingComponent.getExercisesList().add(exercise);
 			}
 
 		}
@@ -583,10 +679,10 @@ public class User extends Observable{
 	}
 
 	/**
-	 * Gets the user training super set.
-	 *
+	 * Get the user's training with the concept of superset. 
+	 * The method is the same that getTraining but we don't create another training component
+	 * if the series are super set.
 	 * @param series     the series
-	 * @param user       the user
 	 * @param daoFactory the dao factory
 	 * @return the user training super set
 	 * @throws EmptyResultsQueryException the empty results query exception
@@ -622,6 +718,8 @@ public class User extends Observable{
 					trainingComponent = tc;
 					trainingComponent.getSeriesList().add(serie);
 				} else if (tc.getIsSuperSet() && Math.abs(tc.getLayout() - serie.getComposeTrainingLayout()) <= 1) {
+					// If the training components are super set and following in the training. We say that the serie among to 
+					// the training component of the first exercice.
 					TrainingComponent tc2 = daoFactory.getTrainingComponentDao().getTrainingComponent(training,
 							serie.getComposeTrainingLayout());
 					if (tc2.getIsSuperSet()) {
@@ -639,24 +737,24 @@ public class User extends Observable{
 				daoFactory.getTrainingMethodDao().getTrainingComponentTrainingMethod(trainingComponent);
 				trainingComponent.setSeriesList(new ArrayList<>());
 				trainingComponent.getSeriesList().add(serie);
-				trainingComponent.setExercicesList(new ArrayList<>());
+				trainingComponent.setExercisesList(new ArrayList<>());
 				training.getTrainingComponentList().add(trainingComponent);
 			}
 
-			boolean inExerciceList = false;
-			Exercice exercice = null;
+			boolean inExerciseList = false;
+			Exercise exercise = null;
 
-			for (Exercice e : trainingComponent.getExercicesList()) {
-				if (e.getIdExercice() == serie.getIdExercice()) {
-					inExerciceList = true;
-					exercice = e;
+			for (Exercise e : trainingComponent.getExercisesList()) {
+				if (e.getIdExercise() == serie.getIdExercise()) {
+					inExerciseList = true;
+					exercise = e;
 				}
 			}
 
-			if (!inExerciceList) {
-				exercice = daoFactory.getExerciceDao().getExerciceById(serie.getIdExercice());
-				exercice.setUserExerciceDatas(daoFactory.getUserExerciceDataDao().getUserExerciceData(this, exercice));
-				trainingComponent.getExercicesList().add(exercice);
+			if (!inExerciseList) {
+				exercise = daoFactory.getExerciseDao().getExerciseById(serie.getIdExercise());
+				exercise.setUserExerciseDatas(daoFactory.getUserExerciseDataDao().getUserExerciseData(this, exercise));
+				trainingComponent.getExercisesList().add(exercise);
 			}
 
 		}
@@ -788,6 +886,7 @@ public class User extends Observable{
 	 */
 	public void setStructure(Structure structure) {
 		this.structure = structure;
+
 	}
 
 	/**

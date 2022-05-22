@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -10,11 +10,11 @@ import model.objects.BodyLimb;
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface UseLimbDao.
  *
  * @author Vincent Mastain
+ * @version 1.0
  */
 public interface UseLimbDao {
 

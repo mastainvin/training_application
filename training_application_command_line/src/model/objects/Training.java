@@ -4,7 +4,7 @@ import java.util.List;
 
 // TODO: Auto-generated Javadoc
 /**
- * Represents a day of training (set of exercice).
+ * Represents a day of training (set of exercise).
  *
  * @author Vincent Mastain
  * @version 1.0

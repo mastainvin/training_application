@@ -1,8 +1,7 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 /**
- * Represents an equipment.
+ * Represents an equipment the user could use.
  *
  * @author Vincent Mastain
  * @version 1.0

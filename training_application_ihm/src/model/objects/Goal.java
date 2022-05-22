@@ -1,8 +1,7 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
 /**
- * Represents Goals.
+ * Represents the goals the user want.
  *
  * @author Vincent Mastain
  * @version 1.0

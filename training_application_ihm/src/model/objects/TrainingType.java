@@ -1,8 +1,8 @@
 package model.objects;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * Represent a type of training.
+ * Represents a type of training.
  *
  * @author Vincent Mastain
  * @version 1.0

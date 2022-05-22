@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao.join;
 
@@ -16,11 +16,12 @@ import model.objects.BodyLimb;
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class UseLimbDaoImpl.
  *
- * @author cytech
+ * @author Vincent Mastain
+ * @version 1.0
  */
 public class UseLimbDaoImpl extends JoinDao<User, BodyLimb> implements UseLimbDao {
 
@@ -68,59 +69,6 @@ public class UseLimbDaoImpl extends JoinDao<User, BodyLimb> implements UseLimbDa
 	public void addCompatibleBodyLimb(Integer id_user, Integer id_bodyLimb)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
 		this.add(id_user, id_bodyLimb);
-	}
-
-	/**
-	 * A object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the user
-	 */
-	@Override
-	User AObjectConstructor(Map<String, String> valuesMap) {
-		User user = new User();
-		user.setPseudonym(valuesMap.get("pseudonym"));
-		user.setPassword(valuesMap.get("password"));
-		user.setEmail(valuesMap.get("email"));
-		user.setSize(Integer.parseInt(valuesMap.get("size")));
-		user.setWeight(Integer.parseInt(valuesMap.get("weight")));
-		user.setGender(valuesMap.get("gender"));
-		user.setBodyFat(Integer.parseInt(valuesMap.get("body_fat")));
-		user.setMuscleMass(Integer.parseInt(valuesMap.get("muscle_mass")));
-		user.setIdUser(Integer.parseInt(valuesMap.get("id_user")));
-
-		try {
-			user.setIdRole(Integer.parseInt(valuesMap.get("id_role")));
-		} catch (NumberFormatException e) {
-		}
-
-		try {
-			user.setIdMorphology(Integer.parseInt(valuesMap.get("id_morphology")));
-		} catch (NumberFormatException e) {
-		}
-
-		try {
-			user.setIdGoal(Integer.parseInt(valuesMap.get("id_goal")));
-		} catch (NumberFormatException e) {
-		}
-		return user;
-	}
-
-	/**
-	 * B object constructor.
-	 *
-	 * @param valuesMap the values map
-	 * @return the body limb
-	 */
-	@Override
-	BodyLimb BObjectConstructor(Map<String, String> valuesMap) {
-		BodyLimb bodyLimb = new BodyLimb();
-		bodyLimb.setName(valuesMap.get("name"));
-		bodyLimb.setIdBodyLimb(Integer.parseInt(valuesMap.get("id_BodyLimb")));
-		bodyLimb.setLower(valuesMap.get("lower") == "1" ? true : false);
-		bodyLimb.setUpper(valuesMap.get("upper") == "1" ? true : false);
-
-		return bodyLimb;
 	}
 
 	/**
@@ -175,6 +123,59 @@ public class UseLimbDaoImpl extends JoinDao<User, BodyLimb> implements UseLimbDa
 			users.add(s);
 		}
 		return users;
+	}
+
+	/**
+	 * A object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the user
+	 */
+	@Override
+	User AObjectConstructor(Map<String, String> valuesMap) {
+		User user = new User();
+		user.setPseudonym(valuesMap.get("pseudonym"));
+		user.setPassword(valuesMap.get("password"));
+		user.setEmail(valuesMap.get("email"));
+		user.setSize(Integer.parseInt(valuesMap.get("size")));
+		user.setWeight(Integer.parseInt(valuesMap.get("weight")));
+		user.setGender(valuesMap.get("gender"));
+		user.setBodyFat(Integer.parseInt(valuesMap.get("body_fat")));
+		user.setMuscleMass(Integer.parseInt(valuesMap.get("muscle_mass")));
+		user.setIdUser(Integer.parseInt(valuesMap.get("id_user")));
+
+		try {
+			user.setIdRole(Integer.parseInt(valuesMap.get("id_role")));
+		} catch (NumberFormatException e) {
+		}
+
+		try {
+			user.setIdMorphology(Integer.parseInt(valuesMap.get("id_morphology")));
+		} catch (NumberFormatException e) {
+		}
+
+		try {
+			user.setIdGoal(Integer.parseInt(valuesMap.get("id_goal")));
+		} catch (NumberFormatException e) {
+		}
+		return user;
+	}
+
+	/**
+	 * B object constructor.
+	 *
+	 * @param valuesMap the values map
+	 * @return the body limb
+	 */
+	@Override
+	BodyLimb BObjectConstructor(Map<String, String> valuesMap) {
+		BodyLimb bodyLimb = new BodyLimb();
+		bodyLimb.setName(valuesMap.get("name"));
+		bodyLimb.setIdBodyLimb(Integer.parseInt(valuesMap.get("id_BodyLimb")));
+		bodyLimb.setLower(valuesMap.get("lower") == "1" ? true : false);
+		bodyLimb.setUpper(valuesMap.get("upper") == "1" ? true : false);
+
+		return bodyLimb;
 	}
 
 	/**

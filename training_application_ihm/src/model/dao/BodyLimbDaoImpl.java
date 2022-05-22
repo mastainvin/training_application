@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -15,7 +15,6 @@ import model.objects.BodyLimb;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BodyLimbDaoImpl.
  *
@@ -39,7 +38,7 @@ public class BodyLimbDaoImpl extends BasicRequestsDao implements BodyLimbDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			BodyLimb bodyLimb = (BodyLimb) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("id_BodyLimb", bodyLimb.getIdBodyLimb().toString());
 			return mapValues;
 		}
@@ -60,7 +59,7 @@ public class BodyLimbDaoImpl extends BasicRequestsDao implements BodyLimbDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			BodyLimb bodyLimb = (BodyLimb) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put("name", bodyLimb.getName());
 			mapValues.put("lower", Integer.valueOf(bodyLimb.getLower() ? 1 : 0).toString());
 			mapValues.put("upper", Integer.valueOf(bodyLimb.getUpper() ? 1 : 0).toString());
@@ -186,6 +185,20 @@ public class BodyLimbDaoImpl extends BasicRequestsDao implements BodyLimbDao {
 	}
 
 	/**
+	 * Update body limb.
+	 *
+	 * @param bodyLimb the body limb
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateBodyLimb(BodyLimb bodyLimb) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(valuesMapInsert.getMapOfValues(bodyLimb), keysMap.getMapOfValues(bodyLimb));
+	}
+
+	/**
 	 * Object constructor.
 	 *
 	 * @param <DataBaseObject> the generic type
@@ -215,20 +228,6 @@ public class BodyLimbDaoImpl extends BasicRequestsDao implements BodyLimbDao {
 		valuesMap.put("lower", results.getString("lower"));
 		valuesMap.put("upper", results.getString("upper"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update body limb.
-	 *
-	 * @param bodyLimb the body limb
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateBodyLimb(BodyLimb bodyLimb) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(valuesMapInsert.getMapOfValues(bodyLimb), keysMap.getMapOfValues(bodyLimb));
 	}
 
 }

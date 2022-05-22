@@ -1,16 +1,16 @@
 /**
- * 
+ *
  */
 package model.dao;
 
 import java.util.List;
 
-import model.objects.Exercice;
+import model.objects.Exercise;
 import model.objects.Morphology;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface MorphologyDao.
  *
@@ -18,6 +18,14 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface MorphologyDao {
+
+	/**
+	 * Gets the all morphology.
+	 *
+	 * @return the all morphology
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<Morphology> getAllMorphology() throws EmptyResultsQueryException;
 
 	/**
 	 * Adds the morphology.
@@ -36,21 +44,12 @@ public interface MorphologyDao {
 	void deleteMorphology(Morphology morphology) throws EmptyResultsQueryException;
 
 	/**
-	 * Gets the all morphology.
+	 * Gets the exercise morphology.
 	 *
-	 * @return the all morphology
+	 * @param exercise the exercise
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	public List<Morphology> getAllMorphology() throws EmptyResultsQueryException;
-
-	/**
-	 * Gets the exercice morphology.
-	 *
-	 * @param exercice the exercice
-	 * @return the exercice morphology
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void getExerciceMorphology(Exercice exercice) throws EmptyResultsQueryException;
+	void getExerciseMorphology(Exercise exercise) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the first morphology.

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -9,7 +9,7 @@ import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface UserDao.
  *
@@ -17,6 +17,31 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface UserDao {
+
+	/**
+	 * Gets the all user.
+	 *
+	 * @return the all user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public List<User> getAllUser() throws EmptyResultsQueryException;
+
+	/**
+	 * Gets the first user.
+	 *
+	 * @return the first user
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	public User getFirstUser() throws EmptyResultsQueryException;
+
+	/**
+	 * Update user.
+	 *
+	 * @param user user to update
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	public void updateUser(User user) throws EmptyResultsQueryException, InsertDataBaseException;
 
 	/**
 	 * Adds the user.
@@ -45,22 +70,6 @@ public interface UserDao {
 	void deleteUser(User user) throws EmptyResultsQueryException;
 
 	/**
-	 * Gets the all user.
-	 *
-	 * @return the all user
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public List<User> getAllUser() throws EmptyResultsQueryException;
-
-	/**
-	 * Gets the first user.
-	 *
-	 * @return the first user
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	public User getFirstUser() throws EmptyResultsQueryException;
-
-	/**
 	 * Gets the user by email.
 	 *
 	 * @param email user's email reqested
@@ -86,14 +95,5 @@ public interface UserDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	User getUserByPseudonym(String pseudonym) throws EmptyResultsQueryException;
-
-	/**
-	 * Update user.
-	 *
-	 * @param user user to update
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	public void updateUser(User user) throws EmptyResultsQueryException, InsertDataBaseException;
 
 }

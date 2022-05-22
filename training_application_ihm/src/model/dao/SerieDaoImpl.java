@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.objects.Exercice;
+import model.objects.Exercise;
 import model.objects.Serie;
 import model.objects.Training;
 import model.objects.TrainingComponent;
@@ -20,7 +20,7 @@ import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class SerieDaoImpl.
  *
@@ -44,7 +44,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Serie serie = (Serie) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 			mapValues.put(getIdLabel(), serie.getIdSerie().toString());
 			return mapValues;
 		}
@@ -65,7 +65,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		@Override
 		public <DataBaseObject> Map<String, String> getMapOfValues(DataBaseObject dataBaseObject) {
 			Serie serie = (Serie) dataBaseObject;
-			Map<String, String> mapValues = new HashMap<String, String>();
+			Map<String, String> mapValues = new HashMap<>();
 
 			mapValues.put("weight", serie.getWeight().toString());
 			mapValues.put("repetitions", serie.getRepetitions().toString());
@@ -100,7 +100,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 			} catch (NullPointerException e) {
 			}
 			try {
-				mapValues.put("id_exercice", serie.getIdExercice().toString());
+				mapValues.put("id_exercise", serie.getIdExercise().toString());
 			} catch (NullPointerException e) {
 			}
 
@@ -133,6 +133,24 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("Serie");
 		this.setIdLabel("id_serie");
+	}
+
+	/**
+	 * Adds the serie.
+	 *
+	 * @param series the series
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	@Override
+	public void addSerie(List<Serie> series) throws InsertDataBaseException {
+		List<Map<String, String>> valuesMapList = new ArrayList<>();
+		for (Serie serie : series) {
+			ValuesMap valuesMap = new MapOfValuesInsert();
+			Map<String, String> getMap = valuesMap.getMapOfValues(serie);
+			valuesMapList.add(getMap);
+		}
+
+		this.addAll(valuesMapList);
 	}
 
 	/**
@@ -298,7 +316,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 			preparedStatement = connection.prepareStatement(sqlRequest);
 			results = preparedStatement.executeQuery();
 
-			Boolean empty = true;
+			boolean empty = true;
 
 			while (results.next()) {
 				dates.add(results.getString("date"));
@@ -380,7 +398,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 			preparedStatement = connection.prepareStatement(sqlRequest);
 			results = preparedStatement.executeQuery();
 
-			Boolean empty = true;
+			boolean empty = true;
 
 			while (results.next()) {
 				Serie serie = new Serie();
@@ -402,13 +420,13 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 	 * Gets the previous best series.
 	 *
 	 * @param user     the user
-	 * @param exercice the exercice
+	 * @param exercise the exercise
 	 * @return the previous best series
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	@Override
-	public List<Serie> getPreviousBestSeries(User user, Exercice exercice)
+	public List<Serie> getPreviousBestSeries(User user, Exercise exercise)
 			throws EmptyResultsQueryException, InsertDataBaseException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -417,18 +435,18 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		try {
 			String sqlRequest;
 			sqlRequest = "SELECT s.* FROM Serie s\n" + "WHERE s.id_user = " + user.getIdUser() + "\n"
-					+ "AND s.id_exercice = " + exercice.getIdExercice() + "\n" + "AND not isNull(s.date)\n"
+					+ "AND s.id_exercise = " + exercise.getIdExercise() + "\n" + "AND not isNull(s.date)\n"
 					+ "AND repetitions * weight >= (SELECT max(s2.repetitions * s2.weight) \n"
 					+ "							FROM Serie s2\n"
 					+ "                            WHERE s2.id_user = s.id_user\n"
-					+ "							AND s2.id_exercice = s.id_exercice\n"
+					+ "							AND s2.id_exercise = s.id_exercise\n"
 					+ "							AND s2.date = s.date);";
 
 			connection = this.getDaoFactory().getConnection();
 			preparedStatement = connection.prepareStatement(sqlRequest);
 			results = preparedStatement.executeQuery();
 
-			Boolean empty = true;
+			boolean empty = true;
 
 			while (results.next()) {
 				Serie serie = new Serie();
@@ -485,7 +503,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 			preparedStatement = connection.prepareStatement(sqlRequest);
 			results = preparedStatement.executeQuery();
 
-			Boolean empty = true;
+			boolean empty = true;
 
 			while (results.next()) {
 				Serie serie = new Serie();
@@ -501,6 +519,22 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 			e.printStackTrace();
 		}
 		return series;
+	}
+
+	/**
+	 * Update serie.
+	 *
+	 * @param serie the serie
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 * @throws InsertDataBaseException    the insert data base exception
+	 */
+	@Override
+	public void updateSerie(Serie serie) throws EmptyResultsQueryException, InsertDataBaseException {
+		ValuesMap valuesMapInsert = new MapOfValuesInsert();
+		Map<String, String> insertMap = valuesMapInsert.getMapOfValues(serie);
+		insertMap.put(getIdLabel(), serie.getIdSerie().toString());
+		ValuesMap keysMap = new MapOfValuesGet();
+		this.update(insertMap, keysMap.getMapOfValues(serie));
 	}
 
 	/**
@@ -553,7 +587,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		}
 
 		try {
-			((Serie) dataBaseObject).setIdExercice(Integer.parseInt(mapValues.get("id_exercice")));
+			((Serie) dataBaseObject).setIdExercise(Integer.parseInt(mapValues.get("id_exercise")));
 		} catch (NumberFormatException e) {
 		}
 
@@ -584,29 +618,13 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		valuesMap.put("rest_duration", results.getString("rest_duration"));
 		valuesMap.put("id_compose_training_training", results.getString("id_compose_training_training"));
 		valuesMap.put("id_user", results.getString("id_user"));
-		valuesMap.put("id_exercice", results.getString("id_exercice"));
+		valuesMap.put("id_exercise", results.getString("id_exercise"));
 		valuesMap.put("compose_training_layout", results.getString("compose_training_layout"));
 		valuesMap.put("id_compose_training_type", results.getString("id_compose_training_type"));
 		valuesMap.put("id_compose_training_method", results.getString("id_compose_training_method"));
 		valuesMap.put("layout", results.getString("layout"));
 		valuesMap.put("in_actual_week", results.getString("in_actual_week"));
 		return valuesMap;
-	}
-
-	/**
-	 * Update serie.
-	 *
-	 * @param serie the serie
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 * @throws InsertDataBaseException    the insert data base exception
-	 */
-	@Override
-	public void updateSerie(Serie serie) throws EmptyResultsQueryException, InsertDataBaseException {
-		ValuesMap valuesMapInsert = new MapOfValuesInsert();
-		Map<String, String> insertMap = valuesMapInsert.getMapOfValues(serie);
-		insertMap.put(getIdLabel(), serie.getIdSerie().toString());
-		ValuesMap keysMap = new MapOfValuesGet();
-		this.update(insertMap, keysMap.getMapOfValues(serie));
 	}
 
 }

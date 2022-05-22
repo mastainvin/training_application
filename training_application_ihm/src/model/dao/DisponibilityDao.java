@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package model.dao;
 
@@ -9,7 +9,6 @@ import model.objects.Disponibility;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface DisponibilityDao.
  *
@@ -17,22 +16,6 @@ import model.objects.exceptions.InsertDataBaseException;
  * @version 1.0
  */
 public interface DisponibilityDao {
-
-	/**
-	 * Adds the disponibility.
-	 *
-	 * @param disponibility disponibility wanted
-	 * @throws InsertDataBaseException the insert data base exception
-	 */
-	void addDisponibility(Disponibility disponibility) throws InsertDataBaseException;
-
-	/**
-	 * Delete disponibility.
-	 *
-	 * @param disponibility disponibility to delete
-	 * @throws EmptyResultsQueryException the empty results query exception
-	 */
-	void deleteDisponibility(Disponibility disponibility) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the all disponibility.
@@ -51,6 +34,22 @@ public interface DisponibilityDao {
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	public Disponibility getDisponibility(Integer duration, Integer layout) throws EmptyResultsQueryException;
+
+	/**
+	 * Adds the disponibility.
+	 *
+	 * @param disponibility disponibility wanted
+	 * @throws InsertDataBaseException the insert data base exception
+	 */
+	void addDisponibility(Disponibility disponibility) throws InsertDataBaseException;
+
+	/**
+	 * Delete disponibility.
+	 *
+	 * @param disponibility disponibility to delete
+	 * @throws EmptyResultsQueryException the empty results query exception
+	 */
+	void deleteDisponibility(Disponibility disponibility) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the disponibility by id.
