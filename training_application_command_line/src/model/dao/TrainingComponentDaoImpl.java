@@ -78,7 +78,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 			}
 
 			try {
-				mapValues.put("id_type", trainingComponent.getIdExerciseType().toString());
+				mapValues.put("id_type", trainingComponent.getIdExerciceType().toString());
 			} catch (NullPointerException e) {
 			}
 			return mapValues;
@@ -101,8 +101,8 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		return singleton;
 	}
 
-	/** The exercise type dao. */
-	ExerciseTypeDao exerciseTypeDao;
+	/** The exercice type dao. */
+	ExerciceTypeDao exerciceTypeDao;
 
 	/** The training dao. */
 	TrainingDao trainingDao;
@@ -118,7 +118,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 	private TrainingComponentDaoImpl(DaoFactory daoFactory) {
 		this.setDaoFactory(daoFactory);
 		this.setDbName("ComposeTraining");
-		this.exerciseTypeDao = daoFactory.getExerciseTypeDao();
+		this.exerciceTypeDao = daoFactory.getExerciceTypeDao();
 		this.trainingMethodDao = daoFactory.getTrainingMethodDao();
 		this.trainingDao = daoFactory.getTrainingDao();
 	}
@@ -315,7 +315,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 		}
 
 		try {
-			((TrainingComponent) dataBaseObject).setIdExerciseType(Integer.parseInt(mapValues.get("id_type")));
+			((TrainingComponent) dataBaseObject).setIdExerciceType(Integer.parseInt(mapValues.get("id_type")));
 		} catch (NumberFormatException e) {
 		}
 
@@ -337,7 +337,7 @@ public class TrainingComponentDaoImpl extends BasicRequestsDao implements Traini
 	Map<String, String> setMapFromResultSet(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
 		valuesMap.put("id_training", results.getString("id_training"));
-		valuesMap.put("id_exercise_type", results.getString("id_type"));
+		valuesMap.put("id_exercice_type", results.getString("id_type"));
 		valuesMap.put("id_training_method", results.getString("id_training_method"));
 		valuesMap.put("id_biomecanic_function_list", results.getString("id_biomecanic_function_list"));
 		valuesMap.put("layout", results.getString("layout"));

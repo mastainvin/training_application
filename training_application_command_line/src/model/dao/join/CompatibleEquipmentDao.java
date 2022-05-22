@@ -7,7 +7,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import model.objects.Equipment;
-import model.objects.Exercise;
+import model.objects.Exercice;
 import model.objects.exceptions.EmptyResultsQueryException;
 
 // TODO: Auto-generated Javadoc
@@ -19,29 +19,29 @@ import model.objects.exceptions.EmptyResultsQueryException;
 public interface CompatibleEquipmentDao {
 
 	/**
-	 * Adds the compatible exercise.
+	 * Adds the compatible exercice.
 	 *
 	 * @param id_equipment the id equipment
-	 * @param id_exercise  the id exercise
+	 * @param id_exercice  the id exercice
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
-	void addCompatibleExercise(Integer id_equipment, Integer id_exercise)
+	void addCompatibleExercice(Integer id_equipment, Integer id_exercice)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 
 	/**
-	 * Delete compatible exercise.
+	 * Delete compatible exercice.
 	 *
 	 * @param id_equipment the id equipment
-	 * @param id_exercise  the id exercise
+	 * @param id_exercice  the id exercice
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
-	void deleteCompatibleExercise(Integer id_equipment, Integer id_exercise)
+	void deleteCompatibleExercice(Integer id_equipment, Integer id_exercice)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 
 	/**
@@ -51,14 +51,14 @@ public interface CompatibleEquipmentDao {
 	 * @return the disponbilities
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	List<Exercise> getDisponbilities(Integer id_equipment) throws EmptyResultsQueryException;
+	List<Exercice> getDisponbilities(Integer id_equipment) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the equipments.
 	 *
-	 * @param id_exercise the id exercise
+	 * @param id_exercice the id exercice
 	 * @return the equipments
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	List<Equipment> getEquipments(Integer id_exercise) throws EmptyResultsQueryException;
+	List<Equipment> getEquipments(Integer id_exercice) throws EmptyResultsQueryException;
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import model.dao.DaoFactory;
 import model.objects.Disponibility;
 import model.objects.Equipment;
-import model.objects.Exercise;
+import model.objects.Exercice;
 import model.objects.Goal;
 import model.objects.Morphology;
 import model.objects.Serie;
@@ -18,7 +18,7 @@ import model.objects.Structure;
 import model.objects.Training;
 import model.objects.TrainingComponent;
 import model.objects.User;
-import model.objects.UserExerciseData;
+import model.objects.UserExerciceData;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 import utils.DateGroup;
@@ -347,39 +347,40 @@ public class Controller {
 		try {
 			structure = this.getUser().getTrainingSuperSet(
 					this.getDaoFactory().getSerieDao().getNextTrainingsSerie(this.getUser()), daoFactory);
-			List<String> exerciseNames = new ArrayList<>();
-			structure.getExercises().forEach((exercise) -> exerciseNames.add(exercise.getName()));
+			List<String> exerciceNames = new ArrayList<>();
+			structure.getExercices().forEach((exercice) -> exerciceNames.add(exercice.getName()));
 			this.printTraining(structure);
-			int choiceExerciseToChange = this.getView().askExerciseToChange(exerciseNames);
-			if (choiceExerciseToChange <= exerciseNames.size()) {
-				int choiceExerciseChange = this.getView().askExerciseChange();
-				String chosenExercise = exerciseNames.get(choiceExerciseToChange - 1);
-				Exercise exerciseToRemove = null;
-				if (choiceExerciseChange == 1) {
+			int choiceExerciceToChange = this.getView().askExerciceToChange(exerciceNames);
+			if (choiceExerciceToChange <= exerciceNames.size()) {
+				int choiceExerciceChange = this.getView().askExerciceChange();
+				String chosenExercice = exerciceNames.get(choiceExerciceToChange - 1);
+				Exercice exerciceToRemove = null;
+				if (choiceExerciceChange == 1) {
 					for (Training t : this.getUser().getStructure().getTrainingsList()) {
 						for (TrainingComponent tc : t.getTrainingComponentList()) {
-							if (tc.getChosenExercise().getName().equals(chosenExercise)) {
-								exerciseToRemove = tc.getChosenExercise();
-								tc.getExercisesList().remove(exerciseToRemove);
-								tc.setChosenExercise(null);
+							if (tc.getChosenExercice().getName().equals(chosenExercice)) {
+								exerciceToRemove = tc.getChosenExercice();
+								tc.getExercicesList().remove(exerciceToRemove);
+								tc.setChosenExercice(null);
 								this.getUser().createOrUpdateTraining(daoFactory);
 							}
 						}
 					}
-				} else if (choiceExerciseChange == 2) {
+				} else if (choiceExerciceChange == 2) {
 					for (Training t : this.getUser().getStructure().getTrainingsList()) {
 						for (TrainingComponent tc : t.getTrainingComponentList()) {
-							if (tc.getChosenExercise().getName().equals(chosenExercise)) {
-								exerciseToRemove = tc.getChosenExercise();
-								tc.getExercisesList().remove(exerciseToRemove);
-								tc.setChosenExercise(null);
+							if (tc.getChosenExercice().getName().equals(chosenExercice)) {
+								exerciceToRemove = tc.getChosenExercice();
+								tc.getExercicesList().remove(exerciceToRemove);
+								tc.setChosenExercice(null);
 								this.getUser().createOrUpdateTraining(daoFactory);
 							}
 						}
 					}
 
-					exerciseToRemove.getUserExerciseDatas().setMark(0.0);
-					this.getDaoFactory().getUserExerciseDataDao().updateUserExerciseData(exerciseToRemove.getUserExerciseDatas());
+					exerciceToRemove.getUserExerciceDatas().setMark(0.0);
+					this.getDaoFactory().getUserExerciceDataDao()
+							.updateUserExerciceData(exerciceToRemove.getUserExerciceDatas());
 				}
 				this.printAllCurrentTraining();
 			} else {
@@ -395,16 +396,16 @@ public class Controller {
 	 * Prints training.
 	 */
 	public void printTraining(Structure structure) {
-		int indexExercise = 1;
+		int indexExercice = 1;
 
 		for (Training t : structure.getTrainingsList()) {
 			this.getView().printMsg("Entraînement n°" + t.getLayout() + " de la semaine");
 			int trainingComponentNb = 1;
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
 				this.getView().printMsg("    Mouvement n°" + trainingComponentNb);
-				for (Exercise e : tc.getExercisesList()) {
-					this.getView().printMsg("    " + indexExercise + ". " + e.getName());
-					indexExercise++;
+				for (Exercice e : tc.getExercicesList()) {
+					this.getView().printMsg("    " + indexExercice + ". " + e.getName());
+					indexExercice++;
 				}
 				for (Serie s : tc.getSeriesList()) {
 					this.getView().printMsg(
@@ -430,48 +431,48 @@ public class Controller {
 	}
 
 	/**
-	 * See exercise list.
+	 * See exercice list.
 	 *
-	 * @param exerciseList the exercise list
+	 * @param exerciceList the exercice list
 	 */
-	private void seeExerciseList(List<Exercise> exerciseList) {
+	private void seeExerciceList(List<Exercice> exerciceList) {
 
-		this.getView().printMsg("Exercises");
+		this.getView().printMsg("Exercices");
 
 		int i = 1;
-		for (Exercise exercise : exerciseList) {
-			this.getView().printExercise(i, exercise.getName(), exercise.getUserExerciseDatas().getMark(),
-					exercise.getUserExerciseDatas().getWeight());
+		for (Exercice exercice : exerciceList) {
+			this.getView().printExercice(i, exercice.getName(), exercice.getUserExerciceDatas().getMark(),
+					exercice.getUserExerciceDatas().getWeight());
 			i++;
 		}
-		Integer returnIndex = exerciseList.size() + 1;
+		Integer returnIndex = exerciceList.size() + 1;
 		this.getView().printMsg(String.format("%3d. Retour", returnIndex));
 
-		int choiceExercise = this.getView().askExercise(exerciseList.size());
+		int choiceExercice = this.getView().askExercice(exerciceList.size());
 
-		if (choiceExercise == returnIndex) {
+		if (choiceExercice == returnIndex) {
 			this.getView().mainMenu();
 			return;
 		}
 
-		Exercise exercise = exerciseList.get(choiceExercise - 1);
+		Exercice exercice = exerciceList.get(choiceExercice - 1);
 
-		int choice = this.getView().exerciseMenu();
+		int choice = this.getView().exerciceMenu();
 		switch (choice) {
 		case 1:
-			int exerciseDataChoice = this.getView().askExerciseDataChoice();
-			switch (exerciseDataChoice) {
+			int exerciceDataChoice = this.getView().askExerciceDataChoice();
+			switch (exerciceDataChoice) {
 			case 1:
-				exercise.getUserExerciseDatas().setMark(this.getView().askNewMarkExerciseData());
+				exercice.getUserExerciceDatas().setMark(this.getView().askNewMarkExerciceData());
 				break;
 			case 2:
-				exercise.getUserExerciseDatas().setWeight(this.getView().askNewWeightExerciseData());
+				exercice.getUserExerciceDatas().setWeight(this.getView().askNewWeightExerciceData());
 				break;
 			default:
 				break;
 			}
 			try {
-				this.getDaoFactory().getUserExerciseDataDao().updateUserExerciseData(exercise.getUserExerciseDatas());
+				this.getDaoFactory().getUserExerciceDataDao().updateUserExerciceData(exercice.getUserExerciceDatas());
 			} catch (EmptyResultsQueryException e) {
 			} catch (InsertDataBaseException e) {
 			}
@@ -480,35 +481,35 @@ public class Controller {
 			try {
 
 				List<Serie> previousTrainings = this.getDaoFactory().getSerieDao().getPreviousBestSeries(this.getUser(),
-						exercise);
+						exercice);
 				for (Serie s : previousTrainings) {
 					Double rm = this.getUser().getRm(s.getRepetitions(), s.getWeight());
-					this.getView().printPreviousBestExercise(s.getDate(), s.getRepetitions(), s.getWeight(), rm);
+					this.getView().printPreviousBestExercice(s.getDate(), s.getRepetitions(), s.getWeight(), rm);
 
 				}
 			} catch (EmptyResultsQueryException | InsertDataBaseException e) {
-				this.getView().printError("Vous n'avez jamais fait cet exercise");
+				this.getView().printError("Vous n'avez jamais fait cet exercice");
 			}
 
 			break;
 		default:
 			return;
 		}
-		seeExerciseList(exerciseList);
+		seeExerciceList(exerciceList);
 	}
 
 	/**
-	 * See exercises list event.
+	 * See exercices list event.
 	 */
-	public void seeExercisesListEvent() {
-		List<Exercise> exerciseList;
+	public void seeExercicesListEvent() {
+		List<Exercice> exerciceList;
 		try {
-			exerciseList = this.getDaoFactory().getExerciseDao().getAllExercise();
-			for (Exercise exercise : exerciseList) {
-				this.getDaoFactory().getUserExerciseDataDao().getExerciseUserExerciseData(exercise, this.getUser());
+			exerciceList = this.getDaoFactory().getExerciceDao().getAllExercice();
+			for (Exercice exercice : exerciceList) {
+				this.getDaoFactory().getUserExerciceDataDao().getExerciceUserExerciceData(exercice, this.getUser());
 			}
 
-			seeExerciseList(exerciseList);
+			seeExerciceList(exerciceList);
 		} catch (EmptyResultsQueryException e) {
 			this.getView().printError("Aucunes données utilisateurs enregistrées");
 		}
@@ -583,18 +584,18 @@ public class Controller {
 		this.getView().printMsg("Entraînement du jour !");
 		int i = 1;
 		for (TrainingComponent tc : todayTraining.getTrainingComponentList()) {
-			this.getView().printMsg("Exercise n°" + i);
+			this.getView().printMsg("Exercice n°" + i);
 			int k = 0;
-			int exerciseListLength = tc.getExercisesList().size();
+			int exerciceListLength = tc.getExercicesList().size();
 
-			Double[] bestRM = new Double[exerciseListLength];
-			for (int y = 0; y < exerciseListLength; y++) {
-				bestRM[y] = tc.getExercisesList().get(y % exerciseListLength).getUserExerciseDatas().getWeight();
+			Double[] bestRM = new Double[exerciceListLength];
+			for (int y = 0; y < exerciceListLength; y++) {
+				bestRM[y] = tc.getExercicesList().get(y % exerciceListLength).getUserExerciceDatas().getWeight();
 			}
 
 			for (Serie s : tc.getSeriesList()) {
-				int exerciseIndex = k % exerciseListLength;
-				this.getView().printSerie(tc.getExercisesList().get(exerciseIndex).getName(), s.getExpectedWeight(),
+				int exerciceIndex = k % exerciceListLength;
+				this.getView().printSerie(tc.getExercicesList().get(exerciceIndex).getName(), s.getExpectedWeight(),
 						s.getExpectedRepetitions());
 				s.setWeight(this.getView().askLiftedWeight());
 				s.setRepetitions(this.getView().askRepetitionsMade());
@@ -605,8 +606,8 @@ public class Controller {
 				}
 
 				Double rm = this.getUser().getRm(s.getRepetitions(), s.getWeight());
-				if (rm > bestRM[exerciseIndex]) {
-					bestRM[exerciseIndex] = rm;
+				if (rm > bestRM[exerciceIndex]) {
+					bestRM[exerciceIndex] = rm;
 				}
 
 				s.setDate(java.time.LocalDate.now().toString());
@@ -621,9 +622,9 @@ public class Controller {
 
 			Integer mark = this.getView().askMark();
 
-			for (int y = 0; y < exerciseListLength; y++) {
+			for (int y = 0; y < exerciceListLength; y++) {
 				try {
-					UserExerciseData ued = tc.getExercisesList().get(y % exerciseListLength).getUserExerciseDatas();
+					UserExerciceData ued = tc.getExercicesList().get(y % exerciceListLength).getUserExerciceDatas();
 					switch (mark) {
 					case 1:
 						ued.setMark((ued.getMark()) / 2);
@@ -635,8 +636,8 @@ public class Controller {
 						ued.setMark((10 + ued.getMark()) / 2);
 						break;
 					}
-					ued.setWeight(bestRM[y % exerciseListLength]);
-					this.getDaoFactory().getUserExerciseDataDao().updateUserExerciseData(ued);
+					ued.setWeight(bestRM[y % exerciceListLength]);
+					this.getDaoFactory().getUserExerciceDataDao().updateUserExerciceData(ued);
 				} catch (EmptyResultsQueryException | InsertDataBaseException e) {
 					e.printStackTrace();
 				}

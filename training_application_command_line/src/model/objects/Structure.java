@@ -47,16 +47,16 @@ public class Structure {
 		return false;
 	}
 
-	public Set<Exercise> getExercises() {
-		Set<Exercise> exerciseSet = new HashSet<>();
+	public Set<Exercice> getExercices() {
+		Set<Exercice> exerciceSet = new HashSet<>();
 		for (Training t : this.getTrainingsList()) {
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
-				for (Exercise e : tc.getExercisesList()) {
-					exerciseSet.add(e);
+				for (Exercice e : tc.getExercicesList()) {
+					exerciceSet.add(e);
 				}
 			}
 		}
-		return exerciseSet;
+		return exerciceSet;
 	}
 
 	/**

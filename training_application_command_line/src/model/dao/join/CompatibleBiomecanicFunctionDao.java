@@ -7,7 +7,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import model.objects.BiomecanicFunction;
-import model.objects.Exercise;
+import model.objects.Exercice;
 import model.objects.exceptions.EmptyResultsQueryException;
 
 // TODO: Auto-generated Javadoc
@@ -19,39 +19,39 @@ import model.objects.exceptions.EmptyResultsQueryException;
 public interface CompatibleBiomecanicFunctionDao {
 
 	/**
-	 * Adds the compatible exercise.
+	 * Adds the compatible exercice.
 	 *
 	 * @param id_biomecanicFunction the id biomecanic function
-	 * @param id_exercise           the id exercise
+	 * @param id_exercice           the id exercice
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
-	void addCompatibleExercise(Integer id_biomecanicFunction, Integer id_exercise)
+	void addCompatibleExercice(Integer id_biomecanicFunction, Integer id_exercice)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 
 	/**
-	 * Delete compatible exercise.
+	 * Delete compatible exercice.
 	 *
 	 * @param id_biomecanicFunction the id biomecanic function
-	 * @param id_exercise           the id exercise
+	 * @param id_exercice           the id exercice
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
-	void deleteCompatibleExercise(Integer id_biomecanicFunction, Integer id_exercise)
+	void deleteCompatibleExercice(Integer id_biomecanicFunction, Integer id_exercice)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 
 	/**
 	 * Gets the biomecanic functions.
 	 *
-	 * @param id_exercise the id exercise
+	 * @param id_exercice the id exercice
 	 * @return the biomecanic functions
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	List<BiomecanicFunction> getBiomecanicFunctions(Integer id_exercise) throws EmptyResultsQueryException;
+	List<BiomecanicFunction> getBiomecanicFunctions(Integer id_exercice) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the disponbilities.
@@ -60,5 +60,5 @@ public interface CompatibleBiomecanicFunctionDao {
 	 * @return the disponbilities
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	List<Exercise> getDisponbilities(Integer id_biomecanicFunction) throws EmptyResultsQueryException;
+	List<Exercice> getDisponbilities(Integer id_biomecanicFunction) throws EmptyResultsQueryException;
 }

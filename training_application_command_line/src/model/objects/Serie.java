@@ -2,7 +2,7 @@ package model.objects;
 
 // TODO: Auto-generated Javadoc
 /**
- * Represents a serie during a trainig for one exercise.
+ * Represents a serie during a trainig for one exercice.
  *
  * @author Vincent Mastain
  * @version 1.0
@@ -30,8 +30,8 @@ public class Serie implements Cloneable {
 	/** The id compose training type. */
 	private Integer id_compose_training_type;
 
-	/** The id exercise. */
-	private Integer id_exercise;
+	/** The id exercice. */
+	private Integer id_exercice;
 	/** The id serie. */
 	private Integer id_serie;
 
@@ -170,12 +170,12 @@ public class Serie implements Cloneable {
 	}
 
 	/**
-	 * Gets the id exercise.
+	 * Gets the id exercice.
 	 *
-	 * @return the id_exercise
+	 * @return the id_exercice
 	 */
-	public Integer getIdExercise() {
-		return id_exercise;
+	public Integer getIdExercice() {
+		return id_exercice;
 	}
 
 	/**
@@ -314,12 +314,12 @@ public class Serie implements Cloneable {
 	}
 
 	/**
-	 * Sets the id exercise.
+	 * Sets the id exercice.
 	 *
-	 * @param id_exercise the id_exercise to set
+	 * @param id_exercice the id_exercice to set
 	 */
-	public void setIdExercise(Integer id_exercise) {
-		this.id_exercise = id_exercise;
+	public void setIdExercice(Integer id_exercice) {
+		this.id_exercice = id_exercice;
 	}
 
 	/**

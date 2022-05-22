@@ -6,7 +6,7 @@ package model.dao.join;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-import model.objects.Exercise;
+import model.objects.Exercice;
 import model.objects.Morphology;
 import model.objects.exceptions.EmptyResultsQueryException;
 
@@ -19,29 +19,29 @@ import model.objects.exceptions.EmptyResultsQueryException;
 public interface CompatibleMorphDao {
 
 	/**
-	 * Adds the compatible exercise.
+	 * Adds the compatible exercice.
 	 *
 	 * @param id_morphology the id morphology
-	 * @param id_exercise   the id exercise
+	 * @param id_exercice   the id exercice
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
-	void addCompatibleExercise(Integer id_morphology, Integer id_exercise)
+	void addCompatibleExercice(Integer id_morphology, Integer id_exercice)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 
 	/**
-	 * Delete compatible exercise.
+	 * Delete compatible exercice.
 	 *
 	 * @param id_morphology the id morphology
-	 * @param id_exercise   the id exercise
+	 * @param id_exercice   the id exercice
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
-	void deleteCompatibleExercise(Integer id_morphology, Integer id_exercise)
+	void deleteCompatibleExercice(Integer id_morphology, Integer id_exercice)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException;
 
 	/**
@@ -51,14 +51,14 @@ public interface CompatibleMorphDao {
 	 * @return the disponbilities
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	List<Exercise> getDisponbilities(Integer id_morphology) throws EmptyResultsQueryException;
+	List<Exercice> getDisponbilities(Integer id_morphology) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the morphologys.
 	 *
-	 * @param id_exercise the id exercise
+	 * @param id_exercice the id exercice
 	 * @return the morphologys
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	List<Morphology> getMorphologys(Integer id_exercise) throws EmptyResultsQueryException;
+	List<Morphology> getMorphologys(Integer id_exercice) throws EmptyResultsQueryException;
 }

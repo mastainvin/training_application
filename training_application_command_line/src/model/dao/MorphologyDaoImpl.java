@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import model.objects.Exercise;
+import model.objects.Exercice;
 import model.objects.Morphology;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
@@ -141,14 +141,14 @@ public class MorphologyDaoImpl extends BasicRequestsDao implements MorphologyDao
 	}
 
 	/**
-	 * Gets the exercise morphology.
+	 * Gets the exercice morphology.
 	 *
-	 * @param exercise the exercise
-	 * @return the exercise morphology
+	 * @param exercice the exercice
+	 * @return the exercice morphology
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public void getExerciseMorphology(Exercise exercise) throws EmptyResultsQueryException {
+	public void getExerciceMorphology(Exercice exercice) throws EmptyResultsQueryException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet results = null;
@@ -157,7 +157,7 @@ public class MorphologyDaoImpl extends BasicRequestsDao implements MorphologyDao
 			String sqlRequest;
 
 			sqlRequest = "SELECT m.* FROM Morphology m, CompatibleMorph cm\n"
-					+ "WHERE m.id_morphology = cm.id_morphology\n" + "AND cm.id_exercise = " + exercise.getIdExercise()
+					+ "WHERE m.id_morphology = cm.id_morphology\n" + "AND cm.id_exercice = " + exercice.getIdExercice()
 					+ ";";
 
 			connection = this.getDaoFactory().getConnection();
@@ -176,7 +176,7 @@ public class MorphologyDaoImpl extends BasicRequestsDao implements MorphologyDao
 			if (empty) {
 				throw new EmptyResultsQueryException();
 			}
-			exercise.setMorphologiesList(morphologiesList);
+			exercice.setMorphologiesList(morphologiesList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

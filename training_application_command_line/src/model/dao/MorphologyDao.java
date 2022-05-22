@@ -5,7 +5,7 @@ package model.dao;
 
 import java.util.List;
 
-import model.objects.Exercise;
+import model.objects.Exercice;
 import model.objects.Morphology;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
@@ -44,13 +44,13 @@ public interface MorphologyDao {
 	public List<Morphology> getAllMorphology() throws EmptyResultsQueryException;
 
 	/**
-	 * Gets the exercise morphology.
+	 * Gets the exercice morphology.
 	 *
-	 * @param exercise the exercise
-	 * @return the exercise morphology
+	 * @param exercice the exercice
+	 * @return the exercice morphology
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
-	void getExerciseMorphology(Exercise exercise) throws EmptyResultsQueryException;
+	void getExerciceMorphology(Exercice exercice) throws EmptyResultsQueryException;
 
 	/**
 	 * Gets the first morphology.

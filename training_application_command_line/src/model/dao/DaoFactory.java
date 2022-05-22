@@ -19,8 +19,8 @@ import model.dao.join.CompatibleEquipmentDao;
 import model.dao.join.CompatibleEquipmentDaoImpl;
 import model.dao.join.CompatibleMorphDao;
 import model.dao.join.CompatibleMorphDaoImpl;
-import model.dao.join.ExerciseTypingDao;
-import model.dao.join.ExerciseTypingDaoImpl;
+import model.dao.join.ExerciceTypingDao;
+import model.dao.join.ExerciceTypingDaoImpl;
 import model.dao.join.HasEquipmentDao;
 import model.dao.join.HasEquipmentDaoImpl;
 import model.dao.join.UseBiomecanicFunctionDao;
@@ -41,23 +41,16 @@ public class DaoFactory {
 	 *
 	 * @return single instance of DaoFactory
 	 */
-	public static DaoFactory singleton;
 	public static DaoFactory getInstance() {
-		if(singleton == null) {
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
 
-			}
-
-			DaoFactory instance = new DaoFactory("jdbc:mysql://localhost:3306/Training_application", "java_application",
-					"9n2%v2PzNpg[AMn3eH=)g,A5{76X%2");
-			
-			singleton = instance;
-			return singleton;
 		}
-		return singleton;
-		
+
+		DaoFactory instance = new DaoFactory("jdbc:mysql://localhost:3306/Training_application", "java_application",
+				"9n2%v2PzNpg[AMn3eH=)g,A5{76X%2");
+		return instance;
 	}
 
 	/** The password. */
@@ -192,30 +185,30 @@ public class DaoFactory {
 	}
 
 	/**
-	 * Gets the exercise dao.
+	 * Gets the exercice dao.
 	 *
-	 * @return the exercise dao
+	 * @return the exercice dao
 	 */
-	public ExerciseDao getExerciseDao() {
-		return ExerciseDaoImpl.instance(this);
+	public ExerciceDao getExerciceDao() {
+		return ExerciceDaoImpl.instance(this);
 	}
 
 	/**
-	 * Gets the exercise type dao.
+	 * Gets the exercice type dao.
 	 *
-	 * @return the exercise type dao
+	 * @return the exercice type dao
 	 */
-	public ExerciseTypeDao getExerciseTypeDao() {
-		return ExerciseTypeDaoImpl.instance(this);
+	public ExerciceTypeDao getExerciceTypeDao() {
+		return ExerciceTypeDaoImpl.instance(this);
 	}
 
 	/**
-	 * Gets the exercise typing dao.
+	 * Gets the exercice typing dao.
 	 *
-	 * @return the exercise typing dao
+	 * @return the exercice typing dao
 	 */
-	public ExerciseTypingDao getExerciseTypingDao() {
-		return ExerciseTypingDaoImpl.instance(this);
+	public ExerciceTypingDao getExerciceTypingDao() {
+		return ExerciceTypingDaoImpl.instance(this);
 	}
 
 	/**
@@ -375,12 +368,12 @@ public class DaoFactory {
 	}
 
 	/**
-	 * Gets the user exercise data dao.
+	 * Gets the user exercice data dao.
 	 *
-	 * @return the user exercise data dao
+	 * @return the user exercice data dao
 	 */
-	public UserExerciseDataDao getUserExerciseDataDao() {
-		return UserExerciseDataDaoImpl.instance(this);
+	public UserExerciceDataDao getUserExerciceDataDao() {
+		return UserExerciceDataDaoImpl.instance(this);
 	}
 
 }

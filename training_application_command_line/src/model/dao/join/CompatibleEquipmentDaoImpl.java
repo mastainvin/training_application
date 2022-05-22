@@ -13,7 +13,7 @@ import java.util.Map;
 
 import model.dao.DaoFactory;
 import model.objects.Equipment;
-import model.objects.Exercise;
+import model.objects.Exercice;
 import model.objects.exceptions.EmptyResultsQueryException;
 
 // TODO: Auto-generated Javadoc
@@ -22,7 +22,7 @@ import model.objects.exceptions.EmptyResultsQueryException;
  *
  * @author cytech
  */
-public class CompatibleEquipmentDaoImpl extends JoinDao<Equipment, Exercise> implements CompatibleEquipmentDao {
+public class CompatibleEquipmentDaoImpl extends JoinDao<Equipment, Exercice> implements CompatibleEquipmentDao {
 
 	/** The singleton. */
 	static private CompatibleEquipmentDaoImpl singleton = null;
@@ -48,26 +48,26 @@ public class CompatibleEquipmentDaoImpl extends JoinDao<Equipment, Exercise> imp
 	private CompatibleEquipmentDaoImpl(DaoFactory daoFactory) {
 		super(daoFactory);
 		this.setADbName("Equipment");
-		this.setBDbName("Exercise");
+		this.setBDbName("Exercice");
 		this.setAIdLabel("id_equipment");
-		this.setBIdLabel("id_exercise");
+		this.setBIdLabel("id_exercice");
 		this.setDbName("CompatibleEquipment");
 	}
 
 	/**
-	 * Adds the compatible exercise.
+	 * Adds the compatible exercice.
 	 *
 	 * @param id_equipment the id equipment
-	 * @param id_exercise  the id exercise
+	 * @param id_exercice  the id exercice
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
 	@Override
-	public void addCompatibleExercise(Integer id_equipment, Integer id_exercise)
+	public void addCompatibleExercice(Integer id_equipment, Integer id_exercice)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.add(id_equipment, id_exercise);
+		this.add(id_equipment, id_exercice);
 	}
 
 	/**
@@ -88,32 +88,32 @@ public class CompatibleEquipmentDaoImpl extends JoinDao<Equipment, Exercise> imp
 	 * B object constructor.
 	 *
 	 * @param valuesMap the values map
-	 * @return the exercise
+	 * @return the exercice
 	 */
 	@Override
-	Exercise BObjectConstructor(Map<String, String> valuesMap) {
-		Exercise exercise = new Exercise();
-		exercise.setName(valuesMap.get("name"));
-		exercise.setDescription(valuesMap.get("description"));
-		exercise.setIdExercise(Integer.parseInt(valuesMap.get("id_exercise")));
+	Exercice BObjectConstructor(Map<String, String> valuesMap) {
+		Exercice exercice = new Exercice();
+		exercice.setName(valuesMap.get("name"));
+		exercice.setDescription(valuesMap.get("description"));
+		exercice.setIdExercice(Integer.parseInt(valuesMap.get("id_exercice")));
 
-		return exercise;
+		return exercice;
 	}
 
 	/**
-	 * Delete compatible exercise.
+	 * Delete compatible exercice.
 	 *
 	 * @param id_equipment the id equipment
-	 * @param id_exercise  the id exercise
+	 * @param id_exercice  the id exercice
 	 * @throws EmptyResultsQueryException               the empty results query
 	 *                                                  exception
 	 * @throws SQLIntegrityConstraintViolationException the SQL integrity constraint
 	 *                                                  violation exception
 	 */
 	@Override
-	public void deleteCompatibleExercise(Integer id_equipment, Integer id_exercise)
+	public void deleteCompatibleExercice(Integer id_equipment, Integer id_exercice)
 			throws EmptyResultsQueryException, SQLIntegrityConstraintViolationException {
-		this.delete(id_equipment, id_exercise);
+		this.delete(id_equipment, id_exercice);
 	}
 
 	/**
@@ -124,12 +124,12 @@ public class CompatibleEquipmentDaoImpl extends JoinDao<Equipment, Exercise> imp
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public List<Exercise> getDisponbilities(Integer id_equipment) throws EmptyResultsQueryException {
+	public List<Exercice> getDisponbilities(Integer id_equipment) throws EmptyResultsQueryException {
 		List<Map<String, String>> values = this.getBList(id_equipment);
-		List<Exercise> disponibilities = new ArrayList<>();
+		List<Exercice> disponibilities = new ArrayList<>();
 
 		for (Map<String, String> value : values) {
-			Exercise d = BObjectConstructor(value);
+			Exercice d = BObjectConstructor(value);
 			disponibilities.add(d);
 		}
 		return disponibilities;
@@ -138,13 +138,13 @@ public class CompatibleEquipmentDaoImpl extends JoinDao<Equipment, Exercise> imp
 	/**
 	 * Gets the equipments.
 	 *
-	 * @param id_exercise the id exercise
+	 * @param id_exercice the id exercice
 	 * @return the equipments
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public List<Equipment> getEquipments(Integer id_exercise) throws EmptyResultsQueryException {
-		List<Map<String, String>> values = this.getAList(id_exercise);
+	public List<Equipment> getEquipments(Integer id_exercice) throws EmptyResultsQueryException {
+		List<Map<String, String>> values = this.getAList(id_exercice);
 		List<Equipment> equipments = new ArrayList<>();
 
 		for (Map<String, String> value : values) {
@@ -179,7 +179,7 @@ public class CompatibleEquipmentDaoImpl extends JoinDao<Equipment, Exercise> imp
 	@Override
 	Map<String, String> setMapFromResultSetB(ResultSet results) throws SQLException {
 		Map<String, String> valuesMap = new HashMap<>();
-		valuesMap.put("id_exercise", results.getString("id_exercise"));
+		valuesMap.put("id_exercice", results.getString("id_exercice"));
 		valuesMap.put("name", results.getString("name"));
 		valuesMap.put("description", results.getString("description"));
 		return valuesMap;

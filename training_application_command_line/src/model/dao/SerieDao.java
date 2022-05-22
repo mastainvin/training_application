@@ -5,7 +5,7 @@ package model.dao;
 
 import java.util.List;
 
-import model.objects.Exercise;
+import model.objects.Exercice;
 import model.objects.Serie;
 import model.objects.Training;
 import model.objects.TrainingComponent;
@@ -126,12 +126,12 @@ public interface SerieDao {
 	 * Gets the previous best series.
 	 *
 	 * @param user     the user
-	 * @param exercise the exercise
+	 * @param exercice the exercice
 	 * @return the previous best series
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 * @throws InsertDataBaseException    the insert data base exception
 	 */
-	List<Serie> getPreviousBestSeries(User user, Exercise exercise)
+	List<Serie> getPreviousBestSeries(User user, Exercice exercice)
 			throws EmptyResultsQueryException, InsertDataBaseException;
 
 	/**

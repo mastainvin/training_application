@@ -1,8 +1,0 @@
-controller
-debug
-model.dao
-model.dao.join
-model.objects
-model.objects.exceptions
-utils
-view
