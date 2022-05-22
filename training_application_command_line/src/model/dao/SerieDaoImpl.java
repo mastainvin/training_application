@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.objects.Exercice;
+import model.objects.Exercise;
 import model.objects.Serie;
 import model.objects.Training;
 import model.objects.TrainingComponent;
@@ -100,7 +100,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 			} catch (NullPointerException e) {
 			}
 			try {
-				mapValues.put("id_exercice", serie.getIdExercice().toString());
+				mapValues.put("id_exercise", serie.getIdExercise().toString());
 			} catch (NullPointerException e) {
 			}
 
@@ -402,13 +402,13 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 	 * Gets the previous best series.
 	 *
 	 * @param user     the user
-	 * @param exercice the exercice
+	 * @param exercise the exercise
 	 * @return the previous best series
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 * @throws InsertDataBaseException    the insert data base exception
 	 */
 	@Override
-	public List<Serie> getPreviousBestSeries(User user, Exercice exercice)
+	public List<Serie> getPreviousBestSeries(User user, Exercise exercise)
 			throws EmptyResultsQueryException, InsertDataBaseException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -417,11 +417,11 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		try {
 			String sqlRequest;
 			sqlRequest = "SELECT s.* FROM Serie s\n" + "WHERE s.id_user = " + user.getIdUser() + "\n"
-					+ "AND s.id_exercice = " + exercice.getIdExercice() + "\n" + "AND not isNull(s.date)\n"
+					+ "AND s.id_exercise = " + exercise.getIdExercise() + "\n" + "AND not isNull(s.date)\n"
 					+ "AND repetitions * weight >= (SELECT max(s2.repetitions * s2.weight) \n"
 					+ "							FROM Serie s2\n"
 					+ "                            WHERE s2.id_user = s.id_user\n"
-					+ "							AND s2.id_exercice = s.id_exercice\n"
+					+ "							AND s2.id_exercise = s.id_exercise\n"
 					+ "							AND s2.date = s.date);";
 
 			connection = this.getDaoFactory().getConnection();
@@ -553,7 +553,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		}
 
 		try {
-			((Serie) dataBaseObject).setIdExercice(Integer.parseInt(mapValues.get("id_exercice")));
+			((Serie) dataBaseObject).setIdExercise(Integer.parseInt(mapValues.get("id_exercise")));
 		} catch (NumberFormatException e) {
 		}
 
@@ -584,7 +584,7 @@ public class SerieDaoImpl extends BasicRequestsDao implements SerieDao {
 		valuesMap.put("rest_duration", results.getString("rest_duration"));
 		valuesMap.put("id_compose_training_training", results.getString("id_compose_training_training"));
 		valuesMap.put("id_user", results.getString("id_user"));
-		valuesMap.put("id_exercice", results.getString("id_exercice"));
+		valuesMap.put("id_exercise", results.getString("id_exercise"));
 		valuesMap.put("compose_training_layout", results.getString("compose_training_layout"));
 		valuesMap.put("id_compose_training_type", results.getString("id_compose_training_type"));
 		valuesMap.put("id_compose_training_method", results.getString("id_compose_training_method"));

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Scene?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Scene xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <TabPane prefHeight="651.0" prefWidth="1026.0" tabClosingPolicy="UNAVAILABLE">
+     <tabs>
+       <Tab text="Mon planning">
+         <content>
+               <BorderPane prefHeight="619.0" prefWidth="901.0">
+                  <right>
+                     <VBox alignment="TOP_CENTER" prefHeight="620.0" prefWidth="273.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exercices">
+                              <font>
+                                 <Font name="System Bold" size="18.0" />
+                              </font>
+                           </Text>
+                           <ListView fx:id="exerciseList" prefHeight="311.0" prefWidth="227.0" />
+                           <VBox alignment="CENTER" prefHeight="307.0" prefWidth="247.0">
+                              <children>
+                                 <Button fx:id="replaceExerciseButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="238.0" text="Enlever de l'entrainement" />
+                                 <Button fx:id="replaceInEveryTrainingExerciseButton" mnemonicParsing="false" text="Enlever de tous les entrainements" textAlignment="CENTER" textOverrun="CLIP">
+                                    <VBox.margin>
+                                       <Insets top="10.0" />
+                                    </VBox.margin>
+                                 </Button>
+                                 <Button fx:id="forceUpdateTrainingButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="235.0" text="Réinitialiser l'entrainement" textAlignment="CENTER" textOverrun="CLIP">
+                                    <VBox.margin>
+                                       <Insets top="10.0" />
+                                    </VBox.margin>
+                                 </Button>
+                              </children>
+                              <padding>
+                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                              </padding>
+                           </VBox>
+                        </children>
+                        <padding>
+                           <Insets bottom="10.0" left="10.0" top="20.0" />
+                        </padding>
+                     </VBox>
+                  </right>
+                  <left>
+                     <VBox alignment="TOP_CENTER" prefHeight="619.0" BorderPane.alignment="TOP_CENTER">
+                        <children>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Séances">
+                              <font>
+                                 <Font name="System Bold" size="18.0" />
+                              </font>
+                           </Text>
+                           <ListView fx:id="trainingList" prefHeight="335.0" prefWidth="222.0">
+                              <VBox.margin>
+                                 <Insets right="10.0" />
+                              </VBox.margin></ListView>
+                           <VBox alignment="CENTER" prefHeight="222.0" prefWidth="222.0">
+                              <children>
+                                 <HBox alignment="CENTER">
+                                    <padding>
+                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                 </HBox>
+                                 <VBox alignment="CENTER" prefHeight="61.0" prefWidth="222.0">
+                                    <children>
+                                       <ChoiceBox fx:id="firstDisponibilityChoiceBox" prefWidth="150.0" />
+                                       <ChoiceBox fx:id="secondDisponibilityChoiceBox" prefWidth="150.0">
+                                          <opaqueInsets>
+                                             <Insets />
+                                          </opaqueInsets>
+                                          <VBox.margin>
+                                             <Insets top="5.0" />
+                                          </VBox.margin>
+                                       </ChoiceBox>
+                                    </children>
+                                    <padding>
+                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                 </VBox>
+                                 <Button fx:id="validDisponibilities" mnemonicParsing="false" prefHeight="24.0" prefWidth="150.0" text="Changer le planning">
+                                    <VBox.margin>
+                                       <Insets bottom="20.0" />
+                                    </VBox.margin>
+                                 </Button>
+                                 <Button fx:id="startTrainingButton" mnemonicParsing="false" prefHeight="75.0" prefWidth="198.0" text="Démarrer l'entrainement" />
+                              </children>
+                           </VBox>
+                        </children>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                        <padding>
+                           <Insets top="20.0" />
+                        </padding>
+                     </VBox>
+                  </left>
+                  <center>
+                     <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="TOP_CENTER">
+                        <children>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Composition de l'entrainement">
+                              <font>
+                                 <Font name="System Bold" size="18.0" />
+                              </font>
+                           </Text>
+                           <ListView fx:id="trainingComponentList" prefHeight="287.0" prefWidth="411.0" />
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Séries">
+                              <font>
+                                 <Font name="System Bold" size="18.0" />
+                              </font>
+                           </Text>
+                           <ListView fx:id="serieList" prefHeight="224.0" prefWidth="410.0" />
+                           <Label fx:id="trainingModificationLabel" alignment="CENTER" prefHeight="24.0" prefWidth="363.0" textAlignment="CENTER" />
+                        </children>
+                        <padding>
+                           <Insets top="20.0" />
+                        </padding>
+                     </VBox>
+                  </center>
+               </BorderPane>
+         </content>
+       </Tab>
+         <Tab text="Historique">
+           <content>
+               <BorderPane prefHeight="619.0" prefWidth="901.0">
+                  <center>
+                     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Series">
+                              <font>
+                                 <Font name="System Bold" size="18.0" />
+                              </font>
+                           </Text>
+                           <ListView fx:id="serieListHistory" prefHeight="522.0" prefWidth="432.0" />
+                        </children>
+                     </VBox>
+                  </center>
+                  <left>
+                     <TreeView fx:id="previousTrainingTree" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                  </left>
+               </BorderPane>
+           </content>
+         </Tab>
+         <Tab fx:id="validDataButtton" text="Liste des exercices">
+           <content>
+               <BorderPane prefHeight="621.0" prefWidth="900.0">
+                  <left>
+                     <ListView fx:id="exerciseListList" prefHeight="677.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                  </left>
+                  <center>
+                     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <HBox alignment="BOTTOM_LEFT">
+                              <children>
+                                 <VBox>
+                                    <children>
+                                       <Label text="Note" />
+                                       <TextField fx:id="markInput" />
+                                    </children>
+                                    <padding>
+                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                 </VBox>
+                                 <VBox>
+                                    <children>
+                                       <Label text="Répétition maximale" />
+                                       <TextField fx:id="rmInput" />
+                                    </children>
+                                    <padding>
+                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                 </VBox>
+                                 <Button fx:id="validExerciseData" mnemonicParsing="false" text="Valider changements">
+                                    <padding>
+                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                    <HBox.margin>
+                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </HBox.margin>
+                                 </Button>
+                              </children>
+                           </HBox>
+                           <VBox alignment="CENTER_LEFT" prefHeight="578.0" prefWidth="700.0">
+                              <children>
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Votre évolution" />
+                                 <LineChart fx:id="exerciseEvolution" prefHeight="373.0" prefWidth="690.0">
+                                   <xAxis>
+                                     <CategoryAxis fx:id="dateXChart" side="BOTTOM" />
+                                   </xAxis>
+                                   <yAxis>
+                                     <NumberAxis fx:id="rmYChart" side="LEFT" />
+                                   </yAxis>
+                                 </LineChart>
+                              </children>
+                              <padding>
+                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                              </padding>
+                           </VBox>
+                        </children>
+                        <BorderPane.margin>
+                           <Insets />
+                        </BorderPane.margin>
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                     </VBox>
+                  </center>
+               </BorderPane>
+           </content>
+         </Tab>
+     </tabs>
+   </TabPane>
+</Scene>

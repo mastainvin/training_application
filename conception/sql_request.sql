@@ -231,5 +231,8 @@ SELECT s.id_compose_training_training training_layout, bf.* FROM BiomecanicFunct
     				AND ct.id_training = s.id_compose_training_training
     				AND s.in_actual_week = 1
     				AND not isNull(s.date)
-    				AND s.id_user = 105
+    				AND s.id_user = 16
     				GROUP BY s.id_compose_training_training, bf.id_biomecanic_function, bf.name;
+                    
+                    
+                    

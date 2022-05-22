@@ -13,14 +13,14 @@ import java.util.Set;
 
 import model.dao.BiomecanicFunctionDao;
 import model.dao.DaoFactory;
-import model.dao.ExerciceDao;
+import model.dao.ExerciseDao;
 import model.dao.MorphologyDao;
 import model.dao.SerieDao;
 import model.dao.SerieRepartitionDao;
 import model.dao.TrainingComponentDao;
 import model.dao.TrainingDao;
 import model.dao.TrainingMethodDao;
-import model.dao.UserExerciceDataDao;
+import model.dao.UserExerciseDataDao;
 import model.objects.exceptions.EmptyResultsQueryException;
 import model.objects.exceptions.InsertDataBaseException;
 
@@ -94,8 +94,8 @@ public class User {
 		TrainingDao tDao = daoFactory.getTrainingDao();
 		TrainingComponentDao tcDao = daoFactory.getTrainingComponentDao();
 		BiomecanicFunctionDao bfDao = daoFactory.getBiomecanicFunctionDao();
-		ExerciceDao eDao = daoFactory.getExerciceDao();
-		UserExerciceDataDao uedDao = daoFactory.getUserExerciceDataDao();
+		ExerciseDao eDao = daoFactory.getExerciseDao();
+		UserExerciseDataDao uedDao = daoFactory.getUserExerciseDataDao();
 		TrainingMethodDao tmDao = daoFactory.getTrainingMethodDao();
 		MorphologyDao mDao = daoFactory.getMorphologyDao();
 		SerieRepartitionDao srDao = daoFactory.getSerieRepartitionDao();
@@ -103,7 +103,7 @@ public class User {
 
 		sDao.deleteNotDoneUserSerie(this);
 
-		List<Exercice> eL = new ArrayList<>();
+		List<Exercise> eL = new ArrayList<>();
 
 		// get user's structure if he doesn't exist
 		if (this.getStructure() == null) {
@@ -121,28 +121,28 @@ public class User {
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
 
 				bfDao.getTrainingComponentBiomecanicFunctionList(tc);
-				if (utils.Utils.isEmptyOrNull(tc.getExercicesList())) {
-					eDao.getTrainingComponentExerciceList(tc, this);
+				if (utils.Utils.isEmptyOrNull(tc.getExercisesList())) {
+					eDao.getTrainingComponentExerciseList(tc, this);
 				}
 				
-				// get every exercices
-				for (Exercice e : tc.getExercicesList()) {
+				// get every exercises
+				for (Exercise e : tc.getExercisesList()) {
 					
-					// get exercice data and if they don't exist we create them
+					// get exercise data and if they don't exist we create them
 					try {
-						uedDao.getExerciceUserExerciceData(e, this);
+						uedDao.getExerciseUserExerciseData(e, this);
 					} catch (EmptyResultsQueryException err) {
-						UserExerciceData ued = new UserExerciceData();
-						ued.setIdExercice(e.getIdExercice());
+						UserExerciseData ued = new UserExerciseData();
+						ued.setIdExercise(e.getIdExercise());
 						ued.setIdUser(this.getIdUser());
 						ued.setMark(5.0);
 						ued.setNbDone(0);
 						ued.setWeight(0.0);
-						uedDao.addUserExerciceData(ued);
-						e.setUserExerciceDatas(ued);
+						uedDao.addUserExerciseData(ued);
+						e.setUserExerciseDatas(ued);
 					} finally {
-						mDao.getExerciceMorphology(e);
-						bfDao.getExerciceBiomecanicFunctionList(e);
+						mDao.getExerciseMorphology(e);
+						bfDao.getExerciseBiomecanicFunctionList(e);
 						if (!eL.contains(e))
 							eL.add(e);
 					}
@@ -189,17 +189,17 @@ public class User {
 			// If the user didn't trainings, we do nothing
 		}
 
-		Map<Exercice, Integer> mapEl = new HashMap<>();
+		Map<Exercise, Integer> mapEl = new HashMap<>();
 		int elLength = eL.size();
 		for (int i = 0; i < elLength; i++) {
 			mapEl.put(eL.get(i), i);
 		}
 
-		int[][] tabExerciceTrainingComponent = new int[elLength][elLength];
+		int[][] tabExerciseTrainingComponent = new int[elLength][elLength];
 
 		int k = 0;
 		Morphology m_morph_u = mDao.getMorphologyById(this.getIdMorphology());
-		Integer nbDoneExerciceUser = uedDao.getNbDoneExerciceUser(this);
+		Integer nbDoneExerciseUser = uedDao.getNbDoneExerciseUser(this);
 		for (Training t : this.getStructure().getTrainingsList()) {
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
 				Double note = 0.0;
@@ -207,11 +207,11 @@ public class User {
 				List<BiomecanicFunction> mf_list_e = null;
 				List<BiomecanicFunction> mf_list_tc = tc.getBiomecanicFunctionList();
 
-				if (tc.getChosenExercice() == null) {
-					for (Exercice e : tc.getExercicesList()) {
+				if (tc.getChosenExercise() == null) {
+					for (Exercise e : tc.getExercisesList()) {
 
-						note = e.getUserExerciceDatas().getMark();
-						nb_done = e.getUserExerciceDatas().getNbDone();
+						note = e.getUserExerciseDatas().getMark();
+						nb_done = e.getUserExerciseDatas().getNbDone();
 
 						mf_list_e = e.getBiomecanicFunctionList();
 						Set<BiomecanicFunction> joinSet = new HashSet<>(mf_list_e);
@@ -234,14 +234,14 @@ public class User {
 						}
 
 						int value = (int) Math.floor(
-								100 * note * (nbDoneExerciceUser + 1) * (((card_e + card_tc) * 1.0 / card_e_tc) - 1)
+								100 * note * (nbDoneExerciseUser + 1) * (((card_e + card_tc) * 1.0 / card_e_tc) - 1)
 										* ((card_morph_e_u + 1) / (card_morph_e + card_morph_u - card_morph_e_u + 1))
 										/ (nb_done + 1));
-						tabExerciceTrainingComponent[mapEl.get(e)][k] = value;
+						tabExerciseTrainingComponent[mapEl.get(e)][k] = value;
 
 					}
 				} else {
-					tabExerciceTrainingComponent[mapEl.get(tc.getChosenExercice())][k] = 999999;
+					tabExerciseTrainingComponent[mapEl.get(tc.getChosenExercise())][k] = 999999;
 				}
 
 				k++;
@@ -252,7 +252,7 @@ public class User {
 		int i;
 		while (k < elLength) {
 			for (i = 0; i < elLength; i++) {
-				tabExerciceTrainingComponent[i][k] = 0;
+				tabExerciseTrainingComponent[i][k] = 0;
 			}
 			k++;
 		}
@@ -260,28 +260,28 @@ public class User {
 		int max = 0;
 		for (i = 0; i < elLength; i++) {
 			for (int j = 0; j < elLength; j++) {
-				if (max < tabExerciceTrainingComponent[i][j]) {
-					max = tabExerciceTrainingComponent[i][j];
+				if (max < tabExerciseTrainingComponent[i][j]) {
+					max = tabExerciseTrainingComponent[i][j];
 				}
 			}
 		}
 		for (i = 0; i < elLength; i++) {
 			for (int j = 0; j < elLength; j++) {
-				tabExerciceTrainingComponent[i][j] = max - tabExerciceTrainingComponent[i][j];
+				tabExerciseTrainingComponent[i][j] = max - tabExerciseTrainingComponent[i][j];
 
 			}
 		}
 
-		HungarianAlgorithm ha = new HungarianAlgorithm(tabExerciceTrainingComponent);
+		HungarianAlgorithm ha = new HungarianAlgorithm(tabExerciseTrainingComponent);
 
 		int[][] assignment = ha.findOptimalAssignment();
 
 		i = 0;
 		for (Training t : this.getStructure().getTrainingsList()) {
 			for (TrainingComponent tc : t.getTrainingComponentList()) {
-				Exercice exercice = eL.get(assignment[i][1]);
-				uedDao.getExerciceUserExerciceData(exercice, this);
-				tc.setChosenExercice(exercice);
+				Exercise exercise = eL.get(assignment[i][1]);
+				uedDao.getExerciseUserExerciseData(exercise, this);
+				tc.setChosenExercise(exercise);
 				i++;
 			}
 		}
@@ -327,19 +327,19 @@ public class User {
 				int it = 0;
 				for (SerieRepartition sr : tm.getSerieRepartition()) {
 					TrainingComponent trainingComponent = ct_super_set.get(it);
-					Exercice e = trainingComponent.getChosenExercice();
+					Exercise e = trainingComponent.getChosenExercise();
 					Serie serie = new Serie();
 					serie.setExpectedRepetitions(sr.getNbRep());
 					serie.setExpectedWeight(
-							(int) Math.floor(sr.getWeight() * e.getUserExerciceDatas().getWeight() / 100));
+							(int) Math.floor(sr.getWeight() * e.getUserExerciseDatas().getWeight() / 100));
 					serie.setLayout(sr.getLayout());
 					serie.setInActualWeek(true);
 					serie.setRestDuration(sr.getRestDuration());
 
 					serie.setIdComposeTrainingMethod(trainingComponent.getIdTrainingMethod());
 					serie.setIdComposeTrainingTraining(trainingComponent.getIdTraining());
-					serie.setIdComposeTrainingType(trainingComponent.getIdExerciceType());
-					serie.setIdExercice(e.getIdExercice());
+					serie.setIdComposeTrainingType(trainingComponent.getIdExerciseType());
+					serie.setIdExercise(e.getIdExercise());
 					serie.setIdUser(this.getIdUser());
 					serie.setComposeTrainingLayout(trainingComponent.getLayout());
 
@@ -536,29 +536,29 @@ public class User {
 				daoFactory.getTrainingMethodDao().getTrainingComponentTrainingMethod(trainingComponent);
 				trainingComponent.setSeriesList(new ArrayList<>());
 				trainingComponent.getSeriesList().add(serie);
-				daoFactory.getExerciceDao().getTrainingComponentExerciceList(trainingComponent, this);
+				daoFactory.getExerciseDao().getTrainingComponentExerciseList(trainingComponent, this);
 				training.getTrainingComponentList().add(trainingComponent);
 			}
 
-			Exercice exerciceChose = daoFactory.getExerciceDao().getExerciceById(serie.getIdExercice());
-			exerciceChose
-					.setUserExerciceDatas(daoFactory.getUserExerciceDataDao().getUserExerciceData(this, exerciceChose));
-			trainingComponent.setChosenExercice(exerciceChose);
+			Exercise exerciseChose = daoFactory.getExerciseDao().getExerciseById(serie.getIdExercise());
+			exerciseChose
+					.setUserExerciseDatas(daoFactory.getUserExerciseDataDao().getUserExerciseData(this, exerciseChose));
+			trainingComponent.setChosenExercise(exerciseChose);
 
-			boolean inExerciceList = false;
-			Exercice exercice = null;
+			boolean inExerciseList = false;
+			Exercise exercise = null;
 
-			for (Exercice e : trainingComponent.getExercicesList()) {
-				if (e.getIdExercice() == serie.getIdExercice()) {
-					inExerciceList = true;
-					exercice = e;
+			for (Exercise e : trainingComponent.getExercisesList()) {
+				if (e.getIdExercise() == serie.getIdExercise()) {
+					inExerciseList = true;
+					exercise = e;
 				}
 			}
 
-			if (!inExerciceList) {
-				exercice = daoFactory.getExerciceDao().getExerciceById(serie.getIdExercice());
-				exercice.setUserExerciceDatas(daoFactory.getUserExerciceDataDao().getUserExerciceData(this, exercice));
-				trainingComponent.getExercicesList().add(exercice);
+			if (!inExerciseList) {
+				exercise = daoFactory.getExerciseDao().getExerciseById(serie.getIdExercise());
+				exercise.setUserExerciseDatas(daoFactory.getUserExerciseDataDao().getUserExerciseData(this, exercise));
+				trainingComponent.getExercisesList().add(exercise);
 			}
 
 		}
@@ -622,24 +622,24 @@ public class User {
 				daoFactory.getTrainingMethodDao().getTrainingComponentTrainingMethod(trainingComponent);
 				trainingComponent.setSeriesList(new ArrayList<>());
 				trainingComponent.getSeriesList().add(serie);
-				trainingComponent.setExercicesList(new ArrayList<>());
+				trainingComponent.setExercisesList(new ArrayList<>());
 				training.getTrainingComponentList().add(trainingComponent);
 			}
 
-			boolean inExerciceList = false;
-			Exercice exercice = null;
+			boolean inExerciseList = false;
+			Exercise exercise = null;
 
-			for (Exercice e : trainingComponent.getExercicesList()) {
-				if (e.getIdExercice() == serie.getIdExercice()) {
-					inExerciceList = true;
-					exercice = e;
+			for (Exercise e : trainingComponent.getExercisesList()) {
+				if (e.getIdExercise() == serie.getIdExercise()) {
+					inExerciseList = true;
+					exercise = e;
 				}
 			}
 
-			if (!inExerciceList) {
-				exercice = daoFactory.getExerciceDao().getExerciceById(serie.getIdExercice());
-				exercice.setUserExerciceDatas(daoFactory.getUserExerciceDataDao().getUserExerciceData(this, exercice));
-				trainingComponent.getExercicesList().add(exercice);
+			if (!inExerciseList) {
+				exercise = daoFactory.getExerciseDao().getExerciseById(serie.getIdExercise());
+				exercise.setUserExerciseDatas(daoFactory.getUserExerciseDataDao().getUserExerciseData(this, exercise));
+				trainingComponent.getExercisesList().add(exercise);
 			}
 
 		}

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import model.objects.BiomecanicFunction;
-import model.objects.Exercice;
+import model.objects.Exercise;
 import model.objects.TrainingComponent;
 import model.objects.User;
 import model.objects.exceptions.EmptyResultsQueryException;
@@ -233,14 +233,14 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 	}
 
 	/**
-	 * Gets the exercice biomecanic function list.
+	 * Gets the exercise biomecanic function list.
 	 *
-	 * @param exercice the exercice
-	 * @return the exercice biomecanic function list
+	 * @param exercise the exercise
+	 * @return the exercise biomecanic function list
 	 * @throws EmptyResultsQueryException the empty results query exception
 	 */
 	@Override
-	public void getExerciceBiomecanicFunctionList(Exercice exercice) throws EmptyResultsQueryException {
+	public void getExerciseBiomecanicFunctionList(Exercise exercise) throws EmptyResultsQueryException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet results = null;
@@ -248,10 +248,10 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 		try {
 			String sqlRequest;
 
-			sqlRequest = "SELECT bf.* FROM BiomecanicFunction bf, CompatibleBiomecanicFunction cbf, Exercice e\n"
-					+ "WHERE e.id_exercice = cbf.id_exercice\n"
-					+ "AND bf.id_biomecanic_function = cbf.id_biomecanic_function\n" + "AND e.id_exercice = "
-					+ exercice.getIdExercice() + ";";
+			sqlRequest = "SELECT bf.* FROM BiomecanicFunction bf, CompatibleBiomecanicFunction cbf, Exercise e\n"
+					+ "WHERE e.id_exercise = cbf.id_exercise\n"
+					+ "AND bf.id_biomecanic_function = cbf.id_biomecanic_function\n" + "AND e.id_exercise = "
+					+ exercise.getIdExercise() + ";";
 
 			connection = this.getDaoFactory().getConnection();
 			preparedStatement = connection.prepareStatement(sqlRequest);
@@ -269,7 +269,7 @@ public class BiomecanicFunctionDaoImpl extends BasicRequestsDao implements Biome
 			if (empty) {
 				throw new EmptyResultsQueryException();
 			}
-			exercice.setBiomecanicFunctionList(biomecanicFunctionList);
+			exercise.setBiomecanicFunctionList(biomecanicFunctionList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

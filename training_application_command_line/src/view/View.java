@@ -38,14 +38,14 @@ public class View {
 	}
 
 	/**
-	 * Ask exercice.
+	 * Ask exercise.
 	 *
-	 * @param nbExercice the nb exercice
+	 * @param nbExercise the nb exercise
 	 * @return the int
 	 */
-	public int askExercice(int nbExercice) {
+	public int askExercise(int nbExercise) {
 		Integer choice = -1;
-		while (choice < 1 || choice > nbExercice + 1) {
+		while (choice < 1 || choice > nbExercise + 1) {
 			System.out.print("Votre choix : ");
 			choice = this.inputInteger();
 		}
@@ -54,13 +54,13 @@ public class View {
 	}
 
 	/**
-	 * Ask exercice change.
+	 * Ask exercise change.
 	 *
 	 * @return the int
 	 */
-	public int askExerciceChange() {
-		System.out.println("1. Enlever l'exercice de cet entraînement");
-		System.out.println("2. Enlever l'exercice de tous les entraînements");
+	public int askExerciseChange() {
+		System.out.println("1. Enlever l'exercise de cet entraînement");
+		System.out.println("2. Enlever l'exercise de tous les entraînements");
 		System.out.println("3. Retour");
 
 		Integer choice = 0;
@@ -74,11 +74,11 @@ public class View {
 	}
 
 	/**
-	 * Ask exercice data choice.
+	 * Ask exercise data choice.
 	 *
 	 * @return the int
 	 */
-	public int askExerciceDataChoice() {
+	public int askExerciseDataChoice() {
 		System.out.println("1. Changer la note");
 		System.out.println("2. Changer le RM");
 		System.out.println("3. Retour");
@@ -94,16 +94,16 @@ public class View {
 	}
 
 	/**
-	 * Ask exercice to change.
+	 * Ask exercise to change.
 	 *
-	 * @param exerciceNames the exercice names
+	 * @param exerciseNames the exercise names
 	 * @return the int
 	 */
-	public int askExerciceToChange(List<String> exerciceNames) {
-		for (int i = 1; i <= exerciceNames.size(); i++) {
-			System.out.println(i + ". " + exerciceNames.get(i - 1));
+	public int askExerciseToChange(List<String> exerciseNames) {
+		for (int i = 1; i <= exerciseNames.size(); i++) {
+			System.out.println(i + ". " + exerciseNames.get(i - 1));
 		}
-		int returnChoice = (exerciceNames.size() + 1);
+		int returnChoice = (exerciseNames.size() + 1);
 		System.out.println(returnChoice + ". Retour (Validation des changements)");
 		Integer choice = 0;
 
@@ -145,11 +145,11 @@ public class View {
 	}
 
 	/**
-	 * Ask new mark exercice data.
+	 * Ask new mark exercise data.
 	 *
 	 * @return the double
 	 */
-	public Double askNewMarkExerciceData() {
+	public Double askNewMarkExerciseData() {
 		System.out.println("Note entre 0 et 10");
 
 		Double choice = -1.0;
@@ -163,11 +163,11 @@ public class View {
 	}
 
 	/**
-	 * Ask new weight exercice data.
+	 * Ask new weight exercise data.
 	 *
 	 * @return the double
 	 */
-	public Double askNewWeightExerciceData() {
+	public Double askNewWeightExerciseData() {
 		System.out.println("Pods supérieur à 0");
 
 		Double choice = -1.0;
@@ -368,11 +368,11 @@ public class View {
 	}
 
 	/**
-	 * Exercice menu.
+	 * Exercise menu.
 	 *
 	 * @return the int
 	 */
-	public int exerciceMenu() {
+	public int exerciseMenu() {
 		System.out.println("1. Changer les informations");
 		System.out.println("2. Voir votre évolution");
 		System.out.println("3. Retour");
@@ -479,7 +479,7 @@ public class View {
 		System.out.println("2. Voir mes prochains entraînements");
 		System.out.println("3. Modifier mon entraînement");
 		System.out.println("4. Historique des entraînements");
-		System.out.println("5. Liste des exercices");
+		System.out.println("5. Liste des exercises");
 		System.out.println("6. Quitter");
 		Integer choice = 0;
 		while (choice < 1 || choice > 6) {
@@ -500,7 +500,7 @@ public class View {
 			this.getController().trainingHistory();
 			break;
 		case 5:
-			this.getController().seeExercicesListEvent();
+			this.getController().seeExercisesListEvent();
 			break;
 		default:
 			System.out.println("a+ :)");
@@ -539,14 +539,14 @@ public class View {
 	}
 
 	/**
-	 * Prints the exercice.
+	 * Prints the exercise.
 	 *
 	 * @param i      the i
 	 * @param name   the name
 	 * @param mark   the mark
 	 * @param weight the weight
 	 */
-	public void printExercice(int i, String name, Double mark, Double weight) {
+	public void printExercise(int i, String name, Double mark, Double weight) {
 		System.out.printf("%3d. %30s    note : %2f    weight : %5f \n", i, name, mark, weight);
 	}
 
@@ -560,26 +560,26 @@ public class View {
 	}
 
 	/**
-	 * Prints the previous best exercice.
+	 * Prints the previous best exercise.
 	 *
 	 * @param date        the date
 	 * @param repetitions the repetitions
 	 * @param weight      the weight
 	 * @param rm          the rm
 	 */
-	public void printPreviousBestExercice(String date, Integer repetitions, Double weight, Double rm) {
+	public void printPreviousBestExercise(String date, Integer repetitions, Double weight, Double rm) {
 		System.out.println(date + " - " + repetitions + " répétitions " + weight + " kg, rm => " + rm);
 	}
 
 	/**
 	 * Prints the serie.
 	 *
-	 * @param exerciceName the exercice name
+	 * @param exerciseName the exercise name
 	 * @param weight       the weight
 	 * @param repetitions  the repetitions
 	 */
-	public void printSerie(String exerciceName, Integer weight, Integer repetitions) {
-		System.out.println("Vous devez faire : " + exerciceName);
+	public void printSerie(String exerciseName, Integer weight, Integer repetitions) {
+		System.out.println("Vous devez faire : " + exerciseName);
 		System.out.println(repetitions + " répétitions");
 		if (weight == 0) {
 			System.out.println("Pas de poids enregistrés");
