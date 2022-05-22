@@ -18,12 +18,12 @@ import model.objects.exceptions.InsertDataBaseException;
 
 /**
  * Abstract class  made to make to basic sql requests. This class have the method add, addAll, delete, update.
- * 
+ * Every implementations in {@link model.dao} extends BasicRequestsDao.
  * <br>
  * Every child class have to redifine :
  * <ul>
  * 	<li>{@link objectConstructor} which build an object from the result.</li>
- * 	<li>{@link setMapFromResultSet} which create a make (key, value) for the sql request.</li>
+ * 	<li>{@link setMapFromResultSet} which create a map (key, value) for the sql request.</li>
  * 	<li> They also have to initialize in their constructor the db_name and the id_label made to facilite the requests.</li>
  * </ul>
  * @author Vincent Mastain
