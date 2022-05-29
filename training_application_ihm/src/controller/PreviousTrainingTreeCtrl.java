@@ -69,26 +69,28 @@ public class PreviousTrainingTreeCtrl implements ChangeListener<TreeItem<String>
 	public void changed(ObservableValue<? extends TreeItem<String>> arg0, TreeItem<String> arg1,
 			TreeItem<String> arg2) {
 		TreeItem<String> dayItem = previousTrainingTree.getSelectionModel().getSelectedItem();
-		if (dayItem.isLeaf()) {
-			Integer day = Integer.parseInt(dayItem.getValue());
-			TreeItem<String> monthItem = dayItem.getParent();
-			Integer month = utils.Utils.getMonthInteger(monthItem.getValue());
+		if(dayItem != null) {
+			if (dayItem.isLeaf()) {
+				Integer day = Integer.parseInt(dayItem.getValue());
+				TreeItem<String> monthItem = dayItem.getParent();
+				Integer month = utils.Utils.getMonthInteger(monthItem.getValue());
 
-			TreeItem<String> yearItem = monthItem.getParent();
-			Integer year = Integer.parseInt(yearItem.getValue());
-			Calendar calendar = new GregorianCalendar(year, month - 1, day);
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				TreeItem<String> yearItem = monthItem.getParent();
+				Integer year = Integer.parseInt(yearItem.getValue());
+				Calendar calendar = new GregorianCalendar(year, month - 1, day);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-			try {
-				List<Serie> series = DaoFactory.getInstance().getSerieDao().getWithDateSerie(user,
-						dateFormat.format(calendar.getTime()));
-				Structure structure = user.getTrainingSuperSet(series, DaoFactory.getInstance());
+				try {
+					List<Serie> series = DaoFactory.getInstance().getSerieDao().getWithDateSerie(user,
+							dateFormat.format(calendar.getTime()));
+					Structure structure = user.getTrainingSuperSet(series, DaoFactory.getInstance());
 
-				for (Training t : structure.getTrainingsList()) {
-					previousTraining.copy(t);
+					for (Training t : structure.getTrainingsList()) {
+						previousTraining.copy(t);
+					}
+
+				} catch (EmptyResultsQueryException | InsertDataBaseException e) {
 				}
-
-			} catch (EmptyResultsQueryException | InsertDataBaseException e) {
 			}
 		}
 	}

@@ -58,8 +58,8 @@ public class DaoFactory {
 
 			}
 
-			DaoFactory instance = new DaoFactory("jdbc:mysql://localhost:3306/Training_application", "java_application",
-					"9n2%v2PzNpg[AMn3eH=)g,A5{76X%2");
+			DaoFactory instance = new DaoFactory("jdbc:mysql://localhost:3306/Training_application", "mastainvin",
+					"jia3ahHeeyie");
 
 			singleton = instance;
 			return singleton;

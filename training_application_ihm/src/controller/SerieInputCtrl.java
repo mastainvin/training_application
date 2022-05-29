@@ -86,6 +86,8 @@ public class SerieInputCtrl implements ChangeListener<String>, Observer {
 	public void update(Observable o, Object arg) {
 		repetitionInput.setText(serie.getExpectedRepetitions().toString());
 		weightInput.setText(serie.getExpectedWeight().toString());
+		serie.setWeight(serie.getExpectedWeight() * 1.0);
+		serie.setRepetitions(serie.getExpectedRepetitions());
 	}
 
 }
